@@ -32,6 +32,7 @@
   },
   "homepage": "https://github.com/jakesidsmith/comquest#readme",
   "dependencies": {
+    "axios": ">= 0",
     "redux": ">= 3",
     "redux-thunk": ">= 1",
     "typescript": "^2.9.2"
@@ -51,6 +52,7 @@
     "tslint-react": "^3.6.0"
   },
   "peerDependencies": {
+    "axios": ">= 0",
     "redux": ">= 3",
     "redux-thunk": ">= 1"
   },
