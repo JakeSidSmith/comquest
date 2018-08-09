@@ -35,7 +35,7 @@
     "axios": ">= 0",
     "redux": ">= 3",
     "redux-thunk": ">= 1",
-    "typescript": "^2.9.2"
+    "typescript": ">= 2.3"
   },
   "devDependencies": {
     "@types/jest": "^23.3.1",
