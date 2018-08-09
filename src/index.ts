@@ -1,1 +1,1 @@
-export const foo = 'bar';
+export { createRequestActionTypes } from './create-request-action-types';
