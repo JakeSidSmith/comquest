@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "pretty": true,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "jsx": "react",
+    "target": "es6",
+    "moduleResolution": "node",
+    "typeRoots": [
+      "./node_modules/@types/",
+      "./@types/"
+    ],
+    "baseUrl": "./src/"
+  },
+  "include": [
+    "./src/",
+    "./tests/",
+    "./examples/"
+  ]
+}
