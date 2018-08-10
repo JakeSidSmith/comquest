@@ -28,7 +28,7 @@ export const createRequestAction = <StoreState, Data>
             url: resolvedUrl,
           })
           .then((response) => {
-            dispatch({type: actionTypes.SUCCESS, params, payload: response.data});
+            dispatch({type: actionTypes.SUCCESS, params, payload: response});
 
             return response.data;
           })
