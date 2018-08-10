@@ -32,7 +32,9 @@
   },
   "homepage": "https://github.com/jakesidsmith/comquest#readme",
   "dependencies": {
+    "@types/deepmerge": "^2.1.0",
     "axios": ">= 0",
+    "deepmerge": "^2.1.1",
     "path-to-regexp": "^2.2.1",
     "redux": ">= 3",
     "redux-thunk": ">= 1",
