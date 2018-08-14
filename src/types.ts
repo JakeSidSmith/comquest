@@ -5,6 +5,9 @@ export interface RequestActionTypes {
   REQUEST: symbol;
   SUCCESS: symbol;
   FAILURE: symbol;
+  CLEAR_DATA: symbol;
+  CLEAR_ERRORS: symbol;
+  RESET_STATE: symbol;
 }
 
 export interface Params {[i: string]: string | number}
