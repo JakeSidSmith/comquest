@@ -27,7 +27,7 @@ export type RequestOptions = Partial<{
   resetStateOnFailure: boolean;
 }>;
 
-export interface ComquestAction<Data, Errors = any> extends AnyAction {
+export interface ComquestAction<Data, Errors = RequestError> extends AnyAction {
   type: symbol;
   payload?: Data | Errors;
   options: RequestOptions;
