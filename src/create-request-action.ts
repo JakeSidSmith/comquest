@@ -7,7 +7,7 @@ import { ComquestAction, RequestActionTypes, RequestError, RequestOptions } from
 
 export const createRequestAction = <StoreState, Data>
   (actionTypes: RequestActionTypes, config: AxiosRequestConfig, options: RequestOptions = {}) =>
-    (configOverrides?: AxiosRequestConfig, optionsOverrides: RequestOptions = {}):
+    (configOverrides: AxiosRequestConfig = {}, optionsOverrides: RequestOptions = {}):
       ThunkAction<
         Promise<AxiosResponse<Data> | RequestError>,
         StoreState,
@@ -15,8 +15,8 @@ export const createRequestAction = <StoreState, Data>
         ComquestAction<Data>
       > =>
       (dispatch: Dispatch) => {
-        const mergedConfig = deepMerge(config, configOverrides);
-        const mergedOptions = deepMerge(options, optionsOverrides);
+        const mergedConfig = deepMerge<AxiosRequestConfig>(config, configOverrides);
+        const mergedOptions = deepMerge<RequestOptions>(options, optionsOverrides);
 
         const { url } = mergedConfig;
         const { params } = mergedOptions;
