@@ -1,4 +1,3 @@
-import { AxiosError } from 'axios';
 import { AnyAction } from 'redux';
 
 export interface RequestActionTypes {
