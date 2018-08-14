@@ -38,13 +38,19 @@ export interface ComquestAction<Data, Errors = RequestError> extends AnyAction {
 
 export type RequestError = undefined | null | string | Error | AxiosError;
 
-export interface RequestState<Data, Errors> {
-  data: Data;
+export interface RequestState {
   loading: boolean;
-  errors: Errors | undefined;
   requestCount: number;
   successCount: number;
   failureCount: number;
   completeCount: number;
   inFlightCount: number;
+}
+
+export interface RequestData<Data> {
+  data?: Data;
+}
+
+export interface RequestErrors<Errors> {
+  errors?: Errors;
 }
