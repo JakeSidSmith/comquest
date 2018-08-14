@@ -20,3 +20,14 @@ export type RequestOptions = Partial<{
   resetStateOnSuccess: boolean;
   resetStateOnFailure: boolean;
 }>;
+
+export interface RequestState<D, E> {
+  data: D;
+  loading: boolean;
+  errors: E | undefined;
+  requestCount: number;
+  successCount: number;
+  failureCount: number;
+  completeCount: number;
+  inFlightCount: number;
+}
