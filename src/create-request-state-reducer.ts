@@ -1,27 +1,24 @@
 import { AnyAction } from 'redux';
-import { ComquestAction, RequestActionTypes, RequestState } from './types';
+import { RequestActionTypes, RequestState } from './types';
 
-export const createRequestStateReducer = <Data, Errors>(
-  actions: RequestActionTypes,
-  initialData: Data
+export const createRequestStateReducer = (
+  actions: RequestActionTypes
 ) => {
-  const handleRequest = (state: RequestState<Data, Errors>): RequestState<Data, Errors> => {
+  const handleRequest = (state: RequestState): RequestState => {
     const inFlightCount = state.inFlightCount + 1;
     const requestCount = state.requestCount + 1;
 
     return {
       ...state,
       loading: inFlightCount > 0,
-      errors: undefined,
       requestCount,
       inFlightCount,
     };
   };
 
   const handleSuccess = (
-    state: RequestState<Data, Errors>,
-    action: ComquestAction<Data, Errors>
-  ): RequestState<Data, Errors> => {
+    state: RequestState
+  ): RequestState => {
     const inFlightCount = state.inFlightCount - 1;
     const successCount = state.successCount + 1;
     const completeCount = state.completeCount + 1;
@@ -29,8 +26,6 @@ export const createRequestStateReducer = <Data, Errors>(
     return {
       ...state,
       loading: inFlightCount > 0,
-      data: action.payload as Data,
-      errors: undefined,
       inFlightCount,
       successCount,
       completeCount,
@@ -38,9 +33,8 @@ export const createRequestStateReducer = <Data, Errors>(
   };
 
   const handleFailure = (
-    state: RequestState<Data, Errors>,
-    action: ComquestAction<Data, Errors>
-  ): RequestState<Data, Errors> => {
+    state: RequestState
+  ): RequestState => {
     const inFlightCount = state.inFlightCount - 1;
     const failureCount = state.failureCount + 1;
     const completeCount = state.completeCount + 1;
@@ -48,7 +42,6 @@ export const createRequestStateReducer = <Data, Errors>(
     return {
       ...state,
       loading: inFlightCount > 0,
-      errors: action.payload as Errors,
       inFlightCount,
       failureCount,
       completeCount,
@@ -56,10 +49,8 @@ export const createRequestStateReducer = <Data, Errors>(
   };
 
   return (
-    state: RequestState<Data, Errors> = {
-      data: initialData,
+    state: RequestState = {
       loading: false,
-      errors: undefined,
       requestCount: 0,
       successCount: 0,
       failureCount: 0,
@@ -67,14 +58,14 @@ export const createRequestStateReducer = <Data, Errors>(
       inFlightCount: 0,
     },
     action: AnyAction
-  ): RequestState<Data, Errors> => {
+  ): RequestState => {
     switch (action.type) {
       case actions.REQUEST:
         return handleRequest(state);
       case actions.SUCCESS:
-        return handleSuccess(state, action as ComquestAction<Data, Errors>);
+        return handleSuccess(state);
       case actions.FAILURE:
-        return handleFailure(state, action as ComquestAction<Data, Errors>);
+        return handleFailure(state);
       default:
         return state;
     }
