@@ -36,6 +36,14 @@ export interface ComquestAction<Data, Errors = RequestError> extends AnyAction {
   options: RequestOptions;
 }
 
+export interface ComquestSuccessAction<Data> extends ComquestAction<Data> {
+  payload: Data;
+}
+
+export interface ComquestFailureAction<Errors = RequestError> extends ComquestAction<void, Errors> {
+  payload: Errors;
+}
+
 export type RequestError = undefined | null | string | Error | AxiosError;
 
 export interface RequestState {

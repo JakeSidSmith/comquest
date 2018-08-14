@@ -1,5 +1,5 @@
 import { AnyAction } from 'redux';
-import { ComquestAction, RequestActionTypes, RequestErrors } from './types';
+import { ComquestFailureAction, RequestActionTypes, RequestErrors } from './types';
 
 const handleRequest = <Errors>(
   state: RequestErrors<Errors>
@@ -20,12 +20,12 @@ const handleSuccess = <Errors>(
 
 const handleFailure = <Errors>(
   state: RequestErrors<Errors>,
-  action: ComquestAction<void, Errors>
+  action: ComquestFailureAction<Errors>
 ): RequestErrors<Errors> => {
 
   return {
     ...state,
-    errors: action.payload as Errors,
+    errors: action.payload,
   };
 };
 
@@ -40,7 +40,7 @@ export const createRequestErrorsReducer = <Errors>(actions: RequestActionTypes) 
       case actions.SUCCESS:
         return handleSuccess<Errors>(state);
       case actions.FAILURE:
-        return handleFailure<Errors>(state, action as ComquestAction<void, Errors>);
+        return handleFailure<Errors>(state, action as ComquestFailureAction<Errors>);
       default:
         return state;
     }

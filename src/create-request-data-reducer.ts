@@ -1,5 +1,5 @@
 import { AnyAction } from 'redux';
-import { ComquestAction, RequestActionTypes, RequestData } from './types';
+import { ComquestSuccessAction, RequestActionTypes, RequestData } from './types';
 
 const handleRequest = <Data>(
   state: RequestData<Data>
@@ -11,11 +11,11 @@ const handleRequest = <Data>(
 
 const handleSuccess = <Data>(
   state: RequestData<Data>,
-  action: ComquestAction<Data>
+  action: ComquestSuccessAction<Data>
 ): RequestData<Data> => {
   return {
     ...state,
-    data: action.payload as Data,
+    data: action.payload,
   };
 };
 
@@ -40,7 +40,7 @@ export const createRequestDataReducer = <Data>(
       case actions.REQUEST:
         return handleRequest<Data>(state);
       case actions.SUCCESS:
-        return handleSuccess<Data>(state, action as ComquestAction<Data>);
+        return handleSuccess<Data>(state, action as ComquestSuccessAction<Data>);
       case actions.FAILURE:
         return handleFailure<Data>(state);
       default:
