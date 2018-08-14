@@ -16,6 +16,9 @@ export type RequestOptions = Partial<{
   clearDataOnRequest: boolean;
   clearDataOnSuccess: boolean;
   clearDataOnFailure: boolean;
+  clearErrorsOnRequest: boolean;
+  clearErrorsOnSuccess: boolean;
+  clearErrorsOnFailure: boolean;
   resetStateOnRequest: boolean;
   resetStateOnSuccess: boolean;
   resetStateOnFailure: boolean;
