@@ -30,21 +30,19 @@ export type RequestOptions = Partial<{
   resetStateOnFailure: boolean;
 }>;
 
-export interface ComquestAction<Data, Errors = RequestError> extends AnyAction {
+export interface ComquestAction<Data, Errors> extends AnyAction {
   type: symbol;
   payload?: Data | Errors;
   options: RequestOptions;
 }
 
-export interface ComquestSuccessAction<Data> extends ComquestAction<Data> {
+export interface ComquestSuccessAction<Data> extends ComquestAction<Data, never> {
   payload: Data;
 }
 
-export interface ComquestFailureAction<Errors = RequestError> extends ComquestAction<void, Errors> {
+export interface ComquestFailureAction<Errors> extends ComquestAction<never, Errors> {
   payload: Errors;
 }
-
-export type RequestError = undefined | null | string | Error | AxiosError;
 
 export interface RequestState {
   loading: boolean;

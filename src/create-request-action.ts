@@ -3,16 +3,16 @@ import * as deepMerge from 'deepmerge';
 import * as pathToRegexp from 'path-to-regexp';
 import { Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { ComquestAction, RequestActionTypes, RequestError, RequestOptions } from './types';
+import { ComquestAction, RequestActionTypes, RequestOptions } from './types';
 
-export const createRequestAction = <StoreState, Data>
+export const createRequestAction = <StoreState, Data, Errors>
   (actionTypes: RequestActionTypes, config: AxiosRequestConfig, options: RequestOptions = {}) =>
     (configOverrides: AxiosRequestConfig = {}, optionsOverrides: RequestOptions = {}):
       ThunkAction<
-        Promise<AxiosResponse<Data> | RequestError>,
+        Promise<AxiosResponse<Data> | Errors>,
         StoreState,
         undefined,
-        ComquestAction<Data>
+        ComquestAction<Data, Errors>
       > =>
       (dispatch: Dispatch) => {
         const mergedConfig = deepMerge<AxiosRequestConfig>(config, configOverrides);
@@ -30,13 +30,13 @@ export const createRequestAction = <StoreState, Data>
             ...mergedConfig,
             url: resolvedUrl,
           })
-          .then<AxiosResponse<Data>, RequestError>(
+          .then<AxiosResponse<Data>, Errors>(
             (response) => {
               dispatch({type: actionTypes.SUCCESS, payload: response, options: mergedOptions});
 
               return response;
             },
-            (error: RequestError) => {
+            (error: Errors) => {
               dispatch({type: actionTypes.FAILURE, payload: error, options: mergedOptions});
 
               return error;
