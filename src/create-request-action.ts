@@ -1,16 +1,19 @@
-import axios, { AxiosPromise, AxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosPromise, AxiosRequestConfig, AxiosResponse } from 'axios';
 import * as deepMerge from 'deepmerge';
 import * as pathToRegexp from 'path-to-regexp';
-import { AnyAction, Dispatch } from 'redux';
+import { Dispatch } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { RequestActionTypes, RequestOptions } from './types';
-
-export interface StringKeyedObject {[i: string]: any}
+import { ComquestAction, RequestActionTypes, RequestError, RequestOptions } from './types';
 
 export const createRequestAction = <StoreState, Data>
   (actionTypes: RequestActionTypes, config: AxiosRequestConfig, options: RequestOptions = {}) =>
     (configOverrides?: AxiosRequestConfig, optionsOverrides: RequestOptions = {}):
-      ThunkAction<AxiosPromise<any>, StoreState, undefined, AnyAction> =>
+      ThunkAction<
+        Promise<AxiosResponse<Data> | RequestError>,
+        StoreState,
+        undefined,
+        ComquestAction<Data>
+      > =>
       (dispatch: Dispatch) => {
         const mergedConfig = deepMerge(config, configOverrides);
         const mergedOptions = deepMerge(options, optionsOverrides);
@@ -20,21 +23,23 @@ export const createRequestAction = <StoreState, Data>
 
         const resolvedUrl = params ? pathToRegexp.compile(url || '')(params) : url;
 
-        dispatch({type: actionTypes.REQUEST, params});
+        dispatch({type: actionTypes.REQUEST, options: mergedOptions});
 
         return axios
-          .request({
+          .request<Data>({
             ...mergedConfig,
             url: resolvedUrl,
           })
-          .then((response) => {
-            dispatch({type: actionTypes.SUCCESS, params, payload: response});
+          .then<AxiosResponse<Data>, RequestError>(
+            (response) => {
+              dispatch({type: actionTypes.SUCCESS, payload: response, options: mergedOptions});
 
-            return response.data;
-          })
-          .catch((error) => {
-            dispatch({type: actionTypes.FAILURE, params, payload: error});
+              return response;
+            },
+            (error: RequestError) => {
+              dispatch({type: actionTypes.FAILURE, payload: error, options: mergedOptions});
 
-            return error;
-          });
+              return error;
+            }
+          );
   };

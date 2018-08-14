@@ -1,11 +1,11 @@
 import { AnyAction } from 'redux';
 import { RequestActionTypes, RequestState } from './types';
 
-export const createRequestStateReducer = <D, E>(
+export const createRequestStateReducer = <Data, Errors>(
   actions: RequestActionTypes,
-  initialData: D
+  initialData: Data
 ) => {
-  const handleRequest = (state: RequestState<D, E>): RequestState<D, E> => {
+  const handleRequest = (state: RequestState<Data, Errors>): RequestState<Data, Errors> => {
     const inFlightCount = state.inFlightCount + 1;
     const requestCount = state.requestCount + 1;
 
@@ -19,9 +19,9 @@ export const createRequestStateReducer = <D, E>(
   };
 
   const handleSuccess = (
-    state: RequestState<D, E>,
+    state: RequestState<Data, Errors>,
     action: AnyAction
-  ): RequestState<D, E> => {
+  ): RequestState<Data, Errors> => {
     const inFlightCount = state.inFlightCount - 1;
     const successCount = state.successCount + 1;
     const completeCount = state.completeCount + 1;
@@ -38,9 +38,9 @@ export const createRequestStateReducer = <D, E>(
   };
 
   const handleFailure = (
-    state: RequestState<D, E>,
+    state: RequestState<Data, Errors>,
     action: AnyAction
-  ): RequestState<D, E> => {
+  ): RequestState<Data, Errors> => {
     const inFlightCount = state.inFlightCount - 1;
     const failureCount = state.failureCount + 1;
     const completeCount = state.completeCount + 1;
@@ -56,7 +56,7 @@ export const createRequestStateReducer = <D, E>(
   };
 
   return (
-    state: RequestState<D, E> = {
+    state: RequestState<Data, Errors> = {
       data: initialData,
       loading: false,
       errors: undefined,
@@ -67,7 +67,7 @@ export const createRequestStateReducer = <D, E>(
       inFlightCount: 0,
     },
     action: AnyAction
-  ): RequestState<D, E> => {
+  ): RequestState<Data, Errors> => {
     switch (action.type) {
       case actions.REQUEST:
         return handleRequest(state);

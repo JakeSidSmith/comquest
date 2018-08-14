@@ -1,3 +1,6 @@
+import { AxiosError } from 'axios';
+import { AnyAction } from 'redux';
+
 export interface RequestActionTypes {
   REQUEST: symbol;
   SUCCESS: symbol;
@@ -24,10 +27,18 @@ export type RequestOptions = Partial<{
   resetStateOnFailure: boolean;
 }>;
 
-export interface RequestState<D, E> {
-  data: D;
+export interface ComquestAction<Data, Errors = any> extends AnyAction {
+  type: symbol;
+  payload?: Data | Errors;
+  options: RequestOptions;
+}
+
+export type RequestError = undefined | null | string | Error | AxiosError;
+
+export interface RequestState<Data, Errors> {
+  data: Data;
   loading: boolean;
-  errors: E | undefined;
+  errors: Errors | undefined;
   requestCount: number;
   successCount: number;
   failureCount: number;
