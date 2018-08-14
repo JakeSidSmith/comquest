@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosPromise, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import * as deepMerge from 'deepmerge';
 import * as pathToRegexp from 'path-to-regexp';
 import { Dispatch } from 'redux';
