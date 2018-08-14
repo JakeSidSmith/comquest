@@ -36,7 +36,7 @@ export const createRequestAction = <StoreState, Data, Errors>
 
               return response;
             },
-            (error: Errors) => {
+            (error) => {
               dispatch({type: actionTypes.FAILURE, payload: error, options: mergedOptions});
 
               return error;
