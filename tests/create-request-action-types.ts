@@ -22,12 +22,17 @@ describe('createRequestActionTypes', () => {
   });
 
   it('should create symbols that are unique', () => {
-    const { REQUEST: request1, SUCCESS: success1 } = createRequestActionTypes('test');
-    const { REQUEST: request2, SUCCESS: success2 } = createRequestActionTypes('test');
+    const result1 = createRequestActionTypes('test');
+    const result2 = createRequestActionTypes('test');
 
-    expect(request1).not.toEqual(success1);
-    expect(success1).not.toEqual(success2);
-    expect(request1).not.toEqual(request2);
+    expect(result1.REQUEST).not.toEqual(result1.SUCCESS);
+    expect(result1.REQUEST).not.toEqual(result2.REQUEST);
+  });
+
+  it('should print human readable symbol values', () => {
+    const result = createRequestActionTypes('test');
+
+    expect(result.REQUEST.toString()).toBe('Symbol(test.REQUEST)');
   });
 
 });
