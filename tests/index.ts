@@ -1,9 +1,20 @@
-import { foo } from '../src';
+import * as src from '../src';
 
 describe('index.ts', () => {
 
+  const utils: Array<keyof typeof src> = [
+    'createRequestActionTypes',
+    'createRequestAction',
+    'createRequestDataReducer',
+    'createRequestErrorsReducer',
+    'createRequestStateReducer',
+  ];
+
   it('exports foo bar', () => {
-    expect(foo).toBe('bar');
+    utils.forEach((util) => {
+      expect(util in src).toBe(true);
+      expect(typeof src[util]).toBe('function');
+    });
   });
 
 });

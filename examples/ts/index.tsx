@@ -1,10 +1,9 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { foo } from '../../src';
 
 ReactDOM.render(
   <p>
-    {foo}
+    Hello, World!
   </p>,
   document.getElementById('app')
 );
