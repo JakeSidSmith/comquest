@@ -8,7 +8,7 @@
   "scripts": {
     "dist": "./scripts/dist",
     "start": "budo examples/ts/index.tsx:js/index.js --dir ./examples --live -- --plugin [tsify --project './tsconfig.budo.json']",
-    "lint-js": "tslint --project './tsconfig.json' './{src,tests,examples}/**/*.{ts,tsx}'",
+    "lint-js": "tsc --noEmit --project tsconfig.json && tslint --project './tsconfig.json' './{src,tests,examples}/**/*.{ts,tsx}'",
     "tests": "jest",
     "test": "npm run lint-js && npm run tests -- --runInBand --coverage",
     "prepublishOnly": "npm run dist"
