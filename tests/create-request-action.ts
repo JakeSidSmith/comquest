@@ -147,4 +147,20 @@ describe('createRequestAction', () => {
     );
   });
 
+  it('should return the response or error, respectively', () => {
+    const action = createRequestAction(actionTypes, {});
+
+    action()(dispatch, getState, undefined);
+
+    const { calls } = mockAxios;
+    const { thenCalls } = calls[0];
+    const { arguments: args } = thenCalls[0];
+
+    const response = {foo: 'bar'};
+    const error = new Error('error');
+
+    expect(args[0](response)).toBe(response);
+    expect(args[1](error)).toBe(error);
+  });
+
 });
