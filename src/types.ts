@@ -77,7 +77,7 @@ export type RequestActionCreator<StoreState, Data, Errors> =
 
 export type RequestAction<StoreState, Data, Errors> =
   (
-    dispatch: ThunkDispatch<StoreState, undefined, ComquestAction<AxiosResponse<Data>, Errors>> |
+    dispatch: ThunkDispatch<StoreState, any, ComquestAction<AxiosResponse<Data>, Errors>> |
       Dispatch<ComquestAction<Data, Errors>>,
     getState?: () => StoreState,
     extra?: any
