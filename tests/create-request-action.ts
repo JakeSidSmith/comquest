@@ -21,26 +21,55 @@ describe('createRequestAction', () => {
     const getState = jest.fn().mockReturnValue({});
 
     const actionTypes = createRequestActionTypes('foo');
-    const action = createRequestAction(actionTypes, {});
+    const action = createRequestAction(
+      actionTypes,
+      {
+        method: 'GET',
+        url: 'domain.com',
+      },
+      {
+        abortExistingRequestsOnRequest: true,
+      }
+    );
 
     expect(mockAxios.calls.length).toBe(0);
 
-    action()(dispatch, getState, undefined);
+    action(
+      {
+        headers: {
+          token: 'secret',
+        },
+      },
+      {
+        clearDataOnFailure: true,
+      }
+    )(dispatch, getState, undefined);
 
     const { calls } = mockAxios;
 
     expect(calls.length).toBe(1);
 
-    const { thenCalls, catchCalls } = calls[0];
+    const { arguments: args, thenCalls, catchCalls } = calls[0];
+
+    expect(args.length).toBe(1);
+    expect(args[0]).toEqual(
+      {
+        method: 'GET',
+        url: 'domain.com',
+        headers: {
+          token: 'secret',
+        },
+      }
+    );
 
     expect(thenCalls.length).toBe(1);
     expect(catchCalls.length).toBe(0);
 
-    const { arguments: args } = thenCalls[0];
+    const { arguments: thenArgs } = thenCalls[0];
 
-    expect(args.length).toBe(2);
-    expect(typeof args[0]).toBe('function');
-    expect(typeof args[1]).toBe('function');
+    expect(thenArgs.length).toBe(2);
+    expect(typeof thenArgs[0]).toBe('function');
+    expect(typeof thenArgs[1]).toBe('function');
   });
 
 });
