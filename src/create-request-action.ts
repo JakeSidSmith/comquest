@@ -20,10 +20,10 @@ export const createRequestAction = <StoreState, Data, Errors>(
       const mergedConfig = deepMerge<AxiosRequestConfig>(config, configOverrides);
       const mergedOptions = deepMerge<RequestOptions>(options, optionsOverrides);
 
-      const { url } = mergedConfig;
+      const { url = '' } = mergedConfig;
       const { params } = mergedOptions;
 
-      const resolvedUrl = params ? pathToRegexp.compile(url || '')(params) : url;
+      const resolvedUrl = params ? pathToRegexp.compile(url)(params) : url;
 
       dispatch({type: actionTypes.REQUEST, options: mergedOptions});
 

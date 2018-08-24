@@ -117,4 +117,34 @@ describe('createRequestAction', () => {
     );
   });
 
+  it('should default the url to empty string', () => {
+    const action = createRequestAction(actionTypes, {});
+
+    action()(dispatch, getState, undefined);
+    action(
+      undefined,
+      {
+        params: {
+          foo: 'bar',
+        },
+      }
+    )(dispatch, getState, undefined);
+
+    const { calls } = mockAxios;
+    const { arguments: args1 } = calls[0];
+    const { arguments: args2 } = calls[1];
+
+    expect(args1[0]).toEqual(
+      {
+        url: '',
+      }
+    );
+
+    expect(args2[0]).toEqual(
+      {
+        url: '',
+      }
+    );
+  });
+
 });
