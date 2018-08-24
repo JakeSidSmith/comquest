@@ -86,4 +86,35 @@ describe('createRequestAction', () => {
     );
   });
 
+  it('should inject params into the url', () => {
+    const action = createRequestAction(
+      actionTypes,
+      {
+        method: 'GET',
+        url: 'domain.com/:foo/:bar/',
+      }
+    );
+
+    action(
+      undefined,
+      {
+        params: {
+          foo: 123,
+          bar: 456,
+        },
+      }
+    )(dispatch, getState, undefined);
+
+    const { calls } = mockAxios;
+    const { arguments: args } = calls[0];
+
+    expect(args.length).toBe(1);
+    expect(args[0]).toEqual(
+      {
+        method: 'GET',
+        url: 'domain.com/123/456/',
+      }
+    );
+  });
+
 });
