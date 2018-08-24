@@ -1,7 +1,14 @@
 import mockAxios from './helpers/mock-axios';
 jest.mock('axios', () => ({default: mockAxios}));
 
-import { createRequestAction, createRequestActionTypes } from '../src';
+import { AxiosRequestConfig } from '../node_modules/axios';
+import {
+  createRequestAction,
+  createRequestActionTypes,
+  RequestActionCreator,
+  RequestActionReturnValue,
+  RequestOptions,
+} from '../src';
 
 describe('createRequestAction', () => {
 
@@ -9,6 +16,11 @@ describe('createRequestAction', () => {
   const getState = jest.fn().mockReturnValue({});
 
   const actionTypes = createRequestActionTypes('foo');
+
+  const thunkify = (actionCreator: RequestActionCreator<any, any, any>) =>
+    (config?: AxiosRequestConfig, options?: RequestOptions): RequestActionReturnValue<any, any> => {
+      return actionCreator(config, options)(dispatch, getState, undefined);
+    };
 
   beforeEach(() => {
     mockAxios.clear();
@@ -23,11 +35,11 @@ describe('createRequestAction', () => {
   });
 
   it('should make an axios request', () => {
-    const action = createRequestAction(actionTypes, {});
+    const action = thunkify(createRequestAction(actionTypes, {}));
 
     expect(mockAxios.calls.length).toBe(0);
 
-    action()(dispatch, getState, undefined);
+    action();
 
     const { calls } = mockAxios;
 
@@ -46,15 +58,15 @@ describe('createRequestAction', () => {
   });
 
   it('should allow overriding the initial request config', () => {
-    const action = createRequestAction(
+    const action = thunkify(createRequestAction(
       actionTypes,
       {
         method: 'GET',
         url: 'domain.com',
       }
-    );
+    ));
 
-    action()(dispatch, getState, undefined);
+    action();
     action(
       {
         url: 'another-domain.com',
@@ -62,7 +74,7 @@ describe('createRequestAction', () => {
           token: 'secret',
         },
       }
-    )(dispatch, getState, undefined);
+    );
 
     const { calls } = mockAxios;
     const { arguments: args1 } = calls[0];
@@ -89,13 +101,13 @@ describe('createRequestAction', () => {
   });
 
   it('should inject params into the url', () => {
-    const action = createRequestAction(
+    const action = thunkify(createRequestAction(
       actionTypes,
       {
         method: 'GET',
         url: 'domain.com/:foo/:bar/',
       }
-    );
+    ));
 
     action(
       undefined,
@@ -105,7 +117,7 @@ describe('createRequestAction', () => {
           bar: 456,
         },
       }
-    )(dispatch, getState, undefined);
+    );
 
     const { calls } = mockAxios;
     const { arguments: args } = calls[0];
@@ -120,9 +132,9 @@ describe('createRequestAction', () => {
   });
 
   it('should default the url to empty string', () => {
-    const action = createRequestAction(actionTypes, {});
+    const action = thunkify(createRequestAction(actionTypes, {}));
 
-    action()(dispatch, getState, undefined);
+    action();
     action(
       undefined,
       {
@@ -130,7 +142,7 @@ describe('createRequestAction', () => {
           foo: 'bar',
         },
       }
-    )(dispatch, getState, undefined);
+    );
 
     const { calls } = mockAxios;
     const { arguments: args1 } = calls[0];
@@ -150,9 +162,9 @@ describe('createRequestAction', () => {
   });
 
   it('should return the response or error, respectively', () => {
-    const action = createRequestAction(actionTypes, {});
+    const action = thunkify(createRequestAction(actionTypes, {}));
 
-    action()(dispatch, getState, undefined);
+    action();
 
     const { calls } = mockAxios;
     const { thenCalls } = calls[0];
