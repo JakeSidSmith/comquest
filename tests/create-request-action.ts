@@ -156,13 +156,13 @@ describe('createRequestAction', () => {
 
     const { calls } = mockAxios;
     const { thenCalls } = calls[0];
-    const { arguments: args } = thenCalls[0];
+    const { arguments: [success, failure] } = thenCalls[0];
 
     const response = {foo: 'bar'};
     const error = new Error('error');
 
-    expect(args[0](response)).toBe(response);
-    expect(args[1](error)).toBe(error);
+    expect(success(response)).toBe(response);
+    expect(failure(error)).toBe(error);
   });
 
 });
