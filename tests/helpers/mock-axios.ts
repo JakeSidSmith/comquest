@@ -78,7 +78,7 @@ mockAxiosObject = {
   clear,
 };
 
-const mockAxios = Object.assign<MockAxiosFunction, MockAxiosObject>(mockAxiosFunction, mockAxiosObject);
+const mockAxios: MockAxios = Object.assign<MockAxiosFunction, MockAxiosObject>(mockAxiosFunction, mockAxiosObject);
 
 function mockAxiosFunction (...args: any[]) {
   const call: MockAxiosCall = {
