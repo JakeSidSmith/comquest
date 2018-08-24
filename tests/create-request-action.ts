@@ -12,6 +12,8 @@ describe('createRequestAction', () => {
 
   beforeEach(() => {
     mockAxios.clear();
+    dispatch.mockClear();
+    getState.mockClear();
   });
 
   it('should return an action creator (function)', () => {
