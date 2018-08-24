@@ -5,62 +5,33 @@ import { createRequestAction, createRequestActionTypes } from '../src';
 
 describe('createRequestAction', () => {
 
+  const dispatch = jest.fn();
+  const getState = jest.fn().mockReturnValue({});
+
+  const actionTypes = createRequestActionTypes('foo');
+
   beforeEach(() => {
     mockAxios.clear();
   });
 
   it('should return an action creator (function)', () => {
-    const actionTypes = createRequestActionTypes('foo');
     const result = createRequestAction(actionTypes, {});
 
     expect(typeof result).toBe('function');
   });
 
   it('should make an axios request', () => {
-    const dispatch = jest.fn();
-    const getState = jest.fn().mockReturnValue({});
-
-    const actionTypes = createRequestActionTypes('foo');
-    const action = createRequestAction(
-      actionTypes,
-      {
-        method: 'GET',
-        url: 'domain.com',
-      },
-      {
-        abortExistingRequestsOnRequest: true,
-      }
-    );
+    const action = createRequestAction(actionTypes, {});
 
     expect(mockAxios.calls.length).toBe(0);
 
-    action(
-      {
-        headers: {
-          token: 'secret',
-        },
-      },
-      {
-        clearDataOnFailure: true,
-      }
-    )(dispatch, getState, undefined);
+    action()(dispatch, getState, undefined);
 
     const { calls } = mockAxios;
 
     expect(calls.length).toBe(1);
 
-    const { arguments: args, thenCalls, catchCalls } = calls[0];
-
-    expect(args.length).toBe(1);
-    expect(args[0]).toEqual(
-      {
-        method: 'GET',
-        url: 'domain.com',
-        headers: {
-          token: 'secret',
-        },
-      }
-    );
+    const { thenCalls, catchCalls } = calls[0];
 
     expect(thenCalls.length).toBe(1);
     expect(catchCalls.length).toBe(0);
@@ -70,6 +41,49 @@ describe('createRequestAction', () => {
     expect(thenArgs.length).toBe(2);
     expect(typeof thenArgs[0]).toBe('function');
     expect(typeof thenArgs[1]).toBe('function');
+  });
+
+  it('should allow overriding the initial request config', () => {
+    const action = createRequestAction(
+      actionTypes,
+      {
+        method: 'GET',
+        url: 'domain.com',
+      }
+    );
+
+    action()(dispatch, getState, undefined);
+    action(
+      {
+        url: 'another-domain.com',
+        headers: {
+          token: 'secret',
+        },
+      }
+    )(dispatch, getState, undefined);
+
+    const { calls } = mockAxios;
+    const { arguments: args1 } = calls[0];
+    const { arguments: args2 } = calls[1];
+
+    expect(args1.length).toBe(1);
+    expect(args1[0]).toEqual(
+      {
+        method: 'GET',
+        url: 'domain.com',
+      }
+    );
+
+    expect(args2.length).toBe(1);
+    expect(args2[0]).toEqual(
+      {
+        method: 'GET',
+        url: 'another-domain.com',
+        headers: {
+          token: 'secret',
+        },
+      }
+    );
   });
 
 });
