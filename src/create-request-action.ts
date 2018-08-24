@@ -1,21 +1,19 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import * as deepMerge from 'deepmerge';
 import * as pathToRegexp from 'path-to-regexp';
-import { Dispatch } from 'redux';
-import { ThunkAction } from 'redux-thunk';
-import { ComquestAction, RequestActionTypes, RequestOptions } from './types';
+import { RequestActionCreator, RequestActionTypes, RequestOptions } from './types';
 
 export const createRequestAction = <StoreState, Data, Errors>(
   actionTypes: RequestActionTypes,
   config: AxiosRequestConfig,
   options: RequestOptions = {}
-) =>
+): RequestActionCreator<StoreState, Data, Errors> =>
   (
-    configOverrides: AxiosRequestConfig = {},
-    optionsOverrides: RequestOptions = {}
-  ): ThunkAction<Promise<AxiosResponse<Data> | Errors>, StoreState, undefined, ComquestAction<Data, Errors>> =>
+    configOverrides = {},
+    optionsOverrides = {}
+  ) =>
     (
-      dispatch: Dispatch
+      dispatch
     ) => {
       const mergedConfig = deepMerge<AxiosRequestConfig>(config, configOverrides);
       const mergedOptions = deepMerge<RequestOptions>(options, optionsOverrides);

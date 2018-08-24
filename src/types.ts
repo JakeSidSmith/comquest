@@ -1,4 +1,6 @@
-import { AnyAction } from 'redux';
+import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AnyAction, Dispatch } from 'redux';
+import { ThunkDispatch } from '../node_modules/redux-thunk';
 
 export interface RequestActionTypes {
   REQUEST: symbol;
@@ -59,3 +61,26 @@ export interface RequestData<Data> {
 export interface RequestErrors<Errors> {
   errors?: Errors;
 }
+
+export type RequestActionCreatorCreator<StoreState, Data, Errors> =
+  (
+    actionTypes: RequestActionTypes,
+    config: AxiosRequestConfig,
+    options?: RequestOptions
+  ) => RequestActionCreator<StoreState, Data, Errors>;
+
+export type RequestActionCreator<StoreState, Data, Errors> =
+  (
+    configOverrides?: AxiosRequestConfig,
+    optionsOverrides?: RequestOptions
+  ) => RequestAction<StoreState, Data, Errors>;
+
+export type RequestAction<StoreState, Data, Errors> =
+  (
+    dispatch: ThunkDispatch<StoreState, undefined, ComquestAction<AxiosResponse<Data>, Errors>> |
+      Dispatch<ComquestAction<Data, Errors>>,
+    getState?: () => StoreState,
+    extra?: any
+  ) => RequestActionReturnValue<Data, Errors>;
+
+export type RequestActionReturnValue<Data, Errors> = Promise<AxiosResponse<Data> | Errors>;
