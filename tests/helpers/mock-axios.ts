@@ -115,16 +115,16 @@ function createMockAxiosFunction(key: keyof MockAxiosCalls) {
 }
 
 function clear () {
-  const mockAxiosObjectKeys = Object.keys(mockAxiosObject) as Array<keyof MockAxiosObject>;
+  const mockAxiosKeys = Object.keys(mockAxios) as Array<keyof MockAxiosObject>;
 
-  mockAxiosObjectKeys.forEach((key) => {
-    if (MATCHES_CALLS.test(key) && Array.isArray(mockAxiosObject[key])) {
-      mockAxiosObject[key as keyof MockAxiosCalls].forEach((call) => {
+  mockAxiosKeys.forEach((key) => {
+    if (MATCHES_CALLS.test(key) && Array.isArray(mockAxios[key])) {
+      mockAxios[key as keyof MockAxiosCalls].forEach((call) => {
         call.thenCalls = [];
         call.catchCalls = [];
       });
 
-      mockAxiosObject[key] = [];
+      mockAxios[key] = [];
     }
   });
 }
