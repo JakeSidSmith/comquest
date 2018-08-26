@@ -41,11 +41,11 @@ describe('createRequestAction', () => {
 
     action();
 
-    const { calls } = mockAxios;
+    const { requestCalls } = mockAxios;
 
-    expect(calls.length).toBe(1);
+    expect(requestCalls.length).toBe(1);
 
-    const { thenCalls, catchCalls } = calls[0];
+    const { thenCalls, catchCalls } = requestCalls[0];
 
     expect(thenCalls.length).toBe(1);
     expect(catchCalls.length).toBe(0);
@@ -76,9 +76,9 @@ describe('createRequestAction', () => {
       }
     );
 
-    const { calls } = mockAxios;
-    const { arguments: args1 } = calls[0];
-    const { arguments: args2 } = calls[1];
+    const { requestCalls } = mockAxios;
+    const { arguments: args1 } = requestCalls[0];
+    const { arguments: args2 } = requestCalls[1];
 
     expect(args1.length).toBe(1);
     expect(args1[0]).toEqual(
@@ -119,8 +119,8 @@ describe('createRequestAction', () => {
       }
     );
 
-    const { calls } = mockAxios;
-    const { arguments: args } = calls[0];
+    const { requestCalls } = mockAxios;
+    const { arguments: args } = requestCalls[0];
 
     expect(args.length).toBe(1);
     expect(args[0]).toEqual(
@@ -144,9 +144,9 @@ describe('createRequestAction', () => {
       }
     );
 
-    const { calls } = mockAxios;
-    const { arguments: args1 } = calls[0];
-    const { arguments: args2 } = calls[1];
+    const { requestCalls } = mockAxios;
+    const { arguments: args1 } = requestCalls[0];
+    const { arguments: args2 } = requestCalls[1];
 
     expect(args1[0]).toEqual(
       {
@@ -166,8 +166,8 @@ describe('createRequestAction', () => {
 
     action();
 
-    const { calls } = mockAxios;
-    const { thenCalls } = calls[0];
+    const { requestCalls } = mockAxios;
+    const { thenCalls } = requestCalls[0];
     const { arguments: [success, failure] } = thenCalls[0];
 
     const response = {foo: 'bar'};
