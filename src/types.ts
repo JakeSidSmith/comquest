@@ -44,7 +44,7 @@ export interface ComquestSuccessAction<Data> extends ComquestAction<Data> {
 }
 
 export interface ComquestFailureAction extends ComquestAction<never> {
-  payload: AxiosError;
+  payload: AxiosError | Error;
 }
 
 export interface RequestState {
@@ -84,5 +84,5 @@ export type RequestAction<StoreState, Data> = (
 ) => RequestActionReturnValue<Data>;
 
 export type RequestActionReturnValue<Data> = Promise<
-  AxiosResponse<Data> | AxiosError
+  AxiosResponse<Data> | AxiosError | Error
 >;

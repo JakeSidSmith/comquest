@@ -1,9 +1,14 @@
+import { AxiosError } from 'axios';
 import { AnyAction } from 'redux';
 import {
   ComquestFailureAction,
   RequestActionTypes,
   RequestError,
 } from './types';
+
+const isAxiosError = (error: any): error is AxiosError => {
+  return typeof error.response !== 'undefined';
+};
 
 const handleFailure = <Error>(
   state: RequestError<Error>,
@@ -12,9 +17,9 @@ const handleFailure = <Error>(
   return {
     ...state,
     error:
-      typeof action.payload.response !== 'undefined'
+      isAxiosError(action.payload) && action.payload.response
         ? action.payload.response.data
-        : undefined,
+        : action.payload,
   };
 };
 

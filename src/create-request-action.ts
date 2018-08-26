@@ -30,7 +30,7 @@ export const createRequestAction = <StoreState, Data>(
       ...mergedConfig,
       url: resolvedUrl,
     })
-    .then<AxiosResponse<Data>, AxiosError>(
+    .then<AxiosResponse<Data>, AxiosError | Error>(
       (response: AxiosResponse<Data>) => {
         dispatch({
           type: actionTypes.SUCCESS,
@@ -40,7 +40,7 @@ export const createRequestAction = <StoreState, Data>(
 
         return response;
       },
-      (error: AxiosError) => {
+      (error: AxiosError | Error) => {
         dispatch({
           type: actionTypes.FAILURE,
           payload: error,
