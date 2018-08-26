@@ -17,6 +17,12 @@ describe('createRequestDataReducer', () => {
       expect(reducer(undefined, unknownAction)).toEqual({});
     });
 
+    it('should store response data on success', () => {
+      const response = {data: {foo: 'bar'}};
+
+      expect(reducer(undefined, {type: actionTypes.SUCCESS, payload: response})).toEqual({data: {foo: 'bar'}});
+    });
+
   });
 
 });
