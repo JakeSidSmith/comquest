@@ -22,5 +22,24 @@ describe('createRequestDataReducer', () => {
         reducer(undefined, { type: actionTypes.SUCCESS, payload: response })
       ).toEqual({ data: { foo: 'bar' } });
     });
+
+    it('should not mutate the state, and should maintain additional keys', () => {
+      const response = { data: { foo: 'bar' } };
+      const state = { keep: 'me' };
+
+      const newState = reducer(state as any, {
+        type: actionTypes.SUCCESS,
+        payload: response,
+      });
+
+      expect(newState).not.toBe(state);
+      expect(state).toEqual({
+        keep: 'me',
+      });
+      expect(newState).toEqual({
+        keep: 'me',
+        data: { foo: 'bar' },
+      });
+    });
   });
 });
