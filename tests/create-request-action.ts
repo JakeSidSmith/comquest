@@ -1,5 +1,5 @@
 import mockAxios from './helpers/mock-axios';
-jest.mock('axios', () => ({default: mockAxios}));
+jest.mock('axios', () => ({ default: mockAxios }));
 
 import { AxiosRequestConfig } from '../node_modules/axios';
 import {
@@ -11,16 +11,17 @@ import {
 } from '../src';
 
 describe('createRequestAction', () => {
-
   const dispatch = jest.fn();
   const getState = jest.fn().mockReturnValue({});
 
   const actionTypes = createRequestActionTypes('foo');
 
-  const thunkify = (actionCreator: RequestActionCreator<any, any, any>) =>
-    (config?: AxiosRequestConfig, options?: RequestOptions): RequestActionReturnValue<any, any> => {
-      return actionCreator(config, options)(dispatch, getState, undefined);
-    };
+  const thunkify = (actionCreator: RequestActionCreator<any, any, any>) => (
+    config?: AxiosRequestConfig,
+    options?: RequestOptions
+  ): RequestActionReturnValue<any, any> => {
+    return actionCreator(config, options)(dispatch, getState, undefined);
+  };
 
   beforeEach(() => {
     mockAxios.clear();
@@ -58,107 +59,87 @@ describe('createRequestAction', () => {
   });
 
   it('should allow overriding the initial request config', () => {
-    const action = thunkify(createRequestAction(
-      actionTypes,
-      {
+    const action = thunkify(
+      createRequestAction(actionTypes, {
         method: 'GET',
         url: 'domain.com',
-      }
-    ));
+      })
+    );
 
     action();
-    action(
-      {
-        url: 'another-domain.com',
-        headers: {
-          token: 'secret',
-        },
-      }
-    );
+    action({
+      url: 'another-domain.com',
+      headers: {
+        token: 'secret',
+      },
+    });
 
     const { requestCalls } = mockAxios;
     const { arguments: args1 } = requestCalls[0];
     const { arguments: args2 } = requestCalls[1];
 
     expect(args1.length).toBe(1);
-    expect(args1[0]).toEqual(
-      {
-        method: 'GET',
-        url: 'domain.com',
-      }
-    );
+    expect(args1[0]).toEqual({
+      method: 'GET',
+      url: 'domain.com',
+    });
 
     expect(args2.length).toBe(1);
-    expect(args2[0]).toEqual(
-      {
-        method: 'GET',
-        url: 'another-domain.com',
-        headers: {
-          token: 'secret',
-        },
-      }
-    );
+    expect(args2[0]).toEqual({
+      method: 'GET',
+      url: 'another-domain.com',
+      headers: {
+        token: 'secret',
+      },
+    });
   });
 
   it('should inject params into the url', () => {
-    const action = thunkify(createRequestAction(
-      actionTypes,
-      {
+    const action = thunkify(
+      createRequestAction(actionTypes, {
         method: 'GET',
         url: 'domain.com/:foo/:bar/',
-      }
-    ));
-
-    action(
-      undefined,
-      {
-        params: {
-          foo: 123,
-          bar: 456,
-        },
-      }
+      })
     );
+
+    action(undefined, {
+      params: {
+        foo: 123,
+        bar: 456,
+      },
+    });
 
     const { requestCalls } = mockAxios;
     const { arguments: args } = requestCalls[0];
 
     expect(args.length).toBe(1);
-    expect(args[0]).toEqual(
-      {
-        method: 'GET',
-        url: 'domain.com/123/456/',
-      }
-    );
+    expect(args[0]).toEqual({
+      method: 'GET',
+      url: 'domain.com/123/456/',
+    });
   });
 
   it('should default the url to empty string', () => {
     const action = thunkify(createRequestAction(actionTypes, {}));
 
     action();
-    action(
-      undefined,
-      {
-        params: {
-          foo: 'bar',
-        },
-      }
-    );
+    action(undefined, {
+      params: {
+        foo: 'bar',
+      },
+    });
 
     const { requestCalls } = mockAxios;
     const { arguments: args1 } = requestCalls[0];
     const { arguments: args2 } = requestCalls[1];
 
-    expect(args1[0]).toEqual(
-      {
-        url: '',
-      }
-    );
+    expect(args1[0]).toEqual({
+      url: '',
+    });
 
-    expect(args2[0]).toEqual(
-      {
-        url: '',
-      }
-    );
+    expect(args2[0]).toEqual({
+      url: '',
+    });
   });
 
   it('should return the response or error, respectively', () => {
@@ -168,13 +149,14 @@ describe('createRequestAction', () => {
 
     const { requestCalls } = mockAxios;
     const { thenCalls } = requestCalls[0];
-    const { arguments: [success, failure] } = thenCalls[0];
+    const {
+      arguments: [success, failure],
+    } = thenCalls[0];
 
-    const response = {foo: 'bar'};
+    const response = { foo: 'bar' };
     const error = new Error('error');
 
     expect(success(response)).toBe(response);
     expect(failure(error)).toBe(error);
   });
-
 });

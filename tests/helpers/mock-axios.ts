@@ -1,5 +1,5 @@
 export interface MockAxiosChainCall {
-  arguments: any[]
+  arguments: any[];
 }
 
 export interface MockAxiosCall {
@@ -48,7 +48,7 @@ class MockAxiosPromise extends Promise<any> {
   private call: MockAxiosCall;
 
   public constructor(call: MockAxiosCall) {
-    super((resolve) => {
+    super(resolve => {
       return resolve();
     });
 
@@ -100,9 +100,12 @@ mockAxiosObject = {
   clear,
 };
 
-const mockAxios: MockAxios = Object.assign(createMockAxiosFunction('calls'), mockAxiosObject);
+const mockAxios: MockAxios = Object.assign(
+  createMockAxiosFunction('calls'),
+  mockAxiosObject
+);
 function createMockAxiosFunction(key: keyof MockAxiosCalls) {
-  return function mockAxiosFunction (...args: any[]) {
+  return function mockAxiosFunction(...args: any[]) {
     const call: MockAxiosCall = {
       arguments: args,
       thenCalls: [],
@@ -114,12 +117,12 @@ function createMockAxiosFunction(key: keyof MockAxiosCalls) {
   };
 }
 
-function clear () {
+function clear() {
   const mockAxiosKeys = Object.keys(mockAxios) as Array<keyof MockAxiosObject>;
 
-  mockAxiosKeys.forEach((key) => {
+  mockAxiosKeys.forEach(key => {
     if (MATCHES_CALLS.test(key) && Array.isArray(mockAxios[key])) {
-      mockAxios[key as keyof MockAxiosCalls].forEach((call) => {
+      mockAxios[key as keyof MockAxiosCalls].forEach(call => {
         call.thenCalls = [];
         call.catchCalls = [];
       });

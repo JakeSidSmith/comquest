@@ -1,5 +1,9 @@
 import { AnyAction } from 'redux';
-import { ComquestSuccessAction, RequestActionTypes, RequestData } from './types';
+import {
+  ComquestSuccessAction,
+  RequestActionTypes,
+  RequestData,
+} from './types';
 
 const handleSuccess = <Data>(
   state: RequestData<Data>,
@@ -11,16 +15,16 @@ const handleSuccess = <Data>(
   };
 };
 
-export const createRequestDataReducer = <Data>(
-  actions: RequestActionTypes
-) => {
+export const createRequestDataReducer = <Data>(actions: RequestActionTypes) => {
   return (
     state: RequestData<Data> = {},
     action: AnyAction
   ): RequestData<Data> => {
     switch (action.type) {
       case actions.SUCCESS:
-        return handleSuccess<Data>(state, action as ComquestSuccessAction<Data>);
+        return handleSuccess<Data>(state, action as ComquestSuccessAction<
+          Data
+        >);
       default:
         return state;
     }

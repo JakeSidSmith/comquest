@@ -1,7 +1,6 @@
 import { createRequestActionTypes } from '../src';
 
 describe('createRequestActionTypes', () => {
-
   it('should create an object with string keys and symbol values', () => {
     const actionTypes = createRequestActionTypes('test');
     const keys = Object.keys(actionTypes) as Array<keyof typeof actionTypes>;
@@ -16,7 +15,7 @@ describe('createRequestActionTypes', () => {
       'RESET_STATE',
     ]);
 
-    keys.forEach((key) => {
+    keys.forEach(key => {
       expect(typeof actionTypes[key]).toBe('symbol');
     });
   });
@@ -34,5 +33,4 @@ describe('createRequestActionTypes', () => {
 
     expect(result.REQUEST.toString()).toBe('Symbol(test.REQUEST)');
   });
-
 });
