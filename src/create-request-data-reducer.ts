@@ -7,7 +7,7 @@ const handleSuccess = <Data>(
 ): RequestData<Data> => {
   return {
     ...state,
-    data: action.payload,
+    data: action.payload.data,
   };
 };
 

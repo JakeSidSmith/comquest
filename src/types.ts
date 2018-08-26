@@ -33,12 +33,12 @@ export type RequestOptions = Partial<{
 
 export interface ComquestAction<Data, Errors> extends AnyAction {
   type: symbol;
-  payload?: Data | Errors;
+  payload?: AxiosResponse<Data> | Errors;
   options: RequestOptions;
 }
 
 export interface ComquestSuccessAction<Data> extends ComquestAction<Data, never> {
-  payload: Data;
+  payload: AxiosResponse<Data>;
 }
 
 export interface ComquestFailureAction<Errors> extends ComquestAction<never, Errors> {
@@ -77,7 +77,7 @@ export type RequestActionCreator<StoreState, Data, Errors> =
 
 export type RequestAction<StoreState, Data, Errors> =
   (
-    dispatch: ThunkDispatch<StoreState, any, ComquestAction<AxiosResponse<Data>, Errors>> |
+    dispatch: ThunkDispatch<StoreState, any, ComquestAction<Data, Errors>> |
       Dispatch<ComquestAction<Data, Errors>>,
     getState?: () => StoreState,
     extra?: any
