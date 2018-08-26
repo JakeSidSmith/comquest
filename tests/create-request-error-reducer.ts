@@ -30,5 +30,24 @@ describe('createRequestErrorReducer', () => {
         reducer(undefined, { type: actionTypes.FAILURE, payload: error })
       ).toEqual({ error: new Error('error') });
     });
+
+    it('should not mutate the state, and should maintain additional keys', () => {
+      const error = new Error('error');
+      const state = { keep: 'me' };
+
+      const newState = reducer(state as any, {
+        type: actionTypes.FAILURE,
+        payload: error,
+      });
+
+      expect(newState).not.toBe(state);
+      expect(state).toEqual({
+        keep: 'me',
+      });
+      expect(newState).toEqual({
+        keep: 'me',
+        error: new Error('error'),
+      });
+    });
   });
 });
