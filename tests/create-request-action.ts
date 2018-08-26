@@ -1,7 +1,7 @@
 import mockAxios from './helpers/mock-axios';
 jest.mock('axios', () => ({ default: mockAxios }));
 
-import { AxiosRequestConfig } from '../node_modules/axios';
+import { AxiosRequestConfig } from 'axios';
 import {
   createRequestAction,
   createRequestActionTypes,
@@ -16,10 +16,10 @@ describe('createRequestAction', () => {
 
   const actionTypes = createRequestActionTypes('foo');
 
-  const thunkify = (actionCreator: RequestActionCreator<any, any, any>) => (
+  const thunkify = (actionCreator: RequestActionCreator<any, any>) => (
     config?: AxiosRequestConfig,
     options?: RequestOptions
-  ): RequestActionReturnValue<any, any> => {
+  ): RequestActionReturnValue<any> => {
     return actionCreator(config, options)(dispatch, getState, undefined);
   };
 

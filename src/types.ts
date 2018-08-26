@@ -1,6 +1,6 @@
-import { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { AnyAction, Dispatch } from 'redux';
-import { ThunkDispatch } from '../node_modules/redux-thunk';
+import { ThunkDispatch } from 'redux-thunk';
 
 export interface RequestActionTypes {
   REQUEST: symbol;
@@ -33,20 +33,18 @@ export type RequestOptions = Partial<{
   resetStateOnFailure: boolean;
 }>;
 
-export interface ComquestAction<Data, Errors> extends AnyAction {
+export interface ComquestAction<Data> extends AnyAction {
   type: symbol;
-  payload?: AxiosResponse<Data> | Errors;
+  payload?: AxiosResponse<Data> | AxiosError | Error;
   options: RequestOptions;
 }
 
-export interface ComquestSuccessAction<Data>
-  extends ComquestAction<Data, never> {
+export interface ComquestSuccessAction<Data> extends ComquestAction<Data> {
   payload: AxiosResponse<Data>;
 }
 
-export interface ComquestFailureAction<Errors>
-  extends ComquestAction<never, Errors> {
-  payload: Errors;
+export interface ComquestFailureAction extends ComquestAction<never> {
+  payload: AxiosError;
 }
 
 export interface RequestState {
@@ -62,29 +60,29 @@ export interface RequestData<Data> {
   data?: Data;
 }
 
-export interface RequestErrors<Errors> {
-  errors?: Errors;
+export interface RequestError<Error> {
+  error?: Error;
 }
 
-export type RequestActionCreatorCreator<StoreState, Data, Errors> = (
+export type RequestActionCreatorCreator<StoreState, Data> = (
   actionTypes: RequestActionTypes,
   config: AxiosRequestConfig,
   options?: RequestOptions
-) => RequestActionCreator<StoreState, Data, Errors>;
+) => RequestActionCreator<StoreState, Data>;
 
-export type RequestActionCreator<StoreState, Data, Errors> = (
+export type RequestActionCreator<StoreState, Data> = (
   configOverrides?: AxiosRequestConfig,
   optionsOverrides?: RequestOptions
-) => RequestAction<StoreState, Data, Errors>;
+) => RequestAction<StoreState, Data>;
 
-export type RequestAction<StoreState, Data, Errors> = (
+export type RequestAction<StoreState, Data> = (
   dispatch:
-    | ThunkDispatch<StoreState, any, ComquestAction<Data, Errors>>
-    | Dispatch<ComquestAction<Data, Errors>>,
+    | ThunkDispatch<StoreState, any, ComquestAction<Data>>
+    | Dispatch<ComquestAction<Data>>,
   getState?: () => StoreState,
   extra?: any
-) => RequestActionReturnValue<Data, Errors>;
+) => RequestActionReturnValue<Data>;
 
-export type RequestActionReturnValue<Data, Errors> = Promise<
-  AxiosResponse<Data> | Errors
+export type RequestActionReturnValue<Data> = Promise<
+  AxiosResponse<Data> | AxiosError
 >;

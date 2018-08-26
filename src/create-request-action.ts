@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import * as deepMerge from 'deepmerge';
 import * as pathToRegexp from 'path-to-regexp';
 import {
@@ -7,11 +7,11 @@ import {
   RequestOptions,
 } from './types';
 
-export const createRequestAction = <StoreState, Data, Errors>(
+export const createRequestAction = <StoreState, Data>(
   actionTypes: RequestActionTypes,
   config: AxiosRequestConfig,
   options: RequestOptions = {}
-): RequestActionCreator<StoreState, Data, Errors> => (
+): RequestActionCreator<StoreState, Data> => (
   configOverrides = {},
   optionsOverrides = {}
 ) => dispatch => {
@@ -30,8 +30,8 @@ export const createRequestAction = <StoreState, Data, Errors>(
       ...mergedConfig,
       url: resolvedUrl,
     })
-    .then<AxiosResponse<Data>, Errors>(
-      response => {
+    .then<AxiosResponse<Data>, AxiosError>(
+      (response: AxiosResponse<Data>) => {
         dispatch({
           type: actionTypes.SUCCESS,
           payload: response,
@@ -40,7 +40,7 @@ export const createRequestAction = <StoreState, Data, Errors>(
 
         return response;
       },
-      error => {
+      (error: AxiosError) => {
         dispatch({
           type: actionTypes.FAILURE,
           payload: error,

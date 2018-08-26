@@ -5,7 +5,7 @@ describe('index.ts', () => {
     'createRequestActionTypes',
     'createRequestAction',
     'createRequestDataReducer',
-    'createRequestErrorsReducer',
+    'createRequestErrorReducer',
     'createRequestStateReducer',
   ];
 
