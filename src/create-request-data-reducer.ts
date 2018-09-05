@@ -6,7 +6,7 @@ import {
 } from './types';
 
 function handleSuccess<Data>(
-  state: RequestData<Data>,
+  _state: RequestData<Data>, // tslint:disable-line:variable-name
   action: ComquestSuccessAction<Data>
 ): RequestData<Data> {
   return {
