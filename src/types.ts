@@ -60,8 +60,8 @@ export interface RequestData<Data> {
   data?: Data;
 }
 
-export interface RequestError<Error> {
-  error?: Error;
+export interface RequestError {
+  error?: AxiosError | Error;
 }
 
 export type RequestActionCreatorCreator<StoreState, Data> = (

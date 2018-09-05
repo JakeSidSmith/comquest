@@ -15,15 +15,15 @@ describe('createRequestErrorReducer', () => {
       expect(reducer(undefined, unknownAction)).toEqual({});
     });
 
-    it('should store response data if error is axios error', () => {
+    it('should store whole error data if error is axios error', () => {
       const error = { response: { data: { foo: 'bar' } } };
 
       expect(
         reducer(undefined, { type: actionTypes.FAILURE, payload: error })
-      ).toEqual({ error: { foo: 'bar' } });
+      ).toEqual({ error: { response: { data: { foo: 'bar' } } } });
     });
 
-    it('should store error if not axios error', () => {
+    it('should store whole error if not axios error', () => {
       const error = new Error('error');
 
       expect(
