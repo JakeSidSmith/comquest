@@ -6,14 +6,14 @@ import {
   RequestError,
 } from './types';
 
-const isAxiosError = (error: any): error is AxiosError => {
+function isAxiosError(error: any): error is AxiosError {
   return typeof error.response !== 'undefined';
-};
+}
 
-const handleFailure = <Error>(
+function handleFailure<Error>(
   state: RequestError<Error>,
   action: ComquestFailureAction
-): RequestError<Error> => {
+): RequestError<Error> {
   return {
     ...state,
     error:
@@ -21,11 +21,9 @@ const handleFailure = <Error>(
         ? action.payload.response.data
         : action.payload,
   };
-};
+}
 
-export const createRequestErrorReducer = <Error>(
-  actions: RequestActionTypes
-) => {
+export function createRequestErrorReducer<Error>(actions: RequestActionTypes) {
   return (
     state: RequestError<Error> = {},
     action: AnyAction
@@ -37,4 +35,4 @@ export const createRequestErrorReducer = <Error>(
         return state;
     }
   };
-};
+}

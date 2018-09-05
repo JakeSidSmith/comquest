@@ -5,17 +5,17 @@ import {
   RequestData,
 } from './types';
 
-const handleSuccess = <Data>(
+function handleSuccess<Data>(
   state: RequestData<Data>,
   action: ComquestSuccessAction<Data>
-): RequestData<Data> => {
+): RequestData<Data> {
   return {
     ...state,
     data: action.payload.data,
   };
-};
+}
 
-export const createRequestDataReducer = <Data>(actions: RequestActionTypes) => {
+export function createRequestDataReducer<Data>(actions: RequestActionTypes) {
   return (
     state: RequestData<Data> = {},
     action: AnyAction
@@ -29,4 +29,4 @@ export const createRequestDataReducer = <Data>(actions: RequestActionTypes) => {
         return state;
     }
   };
-};
+}

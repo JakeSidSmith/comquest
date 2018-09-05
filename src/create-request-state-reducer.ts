@@ -1,7 +1,7 @@
 import { AnyAction } from 'redux';
 import { RequestActionTypes, RequestState } from './types';
 
-const handleRequest = (state: RequestState): RequestState => {
+function handleRequest(state: RequestState): RequestState {
   const inFlightCount = state.inFlightCount + 1;
   const requestCount = state.requestCount + 1;
 
@@ -11,9 +11,9 @@ const handleRequest = (state: RequestState): RequestState => {
     requestCount,
     inFlightCount,
   };
-};
+}
 
-const handleSuccess = (state: RequestState): RequestState => {
+function handleSuccess(state: RequestState): RequestState {
   const inFlightCount = state.inFlightCount - 1;
   const successCount = state.successCount + 1;
   const completeCount = state.completeCount + 1;
@@ -25,9 +25,9 @@ const handleSuccess = (state: RequestState): RequestState => {
     successCount,
     completeCount,
   };
-};
+}
 
-const handleFailure = (state: RequestState): RequestState => {
+function handleFailure(state: RequestState): RequestState {
   const inFlightCount = state.inFlightCount - 1;
   const failureCount = state.failureCount + 1;
   const completeCount = state.completeCount + 1;
@@ -39,9 +39,9 @@ const handleFailure = (state: RequestState): RequestState => {
     failureCount,
     completeCount,
   };
-};
+}
 
-export const createRequestStateReducer = (actions: RequestActionTypes) => {
+export function createRequestStateReducer(actions: RequestActionTypes) {
   return (
     state: RequestState = {
       loading: false,
@@ -64,4 +64,4 @@ export const createRequestStateReducer = (actions: RequestActionTypes) => {
         return state;
     }
   };
-};
+}
