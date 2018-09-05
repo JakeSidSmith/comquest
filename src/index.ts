@@ -3,4 +3,5 @@ export { createRequestAction } from './create-request-action';
 export { createRequestDataReducer } from './create-request-data-reducer';
 export { createRequestErrorReducer } from './create-request-error-reducer';
 export { createRequestStateReducer } from './create-request-state-reducer';
+export { composeReducers } from './compose-reducers';
 export * from './types';
