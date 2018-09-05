@@ -24,7 +24,7 @@ export function composeReducers<
       reducer2(state, action),
       typeof reducer3 === 'function' ? reducer3(state, action) : undefined,
       typeof reducer4 === 'function' ? reducer4(state, action) : undefined,
-      typeof reducer5 === 'function' ? reducer5(state, action) : undefined
+      typeof reducer5 === 'function' ? reducer5(state, action) : undefined,
     ];
 
     if (typeof state === 'undefined') {
@@ -43,9 +43,9 @@ export function composeReducers<
 
     const newState: R = Object.assign({}, state);
 
-    newStates.forEach((subState) => {
+    newStates.forEach(subState => {
       if (typeof subState !== 'undefined') {
-        Object.keys(subState).forEach((key) => {
+        Object.keys(subState).forEach(key => {
           if (subState[key] !== state[key]) {
             newState[key] = subState[key];
           }
