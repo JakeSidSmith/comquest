@@ -23,9 +23,9 @@ describe('createRequestDataReducer', () => {
       ).toEqual({ data: { data: { foo: 'bar' } } });
     });
 
-    it('should not mutate the state, and should maintain additional keys', () => {
+    it('should not mutate the state, and should discard additional keys', () => {
       const response = { data: { foo: 'bar' } };
-      const state = { keep: 'me' };
+      const state = { ignore: 'me' };
 
       const newState = reducer(state as any, {
         type: actionTypes.SUCCESS,
@@ -34,10 +34,9 @@ describe('createRequestDataReducer', () => {
 
       expect(newState).not.toBe(state);
       expect(state).toEqual({
-        keep: 'me',
+        ignore: 'me',
       });
       expect(newState).toEqual({
-        keep: 'me',
         data: { data: { foo: 'bar' } },
       });
     });

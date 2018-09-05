@@ -10,7 +10,6 @@ function handleFailure(
   action: ComquestFailureAction
 ): RequestError {
   return {
-    ...state,
     error: action.payload,
   };
 }

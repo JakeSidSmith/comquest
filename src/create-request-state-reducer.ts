@@ -5,10 +5,14 @@ function handleRequest(state: RequestState): RequestState {
   const inFlightCount = state.inFlightCount + 1;
   const requestCount = state.requestCount + 1;
 
+  const { successCount, failureCount, completeCount } = state;
+
   return {
-    ...state,
     loading: inFlightCount > 0,
     requestCount,
+    successCount,
+    failureCount,
+    completeCount,
     inFlightCount,
   };
 }
@@ -18,12 +22,15 @@ function handleSuccess(state: RequestState): RequestState {
   const successCount = state.successCount + 1;
   const completeCount = state.completeCount + 1;
 
+  const { requestCount, failureCount } = state;
+
   return {
-    ...state,
     loading: inFlightCount > 0,
-    inFlightCount,
+    requestCount,
     successCount,
+    failureCount,
     completeCount,
+    inFlightCount,
   };
 }
 
@@ -32,12 +39,15 @@ function handleFailure(state: RequestState): RequestState {
   const failureCount = state.failureCount + 1;
   const completeCount = state.completeCount + 1;
 
+  const { requestCount, successCount } = state;
+
   return {
-    ...state,
     loading: inFlightCount > 0,
-    inFlightCount,
+    requestCount,
+    successCount,
     failureCount,
     completeCount,
+    inFlightCount,
   };
 }
 

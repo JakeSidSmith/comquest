@@ -31,9 +31,9 @@ describe('createRequestErrorReducer', () => {
       ).toEqual({ error: new Error('error') });
     });
 
-    it('should not mutate the state, and should maintain additional keys', () => {
+    it('should not mutate the state, and should discard additional keys', () => {
       const error = new Error('error');
-      const state = { keep: 'me' };
+      const state = { ignore: 'me' };
 
       const newState = reducer(state as any, {
         type: actionTypes.FAILURE,
@@ -42,10 +42,9 @@ describe('createRequestErrorReducer', () => {
 
       expect(newState).not.toBe(state);
       expect(state).toEqual({
-        keep: 'me',
+        ignore: 'me',
       });
       expect(newState).toEqual({
-        keep: 'me',
         error: new Error('error'),
       });
     });
