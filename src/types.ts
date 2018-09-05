@@ -36,7 +36,7 @@ export type RequestOptions = Partial<{
 export interface ComquestAction<Data> extends AnyAction {
   type: symbol;
   payload?: AxiosResponse<Data> | AxiosError;
-  options: RequestOptions;
+  error?: boolean;
 }
 
 export interface ComquestSuccessAction<Data> extends ComquestAction<Data> {
