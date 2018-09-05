@@ -15,10 +15,10 @@ function handleFailure(
   };
 }
 
-export function createRequestErrorReducer(actions: RequestActionTypes) {
+export function createRequestErrorReducer(actionTypes: RequestActionTypes) {
   return (state: RequestError = {}, action: AnyAction): RequestError => {
     switch (action.type) {
-      case actions.FAILURE:
+      case actionTypes.FAILURE:
         return handleFailure(state, action as ComquestFailureAction);
       default:
         return state;

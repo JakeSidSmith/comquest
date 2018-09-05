@@ -15,13 +15,15 @@ function handleSuccess<Data>(
   };
 }
 
-export function createRequestDataReducer<Data>(actions: RequestActionTypes) {
+export function createRequestDataReducer<Data>(
+  actionTypes: RequestActionTypes
+) {
   return (
     state: RequestData<Data> = {},
     action: AnyAction
   ): RequestData<Data> => {
     switch (action.type) {
-      case actions.SUCCESS:
+      case actionTypes.SUCCESS:
         return handleSuccess<Data>(state, action as ComquestSuccessAction<
           Data
         >);

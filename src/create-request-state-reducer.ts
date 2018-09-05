@@ -41,7 +41,7 @@ function handleFailure(state: RequestState): RequestState {
   };
 }
 
-export function createRequestStateReducer(actions: RequestActionTypes) {
+export function createRequestStateReducer(actionTypes: RequestActionTypes) {
   return (
     state: RequestState = {
       loading: false,
@@ -54,11 +54,11 @@ export function createRequestStateReducer(actions: RequestActionTypes) {
     action: AnyAction
   ): RequestState => {
     switch (action.type) {
-      case actions.REQUEST:
+      case actionTypes.REQUEST:
         return handleRequest(state);
-      case actions.SUCCESS:
+      case actionTypes.SUCCESS:
         return handleSuccess(state);
-      case actions.FAILURE:
+      case actionTypes.FAILURE:
         return handleFailure(state);
       default:
         return state;
