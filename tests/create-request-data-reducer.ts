@@ -20,7 +20,7 @@ describe('createRequestDataReducer', () => {
 
       expect(
         reducer(undefined, { type: actionTypes.SUCCESS, payload: response })
-      ).toEqual({ data: { foo: 'bar' } });
+      ).toEqual({ data: { data: { foo: 'bar' } } });
     });
 
     it('should not mutate the state, and should maintain additional keys', () => {
@@ -38,7 +38,7 @@ describe('createRequestDataReducer', () => {
       });
       expect(newState).toEqual({
         keep: 'me',
-        data: { foo: 'bar' },
+        data: { data: { foo: 'bar' } },
       });
     });
   });

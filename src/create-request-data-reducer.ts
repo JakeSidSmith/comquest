@@ -10,8 +10,7 @@ function handleSuccess<Data>(
   action: ComquestSuccessAction<Data>
 ): RequestData<Data> {
   return {
-    ...state,
-    data: action.payload.data,
+    data: action.payload,
   };
 }
 
