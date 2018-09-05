@@ -41,6 +41,7 @@ export function createRequestAction<StoreState, Data>(
           dispatch({
             type: actionTypes.FAILURE,
             payload: error,
+            error: true,
           });
 
           return error;
