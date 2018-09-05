@@ -21,7 +21,7 @@ export function createRequestAction<StoreState, Data>(
 
     const resolvedUrl = params ? pathToRegexp.compile(url)(params) : url;
 
-    dispatch({ type: actionTypes.REQUEST, options: mergedOptions });
+    dispatch({ type: actionTypes.REQUEST });
 
     return axios
       .request<Data>({
@@ -33,7 +33,6 @@ export function createRequestAction<StoreState, Data>(
           dispatch({
             type: actionTypes.SUCCESS,
             payload: response,
-            options: mergedOptions,
           });
 
           return response;
@@ -42,7 +41,6 @@ export function createRequestAction<StoreState, Data>(
           dispatch({
             type: actionTypes.FAILURE,
             payload: error,
-            options: mergedOptions,
           });
 
           return error;
