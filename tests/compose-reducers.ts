@@ -31,6 +31,14 @@ describe('composeReducers', () => {
 
     let state: RequestState & RequestData<Data>;
 
+    it('should return an object by default', () => {
+      const reducerDoesNothing = composeReducers(
+        () => undefined as any,
+        () => undefined as any
+      );
+      expect(reducerDoesNothing(undefined, unknownAction)).toEqual({});
+    });
+
     it('should return the same state if nothing changed', () => {
       const firstState = reducer(state, unknownAction);
       const secondState = reducer(firstState, unknownAction);
