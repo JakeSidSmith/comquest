@@ -6,7 +6,7 @@ import {
 } from './types';
 
 function handleFailure(
-  _state: RequestError, // tslint:disable-line:variable-name
+  _state: RequestError,
   action: ComquestFailureAction
 ): RequestError {
   return {

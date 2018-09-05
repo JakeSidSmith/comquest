@@ -45,6 +45,11 @@
     ],
     "space-before-function-paren": [2, "always"],
     "strict-type-predicates": true,
+    "variable-name": [
+      true,
+      "check-format",
+      "allow-leading-underscore"
+    ],
 
     "object-literal-sort-keys": false,
     "interface-name": false,
