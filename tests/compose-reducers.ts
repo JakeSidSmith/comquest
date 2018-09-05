@@ -2,6 +2,7 @@ import {
   composeReducers,
   createRequestActionTypes,
   createRequestDataReducer,
+  createRequestErrorReducer,
   createRequestStateReducer,
   RequestData,
   RequestState,
@@ -24,7 +25,8 @@ describe('composeReducers', () => {
 
     const reducer = composeReducers(
       createRequestStateReducer(actionTypes),
-      createRequestDataReducer<Data>(actionTypes)
+      createRequestDataReducer<Data>(actionTypes),
+      createRequestErrorReducer(actionTypes)
     );
 
     let state: RequestState & RequestData<Data>;
@@ -73,6 +75,42 @@ describe('composeReducers', () => {
         inFlightCount: 0,
         data: {
           data: 'foo',
+        },
+      });
+
+      state = reducer(state, { type: actionTypes.REQUEST });
+
+      expect(state).toEqual({
+        loading: true,
+        requestCount: 2,
+        successCount: 1,
+        failureCount: 0,
+        completeCount: 1,
+        inFlightCount: 1,
+        data: {
+          data: 'foo',
+        },
+      });
+
+      state = reducer(state, {
+        type: actionTypes.FAILURE,
+        payload: { response: { error: 'error' } },
+      });
+
+      expect(state).toEqual({
+        loading: false,
+        requestCount: 2,
+        successCount: 1,
+        failureCount: 1,
+        completeCount: 2,
+        inFlightCount: 0,
+        data: {
+          data: 'foo',
+        },
+        error: {
+          response: {
+            error: 'error',
+          },
         },
       });
     });
