@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios';
 import {
   composeReducers,
   createRequestActionTypes,
@@ -29,7 +30,7 @@ describe('composeReducers', () => {
       createRequestErrorReducer(actionTypes)
     );
 
-    let state: RequestState & RequestData<Data>;
+    let state: RequestState & RequestData<AxiosResponse<Data>>;
 
     it('should return an object by default', () => {
       const reducerDoesNothing = composeReducers(

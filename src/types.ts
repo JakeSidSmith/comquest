@@ -57,7 +57,7 @@ export interface RequestState {
 }
 
 export interface RequestData<Data> {
-  data?: AxiosResponse<Data>;
+  data?: Data;
 }
 
 export interface RequestError {
