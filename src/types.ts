@@ -35,7 +35,7 @@ export type RequestOptions = Partial<{
 
 export interface ComquestAction<Data> extends AnyAction {
   type: symbol;
-  payload?: AxiosResponse<Data> | AxiosError | Error;
+  payload?: AxiosResponse<Data> | AxiosError;
   options: RequestOptions;
 }
 
@@ -44,7 +44,7 @@ export interface ComquestSuccessAction<Data> extends ComquestAction<Data> {
 }
 
 export interface ComquestFailureAction extends ComquestAction<never> {
-  payload: AxiosError | Error;
+  payload: AxiosError;
 }
 
 export interface RequestState {
@@ -61,7 +61,7 @@ export interface RequestData<Data> {
 }
 
 export interface RequestError {
-  error?: AxiosError | Error;
+  error?: AxiosError;
 }
 
 export type RequestActionCreatorCreator<StoreState, Data> = (
@@ -84,5 +84,5 @@ export type RequestAction<StoreState, Data> = (
 ) => RequestActionReturnValue<Data>;
 
 export type RequestActionReturnValue<Data> = Promise<
-  AxiosResponse<Data> | AxiosError | Error
+  AxiosResponse<Data> | AxiosError
 >;
