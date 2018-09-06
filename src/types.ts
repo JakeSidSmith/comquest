@@ -49,11 +49,13 @@ export interface ComquestAction<D = AxiosResponse, E = AxiosError>
   };
 }
 
-export interface ComquestSuccessAction<D> extends ComquestAction<D, undefined> {
+export interface ComquestSuccessAction<D = AxiosResponse>
+  extends ComquestAction<D, undefined> {
   payload: D;
 }
 
-export interface ComquestFailureAction<E> extends ComquestAction<undefined, E> {
+export interface ComquestFailureAction<E = AxiosError>
+  extends ComquestAction<undefined, E> {
   payload: E;
 }
 

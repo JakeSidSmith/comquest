@@ -8,7 +8,7 @@ import {
 
 function handleSuccess<D = AxiosResponse>(
   _state: RequestData<D>,
-  action: ComquestSuccessAction<any>
+  action: ComquestSuccessAction<D>
 ): RequestData<D> {
   return {
     data: action.payload,
@@ -21,7 +21,7 @@ export function createRequestDataReducer<D = AxiosResponse>(
   return (state: RequestData<D> = {}, action: AnyAction): RequestData<D> => {
     switch (action.type) {
       case actionTypes.SUCCESS:
-        return handleSuccess<D>(state, action as ComquestSuccessAction<any>);
+        return handleSuccess<D>(state, action as ComquestSuccessAction<D>);
       default:
         return state;
     }
