@@ -18,8 +18,8 @@ export interface Params {
 
 export type RequestOptions = Partial<{
   params: Params;
-  doNotSendIfExistingRequests: boolean;
-  sendAfterExistingRequests: boolean;
+  // doNotSendIfExistingRequests: boolean;
+  // sendAfterExistingRequests: boolean;
   throwError: boolean;
   suppressAbortError: boolean;
   abortRequestsOnRequest: boolean;
