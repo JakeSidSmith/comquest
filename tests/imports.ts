@@ -35,32 +35,26 @@ describe('tests', () => {
 describe('all files', () => {
   const MATCHES_NODE_MODULES_IMPORT = /from\s?'.*?\/node_modules\/.*?'/;
 
-  it('should not import node_modules relatively', next => {
+  it('should not import node_modules relatively', () => {
     const cwd = path.join(__dirname, '../');
     const pattern = './{src,tests,examples}/**/*.ts?(x)';
 
-    glob(pattern, { cwd }, (error, files) => {
-      if (error) {
-        throw error;
-      }
+    const files = glob.sync(pattern, { cwd });
 
-      files.forEach(filePath => {
-        const resolvedPath = path.resolve(cwd, filePath);
-        const isDirectory = fs.lstatSync(resolvedPath).isDirectory();
+    files.forEach(filePath => {
+      const resolvedPath = path.resolve(cwd, filePath);
+      const isDirectory = fs.lstatSync(resolvedPath).isDirectory();
 
-        if (!isDirectory) {
-          const contents = fs.readFileSync(resolvedPath, 'utf8');
-          const match = MATCHES_NODE_MODULES_IMPORT.exec(contents);
+      if (!isDirectory) {
+        const contents = fs.readFileSync(resolvedPath, 'utf8');
+        const match = MATCHES_NODE_MODULES_IMPORT.exec(contents);
 
-          if (match) {
-            throw new Error(
-              `${filePath} imported from node_modules relatively: ${match[0]}`
-            );
-          }
+        if (match) {
+          throw new Error(
+            `${filePath} imported node_modules relatively ${match[0]}`
+          );
         }
-      });
-
-      next();
+      }
     });
   });
 });
