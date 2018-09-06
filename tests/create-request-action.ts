@@ -80,6 +80,7 @@ describe('createRequestAction', () => {
 
     expect(args1.length).toBe(1);
     expect(args1[0]).toEqual({
+      cancelToken: 'CancelToken',
       method: 'GET',
       url: 'domain.com',
     });
@@ -91,6 +92,7 @@ describe('createRequestAction', () => {
       headers: {
         token: 'secret',
       },
+      cancelToken: 'CancelToken',
     });
   });
 
@@ -116,6 +118,7 @@ describe('createRequestAction', () => {
     expect(args[0]).toEqual({
       method: 'GET',
       url: 'domain.com/123/456/',
+      cancelToken: 'CancelToken',
     });
   });
 
@@ -135,10 +138,12 @@ describe('createRequestAction', () => {
 
     expect(args1[0]).toEqual({
       url: '',
+      cancelToken: 'CancelToken',
     });
 
     expect(args2[0]).toEqual({
       url: '',
+      cancelToken: 'CancelToken',
     });
   });
 

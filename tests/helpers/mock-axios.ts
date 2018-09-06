@@ -38,6 +38,12 @@ interface MockAxiosObject extends MockAxiosCalls, MockAxiosMethods {
   post: MockAxiosFunction;
   put: MockAxiosFunction;
   patch: MockAxiosFunction;
+  CancelToken: {
+    source(): {
+      token: any;
+      cancel(): void;
+    };
+  };
   isCancel(value: any): boolean;
 }
 
@@ -100,6 +106,12 @@ mockAxiosObject = {
   putCalls: [],
   patchCalls: [],
   clear,
+  CancelToken: {
+    source: () => ({
+      token: 'CancelToken',
+      cancel: (_message?: string) => void 0,
+    }),
+  },
 };
 
 const mockAxios: MockAxios = Object.assign(

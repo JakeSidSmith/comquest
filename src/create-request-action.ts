@@ -27,8 +27,11 @@ export function createRequestAction<S, D>(
 
     const resolvedUrl = params ? pathToRegexp.compile(url)(params) : url;
 
+    const source = axios.CancelToken.source();
+
     const meta = {
       comquest: COMQUEST_MAGIC_SYMBOL,
+      cancelTokenSource: source,
       url: resolvedUrl,
       config: mergedConfig,
       options: mergedOptions,
@@ -42,6 +45,7 @@ export function createRequestAction<S, D>(
     return axios
       .request<D>({
         ...mergedConfig,
+        cancelToken: source.token,
         url: resolvedUrl,
       })
       .then<AxiosResponse<D>, AxiosError>(

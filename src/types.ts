@@ -1,4 +1,9 @@
-import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import {
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse,
+  CancelTokenSource,
+} from 'axios';
 import { AnyAction, Dispatch } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 
@@ -48,6 +53,7 @@ export interface ComquestAction<D = AxiosResponse, E = AxiosError>
   meta: {
     comquest: symbol;
     type: symbol;
+    cancelTokenSource?: CancelTokenSource;
     url?: string;
     options?: RequestOptions;
     config?: AxiosRequestConfig;
