@@ -23,3 +23,5 @@ DEMO: Create demo that allows users to skip through time, go offline, etc. Reque
 Thoughts:
 
 Should aborting a request ever cause an error, or should aborted requests always be swallowed?
+
+All errors as suppressed by default. If throwError is enabled, then suppressAbortError can be enabled to avoid throwing abort errors.
