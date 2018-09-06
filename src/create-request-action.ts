@@ -44,6 +44,10 @@ export function createRequestAction<StoreState, Data>(
             error: true,
           });
 
+          if (mergedOptions.throwErrors) {
+            throw error;
+          }
+
           return error;
         }
       );
