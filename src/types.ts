@@ -43,6 +43,7 @@ export interface ComquestAction<D = AxiosResponse, E = AxiosError>
   error?: boolean;
   meta: {
     comquest: symbol;
+    type: symbol;
     url: string;
     options: RequestOptions;
     config: AxiosRequestConfig;

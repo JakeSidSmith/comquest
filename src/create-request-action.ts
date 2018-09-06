@@ -1,7 +1,12 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import * as deepMerge from 'deepmerge';
 import * as pathToRegexp from 'path-to-regexp';
-import { COMQUEST_MAGIC_SYMBOL } from './constants';
+import {
+  COMQUEST_FAILURE,
+  COMQUEST_MAGIC_SYMBOL,
+  COMQUEST_REQUEST,
+  COMQUEST_SUCCESS,
+} from './constants';
 import {
   RequestActionCreator,
   RequestActionTypes,
@@ -29,7 +34,10 @@ export function createRequestAction<S, D>(
       options: mergedOptions,
     };
 
-    dispatch({ type: actionTypes.REQUEST, meta });
+    dispatch({
+      type: actionTypes.REQUEST,
+      meta: { ...meta, type: COMQUEST_REQUEST },
+    });
 
     return axios
       .request<D>({
@@ -41,7 +49,10 @@ export function createRequestAction<S, D>(
           dispatch({
             type: actionTypes.SUCCESS,
             payload: response,
-            meta,
+            meta: {
+              ...meta,
+              type: COMQUEST_SUCCESS,
+            },
           });
 
           return response;
@@ -51,7 +62,10 @@ export function createRequestAction<S, D>(
             type: actionTypes.FAILURE,
             payload: error,
             error: true,
-            meta,
+            meta: {
+              ...meta,
+              type: COMQUEST_FAILURE,
+            },
           });
 
           if (mergedOptions.throwError) {
