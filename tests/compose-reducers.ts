@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { AnyAction } from '../node_modules/redux';
+import { AnyAction } from 'redux';
 import {
   composeReducers,
   createRequestActionTypes,
