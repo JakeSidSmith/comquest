@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import * as glob from 'glob';
 import * as path from 'path';
 
 describe('tests', () => {
@@ -27,6 +28,39 @@ describe('tests', () => {
           );
         }
       }
+    });
+  });
+});
+
+describe('all files', () => {
+  const MATCHES_NODE_MODULES_IMPORT = /from\s?'.*?\/node_modules\/.*?'/;
+
+  it('should not import node_modules relatively', next => {
+    const cwd = path.join(__dirname, '../');
+    const pattern = './{src,tests,examples}/**/*.ts?(x)';
+
+    glob(pattern, { cwd }, (error, files) => {
+      if (error) {
+        throw error;
+      }
+
+      files.forEach(filePath => {
+        const resolvedPath = path.resolve(cwd, filePath);
+        const isDirectory = fs.lstatSync(resolvedPath).isDirectory();
+
+        if (!isDirectory) {
+          const contents = fs.readFileSync(resolvedPath, 'utf8');
+          const match = MATCHES_NODE_MODULES_IMPORT.exec(contents);
+
+          if (match) {
+            throw new Error(
+              `${filePath} imported from node_modules relatively: ${match[0]}`
+            );
+          }
+        }
+      });
+
+      next();
     });
   });
 });
