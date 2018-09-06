@@ -1,4 +1,5 @@
 import { AxiosResponse } from 'axios';
+import { AnyAction } from '../node_modules/redux';
 import {
   composeReducers,
   createRequestActionTypes,
@@ -30,7 +31,7 @@ describe('composeReducers', () => {
       createRequestErrorReducer(actionTypes)
     );
 
-    let state: RequestState & RequestData<AxiosResponse<Data>>;
+    let lastState: RequestState & RequestData<AxiosResponse<Data>>;
 
     it('should return an object by default', () => {
       const reducerDoesNothing = composeReducers(
@@ -41,7 +42,7 @@ describe('composeReducers', () => {
     });
 
     it('should return the same state if nothing changed', () => {
-      const firstState = reducer(state, unknownAction);
+      const firstState = reducer(undefined, unknownAction);
       const secondState = reducer(firstState, unknownAction);
 
       expect(firstState).toBe(secondState);
@@ -59,10 +60,69 @@ describe('composeReducers', () => {
       expect(fiveReducers(undefined, unknownAction)).toEqual({});
     });
 
-    it('should combine multiple reducer states', () => {
-      state = reducer(state, unknownAction);
+    it('should handle any / all reducers returning undefined', () => {
+      const fiveReducers = composeReducers(
+        (state: any = { a: 'a' }, action: AnyAction) => {
+          switch (action.type) {
+            case 'undefined':
+              return undefined;
+            default:
+              return state;
+          }
+        },
+        (state: any = { b: 'b' }, action: AnyAction) => {
+          switch (action.type) {
+            case 'undefined':
+              return undefined;
+            default:
+              return state;
+          }
+        },
+        (state: any = { c: 'c' }, action: AnyAction) => {
+          switch (action.type) {
+            case 'undefined':
+              return undefined;
+            default:
+              return state;
+          }
+        },
+        (state: any = { d: 'd' }, action: AnyAction) => {
+          switch (action.type) {
+            case 'undefined':
+              return undefined;
+            default:
+              return state;
+          }
+        },
+        (state: any = { e: 'e' }, action: AnyAction) => {
+          switch (action.type) {
+            case 'undefined':
+              return undefined;
+            default:
+              return state;
+          }
+        }
+      );
 
-      expect(state).toEqual({
+      const initialState = fiveReducers(undefined, unknownAction);
+
+      expect(initialState).toEqual({
+        a: 'a',
+        b: 'b',
+        c: 'c',
+        d: 'd',
+        e: 'e',
+      });
+
+      const erasedState = fiveReducers(initialState, { type: 'undefined' });
+
+      expect(erasedState).toEqual(initialState);
+    });
+
+    it('should combine multiple reducer states', () => {
+      lastState = reducer(lastState, unknownAction);
+
+      expect(lastState).toEqual({
         loading: false,
         requestCount: 0,
         successCount: 0,
@@ -71,9 +131,9 @@ describe('composeReducers', () => {
         inFlightCount: 0,
       });
 
-      state = reducer(state, { type: actionTypes.REQUEST });
+      lastState = reducer(lastState, { type: actionTypes.REQUEST });
 
-      expect(state).toEqual({
+      expect(lastState).toEqual({
         loading: true,
         requestCount: 1,
         successCount: 0,
@@ -82,12 +142,12 @@ describe('composeReducers', () => {
         inFlightCount: 1,
       });
 
-      state = reducer(state, {
+      lastState = reducer(lastState, {
         type: actionTypes.SUCCESS,
         payload: { data: 'foo' },
       });
 
-      expect(state).toEqual({
+      expect(lastState).toEqual({
         loading: false,
         requestCount: 1,
         successCount: 1,
@@ -99,9 +159,9 @@ describe('composeReducers', () => {
         },
       });
 
-      state = reducer(state, { type: actionTypes.REQUEST });
+      lastState = reducer(lastState, { type: actionTypes.REQUEST });
 
-      expect(state).toEqual({
+      expect(lastState).toEqual({
         loading: true,
         requestCount: 2,
         successCount: 1,
@@ -113,12 +173,12 @@ describe('composeReducers', () => {
         },
       });
 
-      state = reducer(state, {
+      lastState = reducer(lastState, {
         type: actionTypes.FAILURE,
         payload: { response: { error: 'error' } },
       });
 
-      expect(state).toEqual({
+      expect(lastState).toEqual({
         loading: false,
         requestCount: 2,
         successCount: 1,
