@@ -27,7 +27,7 @@ describe('composeReducers', () => {
 
     const reducer = composeReducers(
       createRequestStateReducer(actionTypes),
-      createRequestDataReducer<Data>(actionTypes),
+      createRequestDataReducer<AxiosResponse<Data>>(actionTypes),
       createRequestErrorReducer(actionTypes)
     );
 

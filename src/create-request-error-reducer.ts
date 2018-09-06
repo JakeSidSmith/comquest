@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { AnyAction } from 'redux';
 import {
   ComquestFailureAction,
@@ -5,20 +6,22 @@ import {
   RequestError,
 } from './types';
 
-function handleFailure(
-  _state: RequestError,
-  action: ComquestFailureAction
-): RequestError {
+function handleFailure<E = AxiosError>(
+  _state: RequestError<E>,
+  action: ComquestFailureAction<any>
+): RequestError<E> {
   return {
     error: action.payload,
   };
 }
 
-export function createRequestErrorReducer(actionTypes: RequestActionTypes) {
-  return (state: RequestError = {}, action: AnyAction): RequestError => {
+export function createRequestErrorReducer<E = AxiosError>(
+  actionTypes: RequestActionTypes
+) {
+  return (state: RequestError<E> = {}, action: AnyAction): RequestError<E> => {
     switch (action.type) {
       case actionTypes.FAILURE:
-        return handleFailure(state, action as ComquestFailureAction);
+        return handleFailure(state, action as ComquestFailureAction<any>);
       default:
         return state;
     }

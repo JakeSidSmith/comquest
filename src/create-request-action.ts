@@ -8,11 +8,11 @@ import {
   RequestOptions,
 } from './types';
 
-export function createRequestAction<StoreState, Data>(
+export function createRequestAction<S, D>(
   actionTypes: RequestActionTypes,
   config: AxiosRequestConfig,
   options: RequestOptions = {}
-): RequestActionCreator<StoreState, Data> {
+): RequestActionCreator<S> {
   return (configOverrides = {}, optionsOverrides = {}) => dispatch => {
     const mergedConfig = deepMerge<AxiosRequestConfig>(config, configOverrides);
     const mergedOptions = deepMerge<RequestOptions>(options, optionsOverrides);
@@ -32,12 +32,12 @@ export function createRequestAction<StoreState, Data>(
     dispatch({ type: actionTypes.REQUEST, meta });
 
     return axios
-      .request<Data>({
+      .request<D>({
         ...mergedConfig,
         url: resolvedUrl,
       })
-      .then<AxiosResponse<Data>, AxiosError>(
-        (response: AxiosResponse<Data>) => {
+      .then<AxiosResponse<D>, AxiosError>(
+        (response: AxiosResponse<D>) => {
           dispatch({
             type: actionTypes.SUCCESS,
             payload: response,

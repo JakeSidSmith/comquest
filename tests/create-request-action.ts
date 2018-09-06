@@ -16,10 +16,10 @@ describe('createRequestAction', () => {
 
   const actionTypes = createRequestActionTypes('foo');
 
-  const thunkify = (actionCreator: RequestActionCreator<any, any>) => (
+  const thunkify = (actionCreator: RequestActionCreator<any>) => (
     config?: AxiosRequestConfig,
     options?: RequestOptions
-  ): RequestActionReturnValue<any> => {
+  ): RequestActionReturnValue => {
     return actionCreator(config, options)(dispatch, getState, undefined);
   };
 

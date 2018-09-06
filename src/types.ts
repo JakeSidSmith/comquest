@@ -36,9 +36,10 @@ export type RequestOptions = Partial<{
   resetStateOnFailure: boolean;
 }>;
 
-export interface ComquestAction<Data> extends AnyAction {
+export interface ComquestAction<D = AxiosResponse, E = AxiosError>
+  extends AnyAction {
   type: symbol;
-  payload?: AxiosResponse<Data> | AxiosError;
+  payload?: D | E;
   error?: boolean;
   meta: {
     comquest: symbol;
@@ -48,12 +49,12 @@ export interface ComquestAction<Data> extends AnyAction {
   };
 }
 
-export interface ComquestSuccessAction<Data> extends ComquestAction<Data> {
-  payload: AxiosResponse<Data>;
+export interface ComquestSuccessAction<D> extends ComquestAction<D, undefined> {
+  payload: D;
 }
 
-export interface ComquestFailureAction extends ComquestAction<never> {
-  payload: AxiosError;
+export interface ComquestFailureAction<E> extends ComquestAction<undefined, E> {
+  payload: E;
 }
 
 export interface RequestState {
@@ -65,33 +66,31 @@ export interface RequestState {
   inFlightCount: number;
 }
 
-export interface RequestData<Data> {
-  data?: Data;
+export interface RequestData<D> {
+  data?: D;
 }
 
-export interface RequestError {
-  error?: AxiosError;
+export interface RequestError<E> {
+  error?: E;
 }
 
-export type RequestActionCreatorCreator<StoreState, Data> = (
+export type RequestActionCreatorCreator<S> = (
   actionTypes: RequestActionTypes,
   config: AxiosRequestConfig,
   options?: RequestOptions
-) => RequestActionCreator<StoreState, Data>;
+) => RequestActionCreator<S>;
 
-export type RequestActionCreator<StoreState, Data> = (
+export type RequestActionCreator<S> = (
   configOverrides?: AxiosRequestConfig,
   optionsOverrides?: RequestOptions
-) => RequestAction<StoreState, Data>;
+) => RequestAction<S>;
 
-export type RequestAction<StoreState, Data> = (
+export type RequestAction<S> = (
   dispatch:
-    | ThunkDispatch<StoreState, any, ComquestAction<Data>>
-    | Dispatch<ComquestAction<Data>>,
-  getState?: () => StoreState,
+    | ThunkDispatch<S, any, ComquestAction<AxiosResponse, AxiosError>>
+    | Dispatch<ComquestAction<AxiosResponse, AxiosError>>,
+  getState?: () => S,
   extra?: any
-) => RequestActionReturnValue<Data>;
+) => RequestActionReturnValue;
 
-export type RequestActionReturnValue<Data> = Promise<
-  AxiosResponse<Data> | AxiosError
->;
+export type RequestActionReturnValue = Promise<AxiosResponse | AxiosError>;

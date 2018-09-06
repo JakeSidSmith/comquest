@@ -6,27 +6,22 @@ import {
   RequestData,
 } from './types';
 
-function handleSuccess<Data>(
-  _state: RequestData<AxiosResponse<Data>>,
-  action: ComquestSuccessAction<Data>
-): RequestData<AxiosResponse<Data>> {
+function handleSuccess<D = AxiosResponse>(
+  _state: RequestData<D>,
+  action: ComquestSuccessAction<any>
+): RequestData<D> {
   return {
     data: action.payload,
   };
 }
 
-export function createRequestDataReducer<Data>(
+export function createRequestDataReducer<D = AxiosResponse>(
   actionTypes: RequestActionTypes
 ) {
-  return (
-    state: RequestData<AxiosResponse<Data>> = {},
-    action: AnyAction
-  ): RequestData<AxiosResponse<Data>> => {
+  return (state: RequestData<D> = {}, action: AnyAction): RequestData<D> => {
     switch (action.type) {
       case actionTypes.SUCCESS:
-        return handleSuccess<Data>(state, action as ComquestSuccessAction<
-          Data
-        >);
+        return handleSuccess<D>(state, action as ComquestSuccessAction<any>);
       default:
         return state;
     }
