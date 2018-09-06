@@ -20,6 +20,8 @@ export type RequestOptions = Partial<{
   params: Params;
   doNotSendIfExistingRequests: boolean;
   sendAfterExistingRequests: boolean;
+  throwError: boolean;
+  suppressAbortError: boolean;
   abortRequestsOnRequest: boolean;
   abortRequestsOnSuccess: boolean;
   abortRequestsOnFailure: boolean;
@@ -32,7 +34,6 @@ export type RequestOptions = Partial<{
   resetStateOnRequest: boolean;
   resetStateOnSuccess: boolean;
   resetStateOnFailure: boolean;
-  throwError: boolean;
 }>;
 
 export interface ComquestAction<Data> extends AnyAction {
