@@ -38,6 +38,7 @@ interface MockAxiosObject extends MockAxiosCalls, MockAxiosMethods {
   post: MockAxiosFunction;
   put: MockAxiosFunction;
   patch: MockAxiosFunction;
+  isCancel(value: any): boolean;
 }
 
 export type MockAxios = MockAxiosFunction & MockAxiosObject;
@@ -77,6 +78,7 @@ class MockAxiosPromise extends Promise<any> {
 let mockAxiosObject: MockAxiosObject;
 
 mockAxiosObject = {
+  isCancel: (value: any) => Boolean(value && value.cancelled),
   defaults: {},
   interceptors: {
     request: {},
@@ -130,6 +132,13 @@ function clear() {
       mockAxios[key] = [];
     }
   });
+}
+
+export function createCancelledError(value: {}) {
+  return {
+    ...value,
+    cancelled: true,
+  };
 }
 
 export default mockAxios;

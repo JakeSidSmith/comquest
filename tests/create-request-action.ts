@@ -1,4 +1,4 @@
-import mockAxios from './helpers/mock-axios';
+import mockAxios, { createCancelledError } from './helpers/mock-axios';
 jest.mock('axios', () => ({ default: mockAxios }));
 
 import { AxiosRequestConfig } from 'axios';
@@ -172,5 +172,23 @@ describe('createRequestAction', () => {
     const error = new Error('error');
 
     expect(() => handleError(error)).toThrow(error);
+  });
+
+  it('should not throw abort errors if suppressAbortError is true', () => {
+    const action = thunkify(
+      createRequestAction(
+        actionTypes,
+        {},
+        { throwError: true, suppressAbortError: true }
+      )
+    );
+
+    action();
+
+    const handleError = mockAxios.requestCalls[0].thenCalls[0].arguments[1];
+
+    const error = new Error('abort');
+
+    expect(() => handleError(createCancelledError(error))).not.toThrow(error);
   });
 });
