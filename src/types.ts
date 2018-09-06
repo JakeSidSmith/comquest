@@ -32,7 +32,7 @@ export type RequestOptions = Partial<{
   resetStateOnRequest: boolean;
   resetStateOnSuccess: boolean;
   resetStateOnFailure: boolean;
-  throwErrors: boolean;
+  throwError: boolean;
 }>;
 
 export interface ComquestAction<Data> extends AnyAction {
