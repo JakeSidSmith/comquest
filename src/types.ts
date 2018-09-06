@@ -48,9 +48,9 @@ export interface ComquestAction<D = AxiosResponse, E = AxiosError>
   meta: {
     comquest: symbol;
     type: symbol;
-    url: string;
-    options: RequestOptions;
-    config: AxiosRequestConfig;
+    url?: string;
+    options?: RequestOptions;
+    config?: AxiosRequestConfig;
   };
 }
 
