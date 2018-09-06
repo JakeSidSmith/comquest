@@ -9,6 +9,7 @@ export interface RequestActionTypes {
   CLEAR_DATA: symbol;
   CLEAR_ERRORS: symbol;
   RESET_STATE: symbol;
+  ABORT_REQUESTS: symbol;
 }
 
 export interface Params {
