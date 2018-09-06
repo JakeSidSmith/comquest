@@ -45,7 +45,9 @@ export function createRequestAction<StoreState, Data>(
           });
 
           if (mergedOptions.throwError) {
-            throw error;
+            if (!mergedOptions.suppressAbortError || !axios.isCancel(error)) {
+              throw error;
+            }
           }
 
           return error;
