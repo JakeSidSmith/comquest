@@ -190,5 +190,6 @@ describe('createRequestAction', () => {
     const error = new Error('abort');
 
     expect(() => handleError(createCancelledError(error))).not.toThrow(error);
+    expect(() => handleError(error)).toThrow(error);
   });
 });
