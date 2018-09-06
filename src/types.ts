@@ -20,9 +20,9 @@ export type RequestOptions = Partial<{
   params: Params;
   doNotSendIfExistingRequests: boolean;
   sendAfterExistingRequests: boolean;
-  abortExistingRequestsOnRequest: boolean;
-  abortExistingRequestsOnSuccess: boolean;
-  abortExistingRequestsOnFailure: boolean;
+  abortRequestsOnRequest: boolean;
+  abortRequestsOnSuccess: boolean;
+  abortRequestsOnFailure: boolean;
   clearDataOnRequest: boolean;
   clearDataOnSuccess: boolean;
   clearDataOnFailure: boolean;
