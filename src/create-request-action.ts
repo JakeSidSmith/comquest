@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import * as deepMerge from 'deepmerge';
 import * as pathToRegexp from 'path-to-regexp';
+import { COMQUEST_MAGIC_SYMBOL } from './constants';
 import {
   RequestActionCreator,
   RequestActionTypes,
@@ -21,7 +22,14 @@ export function createRequestAction<StoreState, Data>(
 
     const resolvedUrl = params ? pathToRegexp.compile(url)(params) : url;
 
-    dispatch({ type: actionTypes.REQUEST });
+    const meta = {
+      comquest: COMQUEST_MAGIC_SYMBOL,
+      url: resolvedUrl,
+      config: mergedConfig,
+      options: mergedOptions,
+    };
+
+    dispatch({ type: actionTypes.REQUEST, meta });
 
     return axios
       .request<Data>({
@@ -33,6 +41,7 @@ export function createRequestAction<StoreState, Data>(
           dispatch({
             type: actionTypes.SUCCESS,
             payload: response,
+            meta,
           });
 
           return response;
@@ -42,6 +51,7 @@ export function createRequestAction<StoreState, Data>(
             type: actionTypes.FAILURE,
             payload: error,
             error: true,
+            meta,
           });
 
           if (mergedOptions.throwError) {

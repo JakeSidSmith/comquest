@@ -40,6 +40,12 @@ export interface ComquestAction<Data> extends AnyAction {
   type: symbol;
   payload?: AxiosResponse<Data> | AxiosError;
   error?: boolean;
+  meta: {
+    comquest: symbol;
+    url: string;
+    options: RequestOptions;
+    config: AxiosRequestConfig;
+  };
 }
 
 export interface ComquestSuccessAction<Data> extends ComquestAction<Data> {
