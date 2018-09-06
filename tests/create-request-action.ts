@@ -159,4 +159,18 @@ describe('createRequestAction', () => {
     expect(success(response)).toBe(response);
     expect(failure(error)).toBe(error);
   });
+
+  it('should throw errors if throwError option is true', () => {
+    const action = thunkify(
+      createRequestAction(actionTypes, {}, { throwError: true })
+    );
+
+    action();
+
+    const handleError = mockAxios.requestCalls[0].thenCalls[0].arguments[1];
+
+    const error = new Error('error');
+
+    expect(() => handleError(error)).toThrow(error);
+  });
 });
