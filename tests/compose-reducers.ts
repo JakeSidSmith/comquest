@@ -47,6 +47,18 @@ describe('composeReducers', () => {
       expect(firstState).toBe(secondState);
     });
 
+    it('should compose up to five reducers', () => {
+      const fiveReducers = composeReducers(
+        () => undefined as any,
+        () => undefined as any,
+        () => undefined as any,
+        () => undefined as any,
+        () => undefined as any
+      );
+
+      expect(fiveReducers(undefined, unknownAction)).toEqual({});
+    });
+
     it('should combine multiple reducer states', () => {
       state = reducer(state, unknownAction);
 
