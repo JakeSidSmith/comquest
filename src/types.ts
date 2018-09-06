@@ -2,6 +2,10 @@ import { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { AnyAction, Dispatch } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 
+export interface StringIndexedObject {
+  [i: string]: any;
+}
+
 export interface RequestActionTypes {
   REQUEST: symbol;
   SUCCESS: symbol;

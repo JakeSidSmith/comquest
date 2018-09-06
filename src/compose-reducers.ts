@@ -1,15 +1,12 @@
 import { AnyAction } from 'redux';
-
-interface StringKeyedObject {
-  [i: string]: any;
-}
+import { StringIndexedObject } from './types';
 
 export function composeReducers<
-  S1 extends StringKeyedObject,
-  S2 extends StringKeyedObject,
-  S3 extends StringKeyedObject,
-  S4 extends StringKeyedObject,
-  S5 extends StringKeyedObject,
+  S1 extends StringIndexedObject,
+  S2 extends StringIndexedObject,
+  S3 extends StringIndexedObject,
+  S4 extends StringIndexedObject,
+  S5 extends StringIndexedObject,
   R extends S1 & S2 & S3 & S4 & S5
 >(
   reducer1: (state: S1 | undefined, action: AnyAction) => S1,
