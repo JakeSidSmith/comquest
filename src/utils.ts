@@ -1,5 +1,4 @@
 import { AxiosError, AxiosResponse } from 'axios';
-import { AnyAction } from 'redux';
 import {
   COMQUEST_FAILURE,
   COMQUEST_MAGIC_SYMBOL,
@@ -12,7 +11,7 @@ import {
 } from './types';
 
 export function isComquestAction<P = any>(
-  action: AnyAction | ComquestAction<P>
+  action: any
 ): action is ComquestAction<P> {
   return (
     action && action.meta && action.meta.comquest === COMQUEST_MAGIC_SYMBOL
@@ -20,13 +19,13 @@ export function isComquestAction<P = any>(
 }
 
 export function isComquestSuccessAction<D = AxiosResponse>(
-  action: AnyAction | ComquestSuccessAction<D>
+  action: any
 ): action is ComquestSuccessAction<D> {
   return isComquestAction(action) && action.meta.type === COMQUEST_SUCCESS;
 }
 
 export function isComquestFailureAction<E = AxiosError>(
-  action: AnyAction | ComquestFailureAction<E>
+  action: any
 ): action is ComquestFailureAction<E> {
   return isComquestAction(action) && action.meta.type === COMQUEST_FAILURE;
 }
