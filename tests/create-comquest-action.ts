@@ -179,7 +179,7 @@ describe('createRequestAction', () => {
     expect(() => handleError(error)).toThrow(error);
   });
 
-  it('should not throw abort errors if suppressCancelError is true', () => {
+  it('should not throw cancel errors if suppressCancelError is true', () => {
     const action = thunkify(
       createComquestAction(
         actionTypes,
@@ -192,7 +192,7 @@ describe('createRequestAction', () => {
 
     const handleError = mockAxios.requestCalls[0].thenCalls[0].arguments[1];
 
-    const error = new Error('abort');
+    const error = new Error('cancel');
 
     expect(() => handleError(createCancelledError(error))).not.toThrow(error);
     expect(() => handleError(error)).toThrow(error);
