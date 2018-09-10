@@ -1,23 +1,23 @@
-import { AnyAction, Dispatch, MiddlewareAPI } from 'redux';
+import { AnyAction, MiddlewareAPI } from 'redux';
+import { ComquestAction } from 'types';
 import { ThunkAction, ThunkDispatch } from '../node_modules/redux-thunk';
-import { COMQUEST_MAGIC_SYMBOL } from './constants';
+import { isComquestAction } from './utils';
 
 export function createComquestMiddleware<S>() {
   return function comquestMiddleware(
     _store: MiddlewareAPI<ThunkDispatch<S, undefined, AnyAction>, S>
   ) {
     return (next: ThunkDispatch<S, undefined, AnyAction>) => (
-      action: AnyAction | ThunkAction<any, S, undefined, AnyAction>
+      action:
+        | AnyAction
+        | ComquestAction
+        | ThunkAction<any, S, undefined, AnyAction>
     ) => {
       if (typeof action === 'function') {
         return next(action);
       }
 
-      if (
-        typeof action.meta !== 'object' ||
-        typeof action.meta.comquest !== 'symbol' ||
-        action.meta.comquest !== COMQUEST_MAGIC_SYMBOL
-      ) {
+      if (isComquestAction(action)) {
         return next(action);
       }
     };
