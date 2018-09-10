@@ -3,6 +3,7 @@ import * as src from '../src';
 describe('index.ts', () => {
   const utils: Array<keyof typeof src> = [
     'composeComquestReducers',
+    'createComquestMiddleware',
     'createComquestActionTypes',
     'createComquestAction',
     'createComquestRequestDataReducer',

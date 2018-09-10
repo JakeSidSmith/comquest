@@ -1,5 +1,6 @@
 export * from './types';
 export { composeComquestReducers } from './compose-comquest-reducers';
+export { createComquestMiddleware } from './create-comquest-middleware';
 export { createComquestActionTypes } from './create-comquest-action-types';
 export { createComquestAction } from './create-comquest-action';
 export {
