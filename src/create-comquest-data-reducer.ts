@@ -15,7 +15,7 @@ function handleSuccess<D = AxiosResponse>(
   };
 }
 
-export function createRequestDataReducer<D = AxiosResponse>(
+export function createComquestDataReducer<D = AxiosResponse>(
   actionTypes: RequestActionTypes
 ) {
   return (state: RequestData<D> = {}, action: AnyAction): RequestData<D> => {

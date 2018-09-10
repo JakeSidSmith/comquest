@@ -1,6 +1,6 @@
 import { RequestActionTypes } from './types';
 
-export function createRequestActionTypes(name: string): RequestActionTypes {
+export function createComquestActionTypes(name: string): RequestActionTypes {
   return {
     REQUEST: Symbol(`${name}.REQUEST`),
     SUCCESS: Symbol(`${name}.SUCCESS`),

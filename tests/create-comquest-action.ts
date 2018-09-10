@@ -3,8 +3,8 @@ jest.mock('axios', () => ({ default: mockAxios }));
 
 import { AxiosRequestConfig } from 'axios';
 import {
-  createRequestAction,
-  createRequestActionTypes,
+  createComquestAction,
+  createComquestActionTypes,
   RequestActionCreator,
   RequestActionReturnValue,
   RequestOptions,
@@ -14,7 +14,7 @@ describe('createRequestAction', () => {
   const dispatch = jest.fn();
   const getState = jest.fn().mockReturnValue({});
 
-  const actionTypes = createRequestActionTypes('foo');
+  const actionTypes = createComquestActionTypes('foo');
 
   const thunkify = (actionCreator: RequestActionCreator<any>) => (
     config?: AxiosRequestConfig,
@@ -30,13 +30,13 @@ describe('createRequestAction', () => {
   });
 
   it('should return an action creator (function)', () => {
-    const result = createRequestAction(actionTypes, {});
+    const result = createComquestAction(actionTypes, {});
 
     expect(typeof result).toBe('function');
   });
 
   it('should make an axios request', () => {
-    const action = thunkify(createRequestAction(actionTypes, {}));
+    const action = thunkify(createComquestAction(actionTypes, {}));
 
     expect(mockAxios.calls.length).toBe(0);
 
@@ -60,7 +60,7 @@ describe('createRequestAction', () => {
 
   it('should allow overriding the initial request config', () => {
     const action = thunkify(
-      createRequestAction(actionTypes, {
+      createComquestAction(actionTypes, {
         method: 'GET',
         url: 'domain.com',
       })
@@ -98,7 +98,7 @@ describe('createRequestAction', () => {
 
   it('should inject params into the url', () => {
     const action = thunkify(
-      createRequestAction(actionTypes, {
+      createComquestAction(actionTypes, {
         method: 'GET',
         url: 'domain.com/:foo/:bar/',
       })
@@ -123,7 +123,7 @@ describe('createRequestAction', () => {
   });
 
   it('should default the url to empty string', () => {
-    const action = thunkify(createRequestAction(actionTypes, {}));
+    const action = thunkify(createComquestAction(actionTypes, {}));
 
     action();
     action(undefined, {
@@ -148,7 +148,7 @@ describe('createRequestAction', () => {
   });
 
   it('should return the response or error, respectively', () => {
-    const action = thunkify(createRequestAction(actionTypes, {}));
+    const action = thunkify(createComquestAction(actionTypes, {}));
 
     action();
 
@@ -167,7 +167,7 @@ describe('createRequestAction', () => {
 
   it('should throw errors if throwError option is true', () => {
     const action = thunkify(
-      createRequestAction(actionTypes, {}, { throwError: true })
+      createComquestAction(actionTypes, {}, { throwError: true })
     );
 
     action();
@@ -181,7 +181,7 @@ describe('createRequestAction', () => {
 
   it('should not throw abort errors if suppressAbortError is true', () => {
     const action = thunkify(
-      createRequestAction(
+      createComquestAction(
         actionTypes,
         {},
         { throwError: true, suppressAbortError: true }

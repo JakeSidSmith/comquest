@@ -13,7 +13,7 @@ import {
   RequestOptions,
 } from './types';
 
-export function createRequestAction<S, D>(
+export function createComquestAction<S, D>(
   actionTypes: RequestActionTypes,
   config: AxiosRequestConfig,
   options: RequestOptions = {}

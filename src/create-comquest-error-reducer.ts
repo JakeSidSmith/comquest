@@ -15,7 +15,7 @@ function handleFailure<E = AxiosError>(
   };
 }
 
-export function createRequestErrorReducer<E = AxiosError>(
+export function createComquestErrorReducer<E = AxiosError>(
   actionTypes: RequestActionTypes
 ) {
   return (state: RequestError<E> = {}, action: AnyAction): RequestError<E> => {

@@ -1,19 +1,19 @@
 import {
-  createRequestActionTypes,
-  createRequestStateReducer,
+  createComquestActionTypes,
+  createComquestStateReducer,
   RequestState,
 } from '../src';
 
 describe('createRequestStateReducer', () => {
-  const actionTypes = createRequestActionTypes('foo');
+  const actionTypes = createComquestActionTypes('foo');
   const unknownAction = { type: 'unknown' };
 
   it('should create a reducer function', () => {
-    expect(typeof createRequestStateReducer(actionTypes)).toBe('function');
+    expect(typeof createComquestStateReducer(actionTypes)).toBe('function');
   });
 
   describe('reducer', () => {
-    const reducer = createRequestStateReducer(actionTypes);
+    const reducer = createComquestStateReducer(actionTypes);
     let state: RequestState;
 
     it('should return an object with default values by default', () => {

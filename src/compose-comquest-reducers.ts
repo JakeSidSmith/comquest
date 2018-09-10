@@ -1,7 +1,7 @@
 import { AnyAction } from 'redux';
 import { StringIndexedObject } from './types';
 
-export function composeReducers<
+export function composeComquestReducers<
   S1 extends StringIndexedObject,
   S2 extends StringIndexedObject,
   S3 extends StringIndexedObject,

@@ -51,7 +51,7 @@ function handleFailure(state: RequestState): RequestState {
   };
 }
 
-export function createRequestStateReducer(actionTypes: RequestActionTypes) {
+export function createComquestStateReducer(actionTypes: RequestActionTypes) {
   return (
     state: RequestState = {
       loading: false,

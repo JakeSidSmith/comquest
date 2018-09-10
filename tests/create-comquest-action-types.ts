@@ -1,8 +1,8 @@
-import { createRequestActionTypes } from '../src';
+import { createComquestActionTypes } from '../src';
 
 describe('createRequestActionTypes', () => {
   it('should create an object with string keys and symbol values', () => {
-    const actionTypes = createRequestActionTypes('test');
+    const actionTypes = createComquestActionTypes('test');
     const keys = Object.keys(actionTypes) as Array<keyof typeof actionTypes>;
 
     expect(typeof actionTypes).toBe('object');
@@ -22,15 +22,15 @@ describe('createRequestActionTypes', () => {
   });
 
   it('should create symbols that are unique', () => {
-    const result1 = createRequestActionTypes('test');
-    const result2 = createRequestActionTypes('test');
+    const result1 = createComquestActionTypes('test');
+    const result2 = createComquestActionTypes('test');
 
     expect(result1.REQUEST).not.toEqual(result1.SUCCESS);
     expect(result1.REQUEST).not.toEqual(result2.REQUEST);
   });
 
   it('should print human readable symbol values', () => {
-    const result = createRequestActionTypes('test');
+    const result = createComquestActionTypes('test');
 
     expect(result.REQUEST.toString()).toBe('Symbol(test.REQUEST)');
   });
