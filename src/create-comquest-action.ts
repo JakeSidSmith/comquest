@@ -8,19 +8,19 @@ import {
   COMQUEST_SUCCESS,
 } from './constants';
 import {
-  RequestActionCreator,
-  RequestActionTypes,
-  RequestOptions,
+  ComquestActionCreator,
+  ComquestActionTypes,
+  ComquestOptions,
 } from './types';
 
 export function createComquestAction<S, D>(
-  actionTypes: RequestActionTypes,
+  actionTypes: ComquestActionTypes,
   config: AxiosRequestConfig,
-  options: RequestOptions = {}
-): RequestActionCreator<S> {
+  options: ComquestOptions = {}
+): ComquestActionCreator<S> {
   return (configOverrides = {}, optionsOverrides = {}) => dispatch => {
     const mergedConfig = deepMerge<AxiosRequestConfig>(config, configOverrides);
-    const mergedOptions = deepMerge<RequestOptions>(options, optionsOverrides);
+    const mergedOptions = deepMerge<ComquestOptions>(options, optionsOverrides);
 
     const { url = '' } = mergedConfig;
     const { params } = mergedOptions;

@@ -1,7 +1,7 @@
 import { AnyAction } from 'redux';
-import { RequestActionTypes, RequestState } from './types';
+import { ComquestActionTypes, ComquestRequestState } from './types';
 
-function handleRequest(state: RequestState): RequestState {
+function handleRequest(state: ComquestRequestState): ComquestRequestState {
   const inFlightCount = state.inFlightCount + 1;
   const requestCount = state.requestCount + 1;
 
@@ -17,7 +17,7 @@ function handleRequest(state: RequestState): RequestState {
   };
 }
 
-function handleSuccess(state: RequestState): RequestState {
+function handleSuccess(state: ComquestRequestState): ComquestRequestState {
   const inFlightCount = state.inFlightCount - 1;
   const successCount = state.successCount + 1;
   const completeCount = state.completeCount + 1;
@@ -34,7 +34,7 @@ function handleSuccess(state: RequestState): RequestState {
   };
 }
 
-function handleFailure(state: RequestState): RequestState {
+function handleFailure(state: ComquestRequestState): ComquestRequestState {
   const inFlightCount = state.inFlightCount - 1;
   const failureCount = state.failureCount + 1;
   const completeCount = state.completeCount + 1;
@@ -51,9 +51,9 @@ function handleFailure(state: RequestState): RequestState {
   };
 }
 
-export function createComquestStateReducer(actionTypes: RequestActionTypes) {
+export function createComquestStateReducer(actionTypes: ComquestActionTypes) {
   return (
-    state: RequestState = {
+    state: ComquestRequestState = {
       loading: false,
       requestCount: 0,
       successCount: 0,
@@ -62,7 +62,7 @@ export function createComquestStateReducer(actionTypes: RequestActionTypes) {
       inFlightCount: 0,
     },
     action: AnyAction
-  ): RequestState => {
+  ): ComquestRequestState => {
     switch (action.type) {
       case actionTypes.REQUEST:
         return handleRequest(state);

@@ -1,24 +1,27 @@
 import { AxiosResponse } from 'axios';
 import { AnyAction } from 'redux';
 import {
+  ComquestActionTypes,
+  ComquestRequestData,
   ComquestSuccessAction,
-  RequestActionTypes,
-  RequestData,
 } from './types';
 
 function handleSuccess<D = AxiosResponse>(
-  _state: RequestData<D>,
+  _state: ComquestRequestData<D>,
   action: ComquestSuccessAction<D>
-): RequestData<D> {
+): ComquestRequestData<D> {
   return {
     data: action.payload,
   };
 }
 
 export function createComquestDataReducer<D = AxiosResponse>(
-  actionTypes: RequestActionTypes
+  actionTypes: ComquestActionTypes
 ) {
-  return (state: RequestData<D> = {}, action: AnyAction): RequestData<D> => {
+  return (
+    state: ComquestRequestData<D> = {},
+    action: AnyAction
+  ): ComquestRequestData<D> => {
     switch (action.type) {
       case actionTypes.SUCCESS:
         return handleSuccess<D>(state, action as ComquestSuccessAction<D>);

@@ -3,11 +3,11 @@ jest.mock('axios', () => ({ default: mockAxios }));
 
 import { AxiosRequestConfig } from 'axios';
 import {
+  ComquestActionCreator,
+  ComquestOptions,
+  ComquestPromise,
   createComquestAction,
   createComquestActionTypes,
-  RequestActionCreator,
-  RequestActionReturnValue,
-  RequestOptions,
 } from '../src';
 
 describe('createRequestAction', () => {
@@ -16,10 +16,10 @@ describe('createRequestAction', () => {
 
   const actionTypes = createComquestActionTypes('foo');
 
-  const thunkify = (actionCreator: RequestActionCreator<any>) => (
+  const thunkify = (actionCreator: ComquestActionCreator<any>) => (
     config?: AxiosRequestConfig,
-    options?: RequestOptions
-  ): RequestActionReturnValue => {
+    options?: ComquestOptions
+  ): ComquestPromise => {
     return actionCreator(config, options)(dispatch, getState, undefined);
   };
 

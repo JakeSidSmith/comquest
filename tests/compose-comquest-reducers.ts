@@ -2,12 +2,12 @@ import { AxiosResponse } from 'axios';
 import { AnyAction } from 'redux';
 import {
   composeComquestReducers,
+  ComquestRequestData,
+  ComquestRequestState,
   createComquestActionTypes,
   createComquestDataReducer,
   createComquestErrorReducer,
   createComquestStateReducer,
-  RequestData,
-  RequestState,
 } from '../src';
 
 describe('composeReducers', () => {
@@ -31,7 +31,8 @@ describe('composeReducers', () => {
       createComquestErrorReducer(actionTypes)
     );
 
-    let lastState: RequestState & RequestData<AxiosResponse<Data>>;
+    let lastState: ComquestRequestState &
+      ComquestRequestData<AxiosResponse<Data>>;
 
     it('should return an object by default', () => {
       const reducerDoesNothing = composeComquestReducers(

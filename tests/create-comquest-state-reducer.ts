@@ -1,7 +1,7 @@
 import {
+  ComquestRequestState,
   createComquestActionTypes,
   createComquestStateReducer,
-  RequestState,
 } from '../src';
 
 describe('createRequestStateReducer', () => {
@@ -14,7 +14,7 @@ describe('createRequestStateReducer', () => {
 
   describe('reducer', () => {
     const reducer = createComquestStateReducer(actionTypes);
-    let state: RequestState;
+    let state: ComquestRequestState;
 
     it('should return an object with default values by default', () => {
       expect(reducer(state, unknownAction)).toEqual({
