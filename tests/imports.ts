@@ -5,6 +5,7 @@ import * as path from 'path';
 describe('tests', () => {
   const MATCHES_TS_FILE = /\.tsx?/;
   const MATCHES_SRC_IMPORT = /from\s?'\.\.\/src(.*?)'/;
+  const MATCHES_EXCLUSIONS = /src\/(utils|constants)/;
 
   it('should only import from src directory', () => {
     const files = fs.readdirSync(__dirname);
@@ -20,7 +21,7 @@ describe('tests', () => {
 
         const result = MATCHES_SRC_IMPORT.exec(contents);
 
-        if (result && result[1]) {
+        if (result && result[1] && !MATCHES_EXCLUSIONS.test(result[0])) {
           throw new Error(
             `Test "${fileName}" did not import from '../src', instead imported ${
               result[0]
