@@ -5,9 +5,9 @@ describe('index.ts', () => {
     'composeComquestReducers',
     'createComquestActionTypes',
     'createComquestAction',
-    'createComquestDataReducer',
-    'createComquestErrorReducer',
-    'createComquestStateReducer',
+    'createComquestRequestDataReducer',
+    'createComquestRequestErrorReducer',
+    'createComquestRequestStateReducer',
   ];
 
   it('exports all utilities', () => {

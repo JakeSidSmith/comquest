@@ -1,15 +1,20 @@
-import { createComquestActionTypes, createComquestErrorReducer } from '../src';
+import {
+  createComquestActionTypes,
+  createComquestRequestErrorReducer,
+} from '../src';
 
 describe('createRequestErrorReducer', () => {
   const actionTypes = createComquestActionTypes('foo');
   const unknownAction = { type: 'unknown' };
 
   it('should create a reducer function', () => {
-    expect(typeof createComquestErrorReducer(actionTypes)).toBe('function');
+    expect(typeof createComquestRequestErrorReducer(actionTypes)).toBe(
+      'function'
+    );
   });
 
   describe('reducer', () => {
-    const reducer = createComquestErrorReducer(actionTypes);
+    const reducer = createComquestRequestErrorReducer(actionTypes);
 
     it('should return a plain object by default', () => {
       expect(reducer(undefined, unknownAction)).toEqual({});

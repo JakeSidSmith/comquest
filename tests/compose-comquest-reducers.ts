@@ -5,9 +5,9 @@ import {
   ComquestRequestData,
   ComquestRequestState,
   createComquestActionTypes,
-  createComquestDataReducer,
-  createComquestErrorReducer,
-  createComquestStateReducer,
+  createComquestRequestDataReducer,
+  createComquestRequestErrorReducer,
+  createComquestRequestStateReducer,
 } from '../src';
 
 describe('composeReducers', () => {
@@ -26,9 +26,9 @@ describe('composeReducers', () => {
     }
 
     const reducer = composeComquestReducers(
-      createComquestStateReducer(actionTypes),
-      createComquestDataReducer<AxiosResponse<Data>>(actionTypes),
-      createComquestErrorReducer(actionTypes)
+      createComquestRequestStateReducer(actionTypes),
+      createComquestRequestDataReducer<AxiosResponse<Data>>(actionTypes),
+      createComquestRequestErrorReducer(actionTypes)
     );
 
     let lastState: ComquestRequestState &
