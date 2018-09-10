@@ -34,15 +34,15 @@ export type ComquestOptions = Partial<{
   cancelRequestsOnRequest: boolean;
   cancelRequestsOnSuccess: boolean;
   cancelRequestsOnFailure: boolean;
-  clearDataOnRequest: boolean;
-  clearDataOnSuccess: boolean;
-  clearDataOnFailure: boolean;
-  clearErrorsOnRequest: boolean;
-  clearErrorsOnSuccess: boolean;
-  clearErrorsOnFailure: boolean;
-  resetStateOnRequest: boolean;
-  resetStateOnSuccess: boolean;
-  resetStateOnFailure: boolean;
+  clearRequestDataOnRequest: boolean;
+  clearRequestDataOnSuccess: boolean;
+  clearRequestDataOnFailure: boolean;
+  clearRequestErrorsOnRequest: boolean;
+  clearRequestErrorsOnSuccess: boolean;
+  clearRequestErrorsOnFailure: boolean;
+  resetRequestStateOnRequest: boolean;
+  resetRequestStateOnSuccess: boolean;
+  resetRequestStateOnFailure: boolean;
 }>;
 
 export interface ComquestAction<D = AxiosResponse, E = AxiosError>
