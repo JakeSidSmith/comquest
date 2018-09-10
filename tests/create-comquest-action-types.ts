@@ -10,9 +10,9 @@ describe('createRequestActionTypes', () => {
       'REQUEST',
       'SUCCESS',
       'FAILURE',
-      'CLEAR_DATA',
-      'CLEAR_ERRORS',
-      'RESET_STATE',
+      'CLEAR_REQUEST_DATA',
+      'CLEAR_REQUEST_ERRORS',
+      'RESET_REQUEST_STATE',
       'CANCEL_REQUESTS',
     ]);
 

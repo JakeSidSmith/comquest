@@ -15,9 +15,9 @@ export interface ComquestActionTypes {
   REQUEST: symbol;
   SUCCESS: symbol;
   FAILURE: symbol;
-  CLEAR_DATA: symbol;
-  CLEAR_ERRORS: symbol;
-  RESET_STATE: symbol;
+  CLEAR_REQUEST_DATA: symbol;
+  CLEAR_REQUEST_ERRORS: symbol;
+  RESET_REQUEST_STATE: symbol;
   CANCEL_REQUESTS: symbol;
 }
 
