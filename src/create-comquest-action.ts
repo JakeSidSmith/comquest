@@ -10,13 +10,13 @@ import {
 import {
   ComquestActionCreator,
   ComquestActionTypes,
-  ComquestOptions,
+  ComquestRequestOptions,
 } from './types';
 
 export function createComquestAction<S, D>(
   actionTypes: ComquestActionTypes,
   config: AxiosRequestConfig,
-  options: ComquestOptions = {}
+  options: ComquestRequestOptions = {}
 ): ComquestActionCreator<S> {
   return function comquestAction(configOverrides = {}, optionsOverrides = {}) {
     return dispatch => {
@@ -24,7 +24,7 @@ export function createComquestAction<S, D>(
         config,
         configOverrides
       );
-      const mergedOptions = deepMerge<ComquestOptions>(
+      const mergedOptions = deepMerge<ComquestRequestOptions>(
         options,
         optionsOverrides
       );

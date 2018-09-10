@@ -21,11 +21,29 @@ export interface ComquestActionTypes {
   CANCEL_REQUESTS: symbol;
 }
 
+export type ComquestRequestDataTransform<D = AxiosResponse, TD = D> = (
+  response: D
+) => TD;
+
+export type ComquestRequestErrorTransform<E = AxiosError, TE = E> = (
+  error: E
+) => TE;
+
+export type ComquestMiddlewareOptions<
+  D = AxiosResponse,
+  E = AxiosError,
+  TD = D,
+  TE = E
+> = Partial<{
+  transformRequestData: ComquestRequestDataTransform<D, TD>;
+  transformRequestError: ComquestRequestErrorTransform<E, TE>;
+}>;
+
 export interface Params {
   [i: string]: string | number;
 }
 
-export type ComquestOptions = Partial<{
+export type ComquestRequestOptions = Partial<{
   params: Params;
   // doNotSendIfExistingRequests: boolean;
   // sendAfterExistingRequests: boolean;
@@ -45,30 +63,30 @@ export type ComquestOptions = Partial<{
   resetRequestStateOnFailure: boolean;
 }>;
 
-export interface ComquestAction<D = AxiosResponse, E = AxiosError>
-  extends AnyAction {
+export interface ComquestActionMeta {
+  comquest: symbol;
   type: symbol;
-  payload?: D | E;
+  cancelTokenSource?: CancelTokenSource;
+  url?: string;
+  options?: ComquestRequestOptions;
+  config?: AxiosRequestConfig;
+}
+
+export interface ComquestAction<P = any> extends AnyAction {
+  type: symbol;
+  payload?: P;
   error?: boolean;
-  meta: {
-    comquest: symbol;
-    type: symbol;
-    cancelTokenSource?: CancelTokenSource;
-    url?: string;
-    options?: ComquestOptions;
-    config?: AxiosRequestConfig;
-  };
+  meta: ComquestActionMeta;
 }
 
-export interface ComquestSuccessAction<D = AxiosResponse>
-  extends ComquestAction<D, undefined> {
+export type ComquestSuccessAction<D = AxiosResponse> = ComquestAction<D> & {
   payload: D;
-}
+};
 
-export interface ComquestFailureAction<E = AxiosError>
-  extends ComquestAction<undefined, E> {
+export type ComquestFailureAction<E = AxiosError> = ComquestAction<E> & {
+  error: true;
   payload: E;
-}
+};
 
 export interface ComquestRequestState {
   loading: boolean;
@@ -90,12 +108,12 @@ export interface ComquestRequestError<E> {
 export type ComquestActionCreatorCreator<S> = (
   actionTypes: ComquestActionTypes,
   config: AxiosRequestConfig,
-  options?: ComquestOptions
+  options?: ComquestRequestOptions
 ) => ComquestActionCreator<S>;
 
 export type ComquestActionCreator<S> = (
   configOverrides?: AxiosRequestConfig,
-  optionsOverrides?: ComquestOptions
+  optionsOverrides?: ComquestRequestOptions
 ) => ThunkAction<ComquestPromise, S, undefined, AnyAction>;
 
 export type ComquestPromise = Promise<AxiosResponse | AxiosError>;
