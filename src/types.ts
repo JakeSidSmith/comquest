@@ -4,8 +4,8 @@ import {
   AxiosResponse,
   CancelTokenSource,
 } from 'axios';
-import { AnyAction, Dispatch } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from 'redux';
+import { ThunkAction } from 'redux-thunk';
 
 export interface StringIndexedObject {
   [i: string]: any;
@@ -96,14 +96,6 @@ export type ComquestActionCreatorCreator<S> = (
 export type ComquestActionCreator<S> = (
   configOverrides?: AxiosRequestConfig,
   optionsOverrides?: ComquestOptions
-) => ComquestThunkAction<S>;
-
-export type ComquestThunkAction<S> = (
-  dispatch:
-    | ThunkDispatch<S, any, ComquestAction<AxiosResponse, AxiosError>>
-    | Dispatch<ComquestAction<AxiosResponse, AxiosError>>,
-  getState?: () => S,
-  extra?: any
-) => ComquestPromise;
+) => ThunkAction<ComquestPromise, S, undefined, AnyAction>;
 
 export type ComquestPromise = Promise<AxiosResponse | AxiosError>;
