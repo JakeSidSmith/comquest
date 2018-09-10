@@ -13,7 +13,7 @@ import {
 export function isComquestAction<P = any>(
   action: any
 ): action is ComquestAction<P> {
-  return (
+  return Boolean(
     action && action.meta && action.meta.comquest === COMQUEST_MAGIC_SYMBOL
   );
 }
