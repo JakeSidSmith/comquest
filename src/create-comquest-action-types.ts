@@ -8,6 +8,6 @@ export function createComquestActionTypes(name: string): ComquestActionTypes {
     CLEAR_DATA: Symbol(`${name}.CLEAR_DATA`),
     CLEAR_ERRORS: Symbol(`${name}.CLEAR_ERRORS`),
     RESET_STATE: Symbol(`${name}.RESET_STATE`),
-    ABORT_REQUESTS: Symbol(`${name}.ABORT_REQUESTS`),
+    CANCEL_REQUESTS: Symbol(`${name}.CANCEL_REQUESTS`),
   };
 }

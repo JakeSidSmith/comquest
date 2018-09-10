@@ -72,8 +72,8 @@ export function createComquestAction<S, D>(
             },
           });
 
-          if (mergedOptions.throwError) {
-            if (!mergedOptions.suppressAbortError || !axios.isCancel(error)) {
+          if (mergedOptions.throwErrors) {
+            if (!mergedOptions.suppressCancelErrors || !axios.isCancel(error)) {
               throw error;
             }
           }

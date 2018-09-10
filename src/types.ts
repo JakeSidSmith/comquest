@@ -18,7 +18,7 @@ export interface ComquestActionTypes {
   CLEAR_DATA: symbol;
   CLEAR_ERRORS: symbol;
   RESET_STATE: symbol;
-  ABORT_REQUESTS: symbol;
+  CANCEL_REQUESTS: symbol;
 }
 
 export interface Params {
@@ -29,8 +29,8 @@ export type ComquestOptions = Partial<{
   params: Params;
   // doNotSendIfExistingRequests: boolean;
   // sendAfterExistingRequests: boolean;
-  throwError: boolean;
-  suppressAbortError: boolean;
+  throwErrors: boolean;
+  suppressCancelErrors: boolean;
   abortRequestsOnRequest: boolean;
   abortRequestsOnSuccess: boolean;
   abortRequestsOnFailure: boolean;

@@ -13,7 +13,7 @@ describe('createRequestActionTypes', () => {
       'CLEAR_DATA',
       'CLEAR_ERRORS',
       'RESET_STATE',
-      'ABORT_REQUESTS',
+      'CANCEL_REQUESTS',
     ]);
 
     keys.forEach(key => {
