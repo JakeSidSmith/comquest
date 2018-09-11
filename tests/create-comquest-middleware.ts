@@ -12,6 +12,8 @@ import {
 } from '../src';
 
 describe('createComquestMiddleware', () => {
+  const unknownAction = { type: 'unknown' };
+
   beforeEach(() => {
     mockAxios.clear();
   });
@@ -19,7 +21,6 @@ describe('createComquestMiddleware', () => {
   it('returns a middleware', () => {
     const store = { dispatch: jest.fn(), getState: jest.fn() };
     const next = jest.fn().mockImplementation((value: any) => value);
-    const unknownAction = { type: 'unknown' };
     const middleware = createComquestMiddleware({});
 
     expect(typeof middleware).toBe('function');
@@ -53,6 +54,17 @@ describe('createComquestMiddleware', () => {
   describe('transformRequestData', () => {
     const middleware = createComquestMiddleware({ transformRequestData });
     const store = createStore(dataReducer, applyMiddleware(middleware));
+
+    it('should ignore unknown actions', () => {
+      expect(store.getState()).toEqual({});
+
+      store.dispatch(unknownAction);
+
+      expect(transformRequestData).not.toHaveBeenCalled();
+
+      expect(store.getState()).toEqual({});
+    });
+
     it('should transform all success request data', () => {
       expect(store.getState()).toEqual({});
 
@@ -83,6 +95,17 @@ describe('createComquestMiddleware', () => {
   describe('transformRequestError', () => {
     const middleware = createComquestMiddleware({ transformRequestError });
     const store = createStore(errorReducer, applyMiddleware(middleware));
+
+    it('should ignore unknown actions', () => {
+      expect(store.getState()).toEqual({});
+
+      store.dispatch(unknownAction);
+
+      expect(transformRequestError).not.toHaveBeenCalled();
+
+      expect(store.getState()).toEqual({});
+    });
+
     it('should transform all failure request errors', () => {
       expect(store.getState()).toEqual({});
 
