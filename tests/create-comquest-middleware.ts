@@ -13,6 +13,7 @@ import {
 
 describe('createComquestMiddleware', () => {
   const unknownAction = { type: 'unknown' };
+  const thunkAction = jest.fn();
 
   beforeEach(() => {
     mockAxios.clear();
@@ -29,7 +30,23 @@ describe('createComquestMiddleware', () => {
     const afterNext = afterStore(next);
     expect(typeof afterNext).toBe('function');
     const afterAction = afterNext(unknownAction);
+    expect(next).toHaveBeenCalledWith(unknownAction);
     expect(afterAction).toBe(unknownAction);
+  });
+
+  it('ignores thunk actions', () => {
+    const store = { dispatch: jest.fn(), getState: jest.fn() };
+    const next = jest.fn().mockImplementation((value: any) => value);
+    const middleware = createComquestMiddleware({});
+
+    expect(typeof middleware).toBe('function');
+    const afterStore = middleware(store);
+    expect(typeof afterStore).toBe('function');
+    const afterNext = afterStore(next);
+    expect(typeof afterNext).toBe('function');
+    const afterAction = afterNext(thunkAction);
+    expect(next).toHaveBeenCalledWith(thunkAction);
+    expect(afterAction).toBe(thunkAction);
   });
 
   const actionTypes = createComquestActionTypes('test');
