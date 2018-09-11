@@ -49,18 +49,18 @@ export type ComquestRequestOptions = Partial<{
   // sendAfterExistingRequests: boolean;
   throwErrors: boolean;
   suppressCancelErrors: boolean;
-  cancelRequestsOnRequest: boolean;
-  cancelRequestsOnSuccess: boolean;
-  cancelRequestsOnFailure: boolean;
-  clearRequestDataOnRequest: boolean;
-  clearRequestDataOnSuccess: boolean;
-  clearRequestDataOnFailure: boolean;
-  clearRequestErrorsOnRequest: boolean;
-  clearRequestErrorsOnSuccess: boolean;
-  clearRequestErrorsOnFailure: boolean;
-  resetRequestStateOnRequest: boolean;
-  resetRequestStateOnSuccess: boolean;
-  resetRequestStateOnFailure: boolean;
+  // cancelRequestsOnRequest: boolean;
+  // cancelRequestsOnSuccess: boolean;
+  // cancelRequestsOnFailure: boolean;
+  // clearRequestDataOnRequest: boolean;
+  // clearRequestDataOnSuccess: boolean;
+  // clearRequestDataOnFailure: boolean;
+  // clearRequestErrorsOnRequest: boolean;
+  // clearRequestErrorsOnSuccess: boolean;
+  // clearRequestErrorsOnFailure: boolean;
+  // resetRequestStateOnRequest: boolean;
+  // resetRequestStateOnSuccess: boolean;
+  // resetRequestStateOnFailure: boolean;
 }>;
 
 export interface ComquestActionMeta {
