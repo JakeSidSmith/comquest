@@ -81,10 +81,13 @@ class MockAxiosPromise extends Promise<any> {
   }
 }
 
+// tslint:disable-next-line:max-classes-per-file
+export class MockCancelledError extends Error {}
+
 let mockAxiosObject: MockAxiosObject;
 
 mockAxiosObject = {
-  isCancel: (value: any) => Boolean(value && value.cancelled),
+  isCancel: (value: any) => value instanceof MockCancelledError,
   defaults: {},
   interceptors: {
     request: {},
@@ -146,11 +149,8 @@ function clear() {
   });
 }
 
-export function createCancelledError(value: {}) {
-  return {
-    ...value,
-    cancelled: true,
-  };
+export function createMockCancelledError(value: string | Error) {
+  return new MockCancelledError(value instanceof Error ? value.message : value);
 }
 
 export default mockAxios;

@@ -1,4 +1,4 @@
-import mockAxios, { createCancelledError } from './helpers/mock-axios';
+import mockAxios, { createMockCancelledError } from './helpers/mock-axios';
 jest.mock('axios', () => ({ default: mockAxios }));
 
 import { AxiosRequestConfig } from 'axios';
@@ -179,12 +179,12 @@ describe('createRequestAction', () => {
     expect(() => handleError(error)).toThrow(error);
   });
 
-  it('should not throw cancel errors if suppressCancelledRequestErrors is true', () => {
+  it('should throw cancel errors regardless of dispatchCancelledRequestErrors', () => {
     const action = thunkify(
       createComquestAction(
         actionTypes,
         {},
-        { throwErrors: true, suppressCancelledRequestErrors: true }
+        { throwErrors: true, dispatchCancelledRequestErrors: true }
       )
     );
 
@@ -192,9 +192,8 @@ describe('createRequestAction', () => {
 
     const handleError = mockAxios.requestCalls[0].thenCalls[0].arguments[1];
 
-    const error = new Error('cancel');
+    const error = createMockCancelledError('cancel');
 
-    expect(() => handleError(createCancelledError(error))).not.toThrow(error);
     expect(() => handleError(error)).toThrow(error);
   });
 });

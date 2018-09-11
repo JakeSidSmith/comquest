@@ -70,7 +70,7 @@ export function createComquestAction<S, D>(
           },
           (error: AxiosError) => {
             if (
-              !mergedOptions.suppressCancelledRequestErrors ||
+              mergedOptions.dispatchCancelledRequestErrors ||
               !axios.isCancel(error)
             ) {
               dispatch({
@@ -82,10 +82,10 @@ export function createComquestAction<S, D>(
                   type: COMQUEST_FAILURE,
                 },
               });
+            }
 
-              if (mergedOptions.throwErrors) {
-                throw error;
-              }
+            if (mergedOptions.throwErrors) {
+              throw error;
             }
 
             return error;
