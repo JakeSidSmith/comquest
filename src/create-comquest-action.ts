@@ -69,21 +69,21 @@ export function createComquestAction<S, D>(
             return response;
           },
           (error: AxiosError) => {
-            dispatch({
-              type: actionTypes.FAILURE,
-              payload: error,
-              error: true,
-              meta: {
-                ...meta,
-                type: COMQUEST_FAILURE,
-              },
-            });
+            if (
+              !mergedOptions.suppressCancelledRequestErrors ||
+              !axios.isCancel(error)
+            ) {
+              dispatch({
+                type: actionTypes.FAILURE,
+                payload: error,
+                error: true,
+                meta: {
+                  ...meta,
+                  type: COMQUEST_FAILURE,
+                },
+              });
 
-            if (mergedOptions.throwErrors) {
-              if (
-                !mergedOptions.suppressCancelErrors ||
-                !axios.isCancel(error)
-              ) {
+              if (mergedOptions.throwErrors) {
                 throw error;
               }
             }

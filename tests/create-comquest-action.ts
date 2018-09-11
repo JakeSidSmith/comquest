@@ -165,7 +165,7 @@ describe('createRequestAction', () => {
     expect(failure(error)).toBe(error);
   });
 
-  it('should throw errors if throwError option is true', () => {
+  it('should throw errors if throwErrors option is true', () => {
     const action = thunkify(
       createComquestAction(actionTypes, {}, { throwErrors: true })
     );
@@ -179,12 +179,12 @@ describe('createRequestAction', () => {
     expect(() => handleError(error)).toThrow(error);
   });
 
-  it('should not throw cancel errors if suppressCancelError is true', () => {
+  it('should not throw cancel errors if suppressCancelledRequestErrors is true', () => {
     const action = thunkify(
       createComquestAction(
         actionTypes,
         {},
-        { throwErrors: true, suppressCancelErrors: true }
+        { throwErrors: true, suppressCancelledRequestErrors: true }
       )
     );
 

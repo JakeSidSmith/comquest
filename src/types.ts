@@ -48,7 +48,7 @@ export type ComquestRequestOptions = Partial<{
   // doNotSendIfExistingRequests: boolean;
   // sendAfterExistingRequests: boolean;
   throwErrors: boolean;
-  suppressCancelErrors: boolean;
+  suppressCancelledRequestErrors: boolean;
   // cancelRequestsOnRequest: boolean;
   // cancelRequestsOnSuccess: boolean;
   // cancelRequestsOnFailure: boolean;
