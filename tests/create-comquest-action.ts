@@ -179,12 +179,30 @@ describe('createRequestAction', () => {
     expect(() => handleError(error)).toThrow(error);
   });
 
-  it('should throw cancel errors regardless of dispatchCancelledRequestErrors', () => {
+  it('should throw cancel errors when dispatchCancelledRequestErrors', () => {
     const action = thunkify(
       createComquestAction(
         actionTypes,
         {},
         { throwErrors: true, dispatchCancelledRequestErrors: true }
+      )
+    );
+
+    action();
+
+    const handleError = mockAxios.requestCalls[0].thenCalls[0].arguments[1];
+
+    const error = createMockCancelledError('cancel');
+
+    expect(() => handleError(error)).toThrow(error);
+  });
+
+  it('should throw cancel errors when not dispatchCancelledRequestErrors', () => {
+    const action = thunkify(
+      createComquestAction(
+        actionTypes,
+        {},
+        { throwErrors: true, dispatchCancelledRequestErrors: false }
       )
     );
 
