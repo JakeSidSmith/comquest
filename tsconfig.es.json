@@ -1,6 +1,9 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "sourceMap": true,
+    "declaration": true,
+    "listFiles": true,
     "target": "es6",
     "outDir": "./es"
   },
