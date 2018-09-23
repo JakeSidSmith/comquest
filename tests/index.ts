@@ -1,9 +1,20 @@
-import { foo } from '../src';
+import * as src from '../src';
 
 describe('index.ts', () => {
+  const utils: Array<keyof typeof src> = [
+    'composeComquestReducers',
+    'createComquestMiddleware',
+    'createComquestActionTypes',
+    'createComquestRequestAction',
+    'createComquestClearRequestDataAction',
+    'createComquestClearRequestErrorsAction',
+    'createComquestResetRequestStateAction',
+    'createComquestRequestDataReducer',
+    'createComquestRequestErrorReducer',
+    'createComquestRequestStateReducer',
+  ];
 
-  it('exports foo bar', () => {
-    expect(foo).toBe('bar');
+  it('exports all utilities', () => {
+    expect(Object.keys(src)).toEqual(utils);
   });
-
 });

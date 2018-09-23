@@ -2,9 +2,12 @@
   "extends": [
     "tslint:recommended",
     "tslint-eslint-rules",
-    "tslint-react"
+    "tslint-react",
+    "tslint-config-prettier",
+    "tslint-plugin-prettier"
   ],
   "rules": {
+    "prettier": true,
     "quotemark": [true, "single", "jsx-double", "avoid-template"],
     "linebreak-style": [true, "LF"],
     "semicolon": [true, "always", "ignore-interfaces"],
@@ -42,6 +45,11 @@
     ],
     "space-before-function-paren": [2, "always"],
     "strict-type-predicates": true,
+    "variable-name": [
+      true,
+      "check-format",
+      "allow-leading-underscore"
+    ],
 
     "object-literal-sort-keys": false,
     "interface-name": false,
