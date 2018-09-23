@@ -76,5 +76,29 @@ describe('createComquestRequestStateReducer', () => {
         inFlightCount: 0,
       });
     });
+
+    it('should reset request state on reset', () => {
+      state = reducer(undefined, { type: actionTypes.REQUEST });
+
+      expect(state).toEqual({
+        loading: true,
+        requestCount: 1,
+        successCount: 0,
+        failureCount: 0,
+        completeCount: 0,
+        inFlightCount: 1,
+      });
+
+      expect(reducer(state, { type: actionTypes.RESET_REQUEST_STATE })).toEqual(
+        {
+          loading: false,
+          requestCount: 0,
+          successCount: 0,
+          failureCount: 0,
+          completeCount: 0,
+          inFlightCount: 0,
+        }
+      );
+    });
   });
 });

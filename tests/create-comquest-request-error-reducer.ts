@@ -36,6 +36,20 @@ describe('createComquestRequestErrorReducer', () => {
       ).toEqual({ error: new Error('error') });
     });
 
+    it('should clear errors on clear', () => {
+      const error = new Error('error');
+      const state = reducer(undefined, {
+        type: actionTypes.FAILURE,
+        payload: error,
+      });
+
+      expect(state).toEqual({ error });
+
+      expect(
+        reducer(state, { type: actionTypes.CLEAR_REQUEST_ERRORS })
+      ).toEqual({});
+    });
+
     it('should not mutate the state, and should discard additional keys', () => {
       const error = new Error('error');
       const state = { ignore: 'me' };

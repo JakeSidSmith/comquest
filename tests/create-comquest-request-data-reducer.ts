@@ -28,6 +28,20 @@ describe('createComquestRequestDataReducer', () => {
       ).toEqual({ data: { data: { foo: 'bar' } } });
     });
 
+    it('should clear data on clear', () => {
+      const response = { data: { foo: 'bar' } };
+      const state = reducer(undefined, {
+        type: actionTypes.SUCCESS,
+        payload: response,
+      });
+
+      expect(state).toEqual({ data: { data: { foo: 'bar' } } });
+
+      expect(reducer(state, { type: actionTypes.CLEAR_REQUEST_DATA })).toEqual(
+        {}
+      );
+    });
+
     it('should not mutate the state, and should discard additional keys', () => {
       const response = { data: { foo: 'bar' } };
       const state = { ignore: 'me' };
