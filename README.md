@@ -1,5 +1,7 @@
 # Comquest
 
+[![CircleCI](https://circleci.com/gh/JakeSidSmith/comquest/tree/master.svg?style=svg)](https://circleci.com/gh/JakeSidSmith/comquest/tree/master)
+
 **Composable requests with redux thunk and axios**
 
 ## About
