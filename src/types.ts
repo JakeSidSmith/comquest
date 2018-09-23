@@ -36,7 +36,7 @@ export type ComquestMiddlewareOptions<
   TE = E
 > = Partial<{
   readonly transformRequestData: ComquestRequestDataTransform<D, TD>;
-  readonly transformRequestError: ComquestRequestErrorTransform<E, TE>;
+  readonly transformRequestErrors: ComquestRequestErrorTransform<E, TE>;
 }>;
 
 export interface Params {

@@ -196,7 +196,7 @@ When you apply the Comquest middleware, you can supply global transforms to be a
 ```typescript
 createComquestMiddleware({
   transformRequestData: (response: AxiosResponse) => response.data,
-  transformRequestError: (error: AxiosError) => error.response.data
+  transformRequestErrors: (error: AxiosError) => error.response.data
 });
 ```
 
