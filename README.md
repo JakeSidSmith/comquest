@@ -67,6 +67,19 @@ The parameters of this function are as follows:
 * `config` - An axios config object (all axios options are supported, with the addition of [dynamic URL params](#url-params))
 * `options` - A Comquest options object (see [Comquest options](#comquest-options) for more details)
 
+### Dispatching requests
+
+Once you've created a request this can be dispatched to actually send the request.
+
+The request action takes the following parameters:
+
+* `config` - Optional axios config. This will be merged with the config object supplied on request action creation so you can override config keys, or supply additional ones.
+* `options` - Optional Comquest options. This will be merged with the options object supplied on request action creation so you can override options, or supply additional ones.
+
+```typescript
+getUser({ headers: { Authorization: 'token 12345' } }, { params: { id: 'abcde' });
+```
+
 ### Storing response data, errors, and request state
 
 Comquest provides several reducer creators for handling basic responses, errors, and request states.
