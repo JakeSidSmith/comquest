@@ -19,3 +19,167 @@ npm i comquest -S
 Note: `-S` is shorthand for `--save` to automatically add this to your package.json
 
 If you are using a version of NPM that doesn't support package lock files I'd recommend using `-SE` or `--save-exact`, which will pin the version in your package.json.
+
+## Getting started
+
+All of these examples will use TypeScript, but this library also works with JavaScript, but omitting any type import and definitions.
+
+### Prerequisites
+
+This library relies on having applied both [redux-thunk](https://github.com/reduxjs/redux-thunk) and Comquest middlewares. This is done when you first configure your redux store.
+
+```typescript
+import { createComquestMiddleware } from 'comquest';
+import { createStore } from 'redux';
+import { thunk } from 'redux-thunk';
+
+import { rootReducer } from './store';
+
+const store = createStore(
+  rootReducer,
+  applyMiddleware(thunk, createComquestMiddleware({}))
+);
+```
+
+### Creating requests
+
+Requests are formed by first creating an action types object using `createComquestActionTypes`, that contains all of the action types (as symbols) required to make requests, clear data, clear errors, and reset request states.
+
+```typescript
+import { createComquestActionTypes } from 'comquest';
+
+export const GET_USER = createComquestActionTypes('GET_USER');
+```
+
+It is recommended that the string passed to this function be unique, matching the constant that you assign, in constant-case (upper-case, underscore separated). This will aid debugging in the future as logging `GET_USER.REQUEST`, for example, will print a symbol with the same name e.g. `Symbol(GET_USER.REQUEST)`.
+
+These action types can now be used to construct a request action with `createComquestRequestAction`.
+
+```typescript
+import { createComquestRequestAction } from 'comquest';
+
+const getUser = createComquestRequestAction(GET_USER, {url: '/api/user/', method: 'GET'}, {});
+```
+
+The parameters of this function are as follows:
+
+* `actionTypes` - An action types object created with `createComquestActionTypes`
+* `config` - An axios config object (all axios options are supported, with the addition of [dynamic URL params](#url-params))
+* `options` - A Comquest options object (see [Comquest options](#comquest-options) for more details)
+
+### Storing response data, errors, and request state
+
+Comquest provides several reducer creators for handling basic responses, errors, and request states.
+
+These can be combined using the `composeComquestReducers` function so that all of your request data can easily be accessed.
+
+```typescript
+import {
+  composeComquestReducers,
+  createComquestRequestStateReducer,
+  createComquestRequestDataReducer,
+  createComquestRequestErrorReducer,
+  ComquestRequestState,
+  ComquestRequestData,
+  ComquestRequestError,
+} from 'comquest';
+import { combineReducers } from 'redux';
+
+import { GET_USER } from './action-types';
+
+export interface StoreState {
+  user: ComquestRequestState & ComquestRequestData & ComquestRequestError;
+}
+
+const user = composeComquestReducers(
+  createComquestRequestStateReducer(GET_USER),
+  createComquestRequestDataReducer(GET_USER),
+  createComquestRequestErrorReducer(GET_USER)
+);
+
+export const rootReducer = combineReducers<StoreState>({
+  user,
+});
+```
+
+This example will create a reducer that returns data in the following shape:
+
+```typescript
+interface UserReducerState {
+  // From request state reducer
+  loading: boolean;
+  requestCount: number;
+  successCount: number;
+  failureCount: number;
+  completeCount: number;
+  inFlightCount: number;
+  // From request data reducer
+  data?: AxiosResponse;
+  // From request error reducer
+  error?: AxiosError;
+}
+```
+
+Note: response data is `AxiosResponse` by default, and errors are `AxiosError` by default, but the reducer creators and the types for their return values are generic. You can supply your own types, so that these can be more specific, or match global transforms if you are utilizing them. See [global transforms](#global-transforms) for more details.
+
+## URL params
+
+Comquest supports dynamic URL params by internally utilizing [path-to-regexp](https://github.com/pillarjs/path-to-regexp), and supplying a `params` option upon request (see [Comquest options](#comquest-options) for more details).
+
+For example, if we had a user endpoint, that could return different users based on their ID, this would be handled as in the below example.
+
+```typescript
+const getUser = createComquestRequestAction(GET_USER, {url: '/api/user/:id/', method: 'GET'}, {});
+
+getUser({}, {params: {id: 'abcde'}});
+```
+
+## Chaining actions, and error handling
+
+By default Comquest does not throw any errors, meaning that chaining from the returned promise will always trigger following `.then` calls.
+
+In order to chain `.catch` calls, upon request failure, you should set the `throwErrors` option to `true`. It is recommended that this be done when dispatching a request (rather than upon creation of a request action) to avoid unhandled promise errors.
+
+```typescript
+getUser({}, {throwErrors: true})
+  .then(postSuccessHandler)
+  .catch(postFailureHandler);
+```
+
+## Comquest options
+
+A Comquest request object supports the following options:
+
+* `params` - an object of URL params to inject into the URL (see [URL params](#url-params) for more details)
+* `throwErrors` - a boolean, that if true, will cause failed requests to throw an error
+* `dispatchCancelledRequestErrors` - a boolean, that if true, will dispatch cancelled request errors (these are not dispatched by default, as often cancelled requests are intentional)
+
+## Global transforms
+
+When you apply the Comquest middleware, you can supply global transforms to be applied to all request data, and or request error actions.
+
+```typescript
+createComquestMiddleware({
+  transformRequestData: (response: AxiosResponse) => response.data,
+  transformRequestError: (error: AxiosError) => error.response.data
+});
+```
+
+These will have an effect of all of your reducers, so when defining the type of your store state, or your reducers, you should supply types to match the return values of the global transforms.
+
+```typescript
+interface User {
+  name: string;
+  email: string;
+}
+
+interface StoreState {
+  user: ComquestRequestState & ComquestRequestData<User> & ComquestRequestError<string>;
+}
+
+const user = composeComquestReducers(
+  createComquestRequestStateReducer(GET_USER),
+  createComquestRequestDataReducer<User>(GET_USER),
+  createComquestRequestErrorReducer<string>(GET_USER)
+);
+```
