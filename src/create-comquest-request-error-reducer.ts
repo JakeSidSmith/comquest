@@ -25,6 +25,8 @@ export function createComquestRequestErrorReducer<E = AxiosError>(
     switch (action.type) {
       case actionTypes.FAILURE:
         return handleFailure(state, action as ComquestFailureAction<E>);
+      case actionTypes.CLEAR_REQUEST_ERRORS:
+        return {};
       default:
         return state;
     }

@@ -25,6 +25,8 @@ export function createComquestRequestDataReducer<D = AxiosResponse>(
     switch (action.type) {
       case actionTypes.SUCCESS:
         return handleSuccess<D>(state, action as ComquestSuccessAction<D>);
+      case actionTypes.CLEAR_REQUEST_DATA:
+        return {};
       default:
         return state;
     }

@@ -51,18 +51,20 @@ function handleFailure(state: ComquestRequestState): ComquestRequestState {
   };
 }
 
+const initialState: ComquestRequestState = {
+  loading: false,
+  requestCount: 0,
+  successCount: 0,
+  failureCount: 0,
+  completeCount: 0,
+  inFlightCount: 0,
+};
+
 export function createComquestRequestStateReducer(
   actionTypes: ComquestActionTypes
 ) {
   return (
-    state: ComquestRequestState = {
-      loading: false,
-      requestCount: 0,
-      successCount: 0,
-      failureCount: 0,
-      completeCount: 0,
-      inFlightCount: 0,
-    },
+    state: ComquestRequestState = initialState,
     action: AnyAction
   ): ComquestRequestState => {
     switch (action.type) {
@@ -72,6 +74,8 @@ export function createComquestRequestStateReducer(
         return handleSuccess(state);
       case actionTypes.FAILURE:
         return handleFailure(state);
+      case actionTypes.RESET_REQUEST_STATE:
+        return initialState;
       default:
         return state;
     }
