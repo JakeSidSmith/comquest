@@ -40,12 +40,12 @@ export function createComquestMiddleware<
       }
 
       if (
-        typeof options.transformRequestError === 'function' &&
+        typeof options.transformRequestErrors === 'function' &&
         isComquestFailureAction<E>(action)
       ) {
         return next({
           ...action,
-          payload: options.transformRequestError(action.payload),
+          payload: options.transformRequestErrors(action.payload),
         });
       }
 

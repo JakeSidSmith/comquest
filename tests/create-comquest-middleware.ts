@@ -60,7 +60,7 @@ describe('createComquestMiddleware', () => {
       return value.data;
     });
 
-  const transformRequestError = jest
+  const transformRequestErrors = jest
     .fn()
     .mockImplementation((value: AxiosError) => {
       return typeof value.response !== 'undefined'
@@ -110,7 +110,7 @@ describe('createComquestMiddleware', () => {
   });
 
   describe('transformRequestError', () => {
-    const middleware = createComquestMiddleware({ transformRequestError });
+    const middleware = createComquestMiddleware({ transformRequestErrors });
     const store = createStore(errorReducer, applyMiddleware(middleware));
 
     it('should ignore unknown actions', () => {
@@ -118,7 +118,7 @@ describe('createComquestMiddleware', () => {
 
       store.dispatch(unknownAction);
 
-      expect(transformRequestError).not.toHaveBeenCalled();
+      expect(transformRequestErrors).not.toHaveBeenCalled();
 
       expect(store.getState()).toEqual({});
     });
