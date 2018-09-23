@@ -81,7 +81,7 @@ The request action takes the following parameters:
 * `options` - Optional Comquest options. This will be merged with the options object supplied on request action creation so you can override options, or supply additional ones.
 
 ```typescript
-getUser({ headers: { Authorization: 'token 12345' } }, { params: { id: 'abcde' });
+store.dispatch(getUser({ headers: { Authorization: 'token 12345' } }, { params: { id: 'abcde' }));
 ```
 
 ### Clearing data, errors, and resetting request states
@@ -164,7 +164,7 @@ For example, if we had a user endpoint, that could return different users based 
 ```typescript
 const getUser = createComquestRequestAction(GET_USER, {url: '/api/user/:id/', method: 'GET'}, {});
 
-getUser({}, {params: {id: 'abcde'}});
+store.dispatch(getUser({}, {params: {id: 'abcde'}}));
 ```
 
 ## Chaining actions, and error handling
@@ -174,9 +174,9 @@ By default Comquest does not throw any errors, meaning that chaining from the re
 In order to chain `.catch` calls, upon request failure, you should set the `throwErrors` option to `true`. It is recommended that this be done when dispatching a request (rather than upon creation of a request action) to avoid unhandled promise errors.
 
 ```typescript
-getUser({}, {throwErrors: true})
-  .then(postSuccessHandler)
-  .catch(postFailureHandler);
+store.dispatch((getUser({}, {throwErrors: true}))
+  .then(afterSuccessHandler)
+  .catch(afterFailureHandler);
 ```
 
 ## Comquest options
