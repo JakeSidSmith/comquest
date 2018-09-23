@@ -4,7 +4,7 @@
 
 ## About
 
-This library allows you to easily create requests that dispatch redux actions, and store data, errors, and request states by composing some preset reducers.
+This library allows you to easily create requests that dispatch redux actions, and store data, errors, and request states by composing preset reducers.
 
 You can also create actions to clear data, errors, or reset request states, and apply transforms to all requests so that data, and errors are stored in a consistent manner.
 
@@ -26,7 +26,7 @@ If you are using a version of NPM that doesn't support package lock files I'd re
 
 ## Getting started
 
-All of these examples will use TypeScript, but this library also works with JavaScript, but omitting any type import and definitions.
+All of these examples will use TypeScript, but this library also works with JavaScript, but omitting any type imports and definitions.
 
 ### Prerequisites
 
