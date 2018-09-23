@@ -10,7 +10,7 @@ import {
   createComquestRequestStateReducer,
 } from '../src';
 
-describe('composeReducers', () => {
+describe('composeComquestReducers', () => {
   const actionTypes = createComquestActionTypes('foo');
   const unknownAction = { type: 'unknown' };
 

@@ -3,7 +3,7 @@ import {
   createComquestRequestErrorReducer,
 } from '../src';
 
-describe('createRequestErrorReducer', () => {
+describe('createComquestRequestErrorReducer', () => {
   const actionTypes = createComquestActionTypes('foo');
   const unknownAction = { type: 'unknown' };
 

@@ -1,6 +1,6 @@
 import { createComquestActionTypes } from '../src';
 
-describe('createRequestActionTypes', () => {
+describe('createComquestActionTypes', () => {
   it('should create an object with string keys and symbol values', () => {
     const actionTypes = createComquestActionTypes('test');
     const keys = Object.keys(actionTypes) as Array<keyof typeof actionTypes>;
