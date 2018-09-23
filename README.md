@@ -8,6 +8,10 @@ This library allows you to easily create requests that dispatch redux actions, a
 
 You can also create actions to clear data, errors, or reset request states, and apply transforms to all requests so that data, and errors are stored in a consistent manner.
 
+Requests are made with [axios](https://github.com/axios/axios), allowing you to configure them with a standard axios config object, with the addition of dynamic URL params using [path-to-regexp](https://github.com/pillarjs/path-to-regexp).
+
+Actions are dispatched using [redux-thunk](https://github.com/reduxjs/redux-thunk), and store data, errors, and request states in a [redux](https://github.com/reduxjs/redux) store.
+
 ## Installation
 
 Install with NPM:
