@@ -13,7 +13,7 @@ You can also create actions to clear data, errors, or reset request states, and 
 Install with NPM:
 
 ```shell
-npm i antler -S
+npm i comquest -S
 ```
 
 Note: `-S` is shorthand for `--save` to automatically add this to your package.json
