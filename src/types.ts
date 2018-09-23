@@ -12,13 +12,13 @@ export interface StringIndexedObject<T = any> {
 }
 
 export interface ComquestActionTypes {
-  REQUEST: symbol;
-  SUCCESS: symbol;
-  FAILURE: symbol;
-  CLEAR_REQUEST_DATA: symbol;
-  CLEAR_REQUEST_ERRORS: symbol;
-  RESET_REQUEST_STATE: symbol;
-  CANCEL_REQUESTS: symbol;
+  readonly REQUEST: symbol;
+  readonly SUCCESS: symbol;
+  readonly FAILURE: symbol;
+  readonly CLEAR_REQUEST_DATA: symbol;
+  readonly CLEAR_REQUEST_ERRORS: symbol;
+  readonly RESET_REQUEST_STATE: symbol;
+  readonly CANCEL_REQUESTS: symbol;
 }
 
 export type ComquestRequestDataTransform<D = AxiosResponse, TD = D> = (
@@ -35,8 +35,8 @@ export type ComquestMiddlewareOptions<
   TD = D,
   TE = E
 > = Partial<{
-  transformRequestData: ComquestRequestDataTransform<D, TD>;
-  transformRequestError: ComquestRequestErrorTransform<E, TE>;
+  readonly transformRequestData: ComquestRequestDataTransform<D, TD>;
+  readonly transformRequestError: ComquestRequestErrorTransform<E, TE>;
 }>;
 
 export interface Params {
@@ -44,65 +44,65 @@ export interface Params {
 }
 
 export type ComquestRequestOptions = Partial<{
-  params: Params;
-  // doNotSendIfExistingRequests: boolean;
-  // sendAfterExistingRequests: boolean;
-  throwErrors: boolean;
-  dispatchCancelledRequestErrors: boolean;
-  // cancelRequestsOnRequest: boolean;
-  // cancelRequestsOnSuccess: boolean;
-  // cancelRequestsOnFailure: boolean;
-  // clearRequestDataOnRequest: boolean;
-  // clearRequestDataOnSuccess: boolean;
-  // clearRequestDataOnFailure: boolean;
-  // clearRequestErrorsOnRequest: boolean;
-  // clearRequestErrorsOnSuccess: boolean;
-  // clearRequestErrorsOnFailure: boolean;
-  // resetRequestStateOnRequest: boolean;
-  // resetRequestStateOnSuccess: boolean;
-  // resetRequestStateOnFailure: boolean;
+  readonly params: Params;
+  // readonly doNotSendIfExistingRequests: boolean;
+  // readonly sendAfterExistingRequests: boolean;
+  readonly throwErrors: boolean;
+  readonly dispatchCancelledRequestErrors: boolean;
+  // readonly cancelRequestsOnRequest: boolean;
+  // readonly cancelRequestsOnSuccess: boolean;
+  // readonly cancelRequestsOnFailure: boolean;
+  // readonly clearRequestDataOnRequest: boolean;
+  // readonly clearRequestDataOnSuccess: boolean;
+  // readonly clearRequestDataOnFailure: boolean;
+  // readonly clearRequestErrorsOnRequest: boolean;
+  // readonly clearRequestErrorsOnSuccess: boolean;
+  // readonly clearRequestErrorsOnFailure: boolean;
+  // readonly resetRequestStateOnRequest: boolean;
+  // readonly resetRequestStateOnSuccess: boolean;
+  // readonly resetRequestStateOnFailure: boolean;
 }>;
 
 export interface ComquestActionMeta {
-  comquest: symbol;
-  type: symbol;
-  cancelTokenSource?: CancelTokenSource;
-  url?: string;
-  options?: ComquestRequestOptions;
-  config?: AxiosRequestConfig;
+  readonly comquest: symbol;
+  readonly type: symbol;
+  readonly cancelTokenSource?: CancelTokenSource;
+  readonly url?: string;
+  readonly options?: ComquestRequestOptions;
+  readonly config?: AxiosRequestConfig;
 }
 
 export interface ComquestAction<P = any> extends AnyAction {
-  type: symbol;
-  payload?: P;
-  error?: boolean;
-  meta: ComquestActionMeta;
+  readonly type: symbol;
+  readonly payload?: P;
+  readonly error?: boolean;
+  readonly meta: ComquestActionMeta;
 }
 
 export type ComquestSuccessAction<D = AxiosResponse> = ComquestAction<D> & {
-  payload: D;
+  readonly payload: D;
 };
 
 export type ComquestFailureAction<E = AxiosError> = ComquestAction<E> & {
-  error: true;
-  payload: E;
+  readonly error: true;
+  readonly payload: E;
 };
 
 export interface ComquestRequestState {
-  loading: boolean;
-  requestCount: number;
-  successCount: number;
-  failureCount: number;
-  completeCount: number;
-  inFlightCount: number;
+  readonly loading: boolean;
+  readonly requestCount: number;
+  readonly successCount: number;
+  readonly failureCount: number;
+  readonly completeCount: number;
+  readonly inFlightCount: number;
 }
 
 export interface ComquestRequestData<D = AxiosResponse> {
-  data?: D;
+  readonly data?: D;
 }
 
 export interface ComquestRequestError<E = AxiosError> {
-  error?: E;
+  readonly error?: E;
 }
 
 export type ComquestActionCreatorCreator<S> = (
