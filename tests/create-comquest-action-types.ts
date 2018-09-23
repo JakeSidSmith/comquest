@@ -13,7 +13,6 @@ describe('createComquestActionTypes', () => {
       'CLEAR_REQUEST_DATA',
       'CLEAR_REQUEST_ERRORS',
       'RESET_REQUEST_STATE',
-      'CANCEL_REQUESTS',
     ]);
 
     keys.forEach(key => {

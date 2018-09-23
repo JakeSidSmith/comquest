@@ -18,7 +18,7 @@ export interface ComquestActionTypes {
   readonly CLEAR_REQUEST_DATA: symbol;
   readonly CLEAR_REQUEST_ERRORS: symbol;
   readonly RESET_REQUEST_STATE: symbol;
-  readonly CANCEL_REQUESTS: symbol;
+  // readonly CANCEL_REQUESTS: symbol;
 }
 
 export type ComquestRequestDataTransform<D = AxiosResponse, TD = D> = (
