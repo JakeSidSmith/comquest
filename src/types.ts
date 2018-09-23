@@ -7,8 +7,8 @@ import {
 import { AnyAction } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 
-export interface StringIndexedObject {
-  [i: string]: any;
+export interface StringIndexedObject<T = any> {
+  [i: string]: T;
 }
 
 export interface ComquestActionTypes {
