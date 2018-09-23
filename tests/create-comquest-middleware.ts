@@ -4,9 +4,9 @@ jest.mock('axios', () => ({ default: mockAxios }));
 import { AxiosError, AxiosResponse } from 'axios';
 import { applyMiddleware, createStore } from 'redux';
 import {
-  createComquestAction,
   createComquestActionTypes,
   createComquestMiddleware,
+  createComquestRequestAction,
   createComquestRequestDataReducer,
   createComquestRequestErrorReducer,
 } from '../src';
@@ -50,7 +50,7 @@ describe('createComquestMiddleware', () => {
   });
 
   const actionTypes = createComquestActionTypes('test');
-  const action = createComquestAction(actionTypes, {});
+  const action = createComquestRequestAction(actionTypes, {});
   const dataReducer = createComquestRequestDataReducer(actionTypes);
   const errorReducer = createComquestRequestErrorReducer(actionTypes);
 

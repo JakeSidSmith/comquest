@@ -6,11 +6,11 @@ import {
   ComquestActionCreator,
   ComquestPromise,
   ComquestRequestOptions,
-  createComquestAction,
   createComquestActionTypes,
+  createComquestRequestAction,
 } from '../src';
 
-describe('createRequestAction', () => {
+describe('createComquestRequestAction', () => {
   const dispatch = jest.fn();
   const getState = jest.fn().mockReturnValue({});
 
@@ -30,13 +30,13 @@ describe('createRequestAction', () => {
   });
 
   it('should return an action creator (function)', () => {
-    const result = createComquestAction(actionTypes, {});
+    const result = createComquestRequestAction(actionTypes, {});
 
     expect(typeof result).toBe('function');
   });
 
   it('should make an axios request', () => {
-    const action = thunkify(createComquestAction(actionTypes, {}));
+    const action = thunkify(createComquestRequestAction(actionTypes, {}));
 
     expect(mockAxios.calls.length).toBe(0);
 
@@ -60,7 +60,7 @@ describe('createRequestAction', () => {
 
   it('should allow overriding the initial request config', () => {
     const action = thunkify(
-      createComquestAction(actionTypes, {
+      createComquestRequestAction(actionTypes, {
         method: 'GET',
         url: 'domain.com',
       })
@@ -98,7 +98,7 @@ describe('createRequestAction', () => {
 
   it('should inject params into the url', () => {
     const action = thunkify(
-      createComquestAction(actionTypes, {
+      createComquestRequestAction(actionTypes, {
         method: 'GET',
         url: 'domain.com/:foo/:bar/',
       })
@@ -123,7 +123,7 @@ describe('createRequestAction', () => {
   });
 
   it('should default the url to empty string', () => {
-    const action = thunkify(createComquestAction(actionTypes, {}));
+    const action = thunkify(createComquestRequestAction(actionTypes, {}));
 
     action();
     action(undefined, {
@@ -148,7 +148,7 @@ describe('createRequestAction', () => {
   });
 
   it('should return the response or error, respectively', () => {
-    const action = thunkify(createComquestAction(actionTypes, {}));
+    const action = thunkify(createComquestRequestAction(actionTypes, {}));
 
     action();
 
@@ -167,7 +167,7 @@ describe('createRequestAction', () => {
 
   it('should throw errors if throwErrors option is true', () => {
     const action = thunkify(
-      createComquestAction(actionTypes, {}, { throwErrors: true })
+      createComquestRequestAction(actionTypes, {}, { throwErrors: true })
     );
 
     action();
@@ -181,7 +181,7 @@ describe('createRequestAction', () => {
 
   it('should throw cancel errors when dispatchCancelledRequestErrors', () => {
     const action = thunkify(
-      createComquestAction(
+      createComquestRequestAction(
         actionTypes,
         {},
         { throwErrors: true, dispatchCancelledRequestErrors: true }
@@ -199,7 +199,7 @@ describe('createRequestAction', () => {
 
   it('should throw cancel errors when not dispatchCancelledRequestErrors', () => {
     const action = thunkify(
-      createComquestAction(
+      createComquestRequestAction(
         actionTypes,
         {},
         { throwErrors: true, dispatchCancelledRequestErrors: false }

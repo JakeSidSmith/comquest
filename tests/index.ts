@@ -5,7 +5,7 @@ describe('index.ts', () => {
     'composeComquestReducers',
     'createComquestMiddleware',
     'createComquestActionTypes',
-    'createComquestAction',
+    'createComquestRequestAction',
     'createComquestRequestDataReducer',
     'createComquestRequestErrorReducer',
     'createComquestRequestStateReducer',
