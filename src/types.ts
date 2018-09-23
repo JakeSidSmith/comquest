@@ -97,11 +97,11 @@ export interface ComquestRequestState {
   inFlightCount: number;
 }
 
-export interface ComquestRequestData<D> {
+export interface ComquestRequestData<D = AxiosResponse> {
   data?: D;
 }
 
-export interface ComquestRequestError<E> {
+export interface ComquestRequestError<E = AxiosError> {
   error?: E;
 }
 
