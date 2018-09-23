@@ -73,7 +73,7 @@ The parameters of this function are as follows:
 
 ### Dispatching requests
 
-Once you've created a request this can be dispatched to actually send the request.
+Once you've created a request this can be dispatched (using `store.dispatch`, or by connecting the action to a React component with [react-redux](https://github.com/reduxjs/react-redux)), to send the request and trigger the relevant actions.
 
 The request action takes the following parameters:
 
@@ -88,7 +88,7 @@ getUser({ headers: { Authorization: 'token 12345' } }, { params: { id: 'abcde' }
 
 Comquest provides several reducer creators for handling basic responses, errors, and request states.
 
-These can be combined using the `composeComquestReducers` function so that all of your request data can easily be accessed.
+These can be combined using the `composeComquestReducers` function so that all of your request data can easily be accessed from a single object.
 
 ```typescript
 import {
@@ -137,7 +137,7 @@ interface UserReducerState {
 }
 ```
 
-Note: response data is `AxiosResponse` by default, and errors are `AxiosError` by default, but the reducer creators and the types for their return values are generic. You can supply your own types, so that these can be more specific, or match global transforms if you are utilizing them. See [global transforms](#global-transforms) for more details.
+Note: response data is `AxiosResponse` by default, and errors are `AxiosError` by default, but the reducer creators and the types for their return values are generic. You can supply your own types, so that these can be more specific, or match global transforms if you are utilizing them (see [global transforms](#global-transforms) for more details).
 
 ## URL params
 
