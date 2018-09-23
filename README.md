@@ -84,6 +84,22 @@ The request action takes the following parameters:
 getUser({ headers: { Authorization: 'token 12345' } }, { params: { id: 'abcde' });
 ```
 
+### Clearing data, errors, and resetting request states
+
+Several utilities exist to allow you to dispatch actions to clear requests data, errors, and state.
+
+```typescript
+const clearUser = createComquestClearRequestDataAction(GET_USER);
+const clearUserErrors = createComquestClearRequestErrorsAction(GET_USER);
+const resetUserRequestState = createComquestResetRequestStateAction(GET_USER);
+```
+
+These can then be dispatched similarly to the request actions (using `store.dispatch`, or by connecting the actions to a React component).
+
+```typescript
+store.dispatch(clearUser());
+```
+
 ### Storing response data, errors, and request state
 
 Comquest provides several reducer creators for handling basic responses, errors, and request states.
