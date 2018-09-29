@@ -1,5 +1,5 @@
 import mockAxios, { createMockCancelledError } from './helpers/mock-axios';
-jest.mock('axios', () => ({ default: mockAxios }));
+jest.mock('axios', () => mockAxios);
 
 import { AxiosRequestConfig } from 'axios';
 import {

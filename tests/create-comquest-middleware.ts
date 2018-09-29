@@ -1,5 +1,5 @@
 import mockAxios from './helpers/mock-axios';
-jest.mock('axios', () => ({ default: mockAxios }));
+jest.mock('axios', () => mockAxios);
 
 import { AxiosError, AxiosResponse } from 'axios';
 import { applyMiddleware, createStore } from 'redux';

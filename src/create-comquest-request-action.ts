@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import * as deepMerge from 'deepmerge';
+import deepMerge from 'deepmerge';
 import * as pathToRegexp from 'path-to-regexp';
 import {
   COMQUEST_FAILURE,
