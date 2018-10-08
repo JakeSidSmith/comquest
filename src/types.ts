@@ -65,7 +65,7 @@ export type ComquestRequestOptions = Partial<{
 
 export interface ComquestActionMeta {
   readonly comquest: symbol;
-  readonly type: symbol;
+  readonly comquestActionType: symbol;
   readonly cancelTokenSource?: CancelTokenSource;
   readonly url?: string;
   readonly options?: ComquestRequestOptions;
