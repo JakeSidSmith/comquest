@@ -1,5 +1,8 @@
 import { AxiosRequestConfig } from 'axios';
+import { createComquestClearRequestDataAction } from './create-comquest-clear-request-data-action';
+import { createComquestClearRequestErrorsAction } from './create-comquest-clear-request-errors-action';
 import { createComquestRequestAction } from './create-comquest-request-action';
+import { createComquestResetRequestStateAction } from './create-comquest-reset-request-state-action';
 import {
   ComquestActionTypes,
   ComquestAPIEndpoint,
@@ -47,5 +50,8 @@ export function createComquestAPIEndpoint<S, D>(
       { ...config, method: 'options' },
       options
     ),
+    clearRequestData: createComquestClearRequestDataAction(actionTypes),
+    clearRequestError: createComquestClearRequestErrorsAction(actionTypes),
+    resetRequestState: createComquestResetRequestStateAction(actionTypes),
   };
 }

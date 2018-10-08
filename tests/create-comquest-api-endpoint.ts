@@ -15,6 +15,9 @@ describe('createComquestAPIEndpoint', () => {
       'delete',
       'patch',
       'options',
+      'clearRequestData',
+      'clearRequestError',
+      'resetRequestState',
     ]);
 
     endpointKeys.forEach(endpointKey => {

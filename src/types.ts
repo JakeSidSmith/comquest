@@ -149,6 +149,9 @@ export interface ComquestAPIEndpoint<S> {
   delete: ComquestAPIEndpointMethod<S>;
   patch: ComquestAPIEndpointMethod<S>;
   options: ComquestAPIEndpointMethod<S>;
+  clearRequestData: () => void;
+  clearRequestError: () => void;
+  resetRequestState: () => void;
 }
 
 export type ComquestAPIEndpointMethod<S> = (
