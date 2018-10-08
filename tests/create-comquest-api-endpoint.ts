@@ -25,7 +25,7 @@ describe('createComquestAPIEndpoint', () => {
     getState.mockClear();
   });
 
-  it('should create an object with all HTTP methods', () => {
+  it('should create an object with all HTTP methods and clear / reset actions', () => {
     const endpoint = createComquestAPIEndpoint(actionTypes, {}, {});
     const endpointKeys = Object.keys(endpoint) as Array<keyof typeof endpoint>;
 
