@@ -1,11 +1,8 @@
 import mockAxios from './helpers/mock-axios';
 jest.mock('axios', () => mockAxios);
 
-import { AxiosRequestConfig } from 'axios';
 import {
   ComquestAPIEndpointMethod,
-  ComquestPromise,
-  ComquestRequestOptions,
   createComquestActionTypes,
   createComquestAPIEndpoint,
 } from '../src';
@@ -21,13 +18,6 @@ describe('createComquestAPIEndpoint', () => {
   const getState = jest.fn().mockReturnValue({});
 
   const actionTypes = createComquestActionTypes('foo');
-
-  const thunkify = (actionCreator: ComquestAPIEndpointMethod<any>) => (
-    config?: AxiosRequestConfig,
-    options?: ComquestRequestOptions
-  ): ComquestPromise => {
-    return actionCreator(config, options)(dispatch, getState, undefined);
-  };
 
   beforeEach(() => {
     mockAxios.clear();
@@ -77,11 +67,11 @@ describe('createComquestAPIEndpoint', () => {
     ];
 
     methods.forEach(method => {
-      const action = thunkify(endpoint[method] as ComquestAPIEndpointMethod<
-        any
-      >);
-
-      action();
+      (endpoint[method] as ComquestAPIEndpointMethod<any>)()(
+        dispatch,
+        getState,
+        undefined
+      );
     });
 
     const { requestCalls } = mockAxios;
