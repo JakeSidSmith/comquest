@@ -75,6 +75,18 @@ export interface ComquestActionMeta<D = any, E = any> {
   readonly originalError?: E;
 }
 
+export type ComquestSuccessActionMeta<
+  D = AxiosResponse
+> = ComquestActionMeta & {
+  readonly originalData: D;
+  readonly originalError?: never;
+};
+
+export type ComquestFailureActionMeta<E = AxiosError> = ComquestActionMeta & {
+  readonly originalData?: never;
+  readonly originalError: E;
+};
+
 export interface ComquestAction<P = any, D = any, E = any> extends Action {
   readonly type: symbol;
   readonly payload?: P;
@@ -82,13 +94,21 @@ export interface ComquestAction<P = any, D = any, E = any> extends Action {
   readonly meta: ComquestActionMeta<D, E>;
 }
 
-export type ComquestSuccessAction<D = AxiosResponse> = ComquestAction<D> & {
-  readonly payload: D;
+export type ComquestSuccessAction<
+  P = AxiosResponse,
+  D = AxiosResponse
+> = ComquestAction<P> & {
+  readonly payload: P;
+  readonly meta: ComquestSuccessActionMeta<D>;
 };
 
-export type ComquestFailureAction<E = AxiosError> = ComquestAction<E> & {
+export type ComquestFailureAction<
+  P = AxiosError,
+  E = AxiosError
+> = ComquestAction<P> & {
   readonly error: true;
-  readonly payload: E;
+  readonly payload: P;
+  readonly meta: ComquestFailureActionMeta<E>;
 };
 
 export interface ComquestRequestState {
