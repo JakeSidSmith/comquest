@@ -21,3 +21,8 @@ export {
 export {
   createComquestRequestStateReducer,
 } from './create-comquest-request-state-reducer';
+export {
+  isComquestAction,
+  isComquestSuccessAction,
+  isComquestFailureAction,
+} from './utils';
