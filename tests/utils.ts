@@ -43,7 +43,7 @@ describe('utils', () => {
         isComquestFailureAction({
           meta: {
             comquest: COMQUEST_MAGIC_SYMBOL,
-            type: COMQUEST_REQUEST,
+            comquestActionType: COMQUEST_REQUEST,
           },
         } as any)
       ).toBe(false);
@@ -51,7 +51,7 @@ describe('utils', () => {
         isComquestFailureAction({
           meta: {
             comquest: COMQUEST_MAGIC_SYMBOL,
-            type: COMQUEST_FAILURE,
+            comquestActionType: COMQUEST_FAILURE,
           },
         })
       ).toBe(true);
@@ -71,7 +71,7 @@ describe('utils', () => {
         isComquestSuccessAction({
           meta: {
             comquest: COMQUEST_MAGIC_SYMBOL,
-            type: COMQUEST_REQUEST,
+            comquestActionType: COMQUEST_REQUEST,
           },
         } as any)
       ).toBe(false);
@@ -79,7 +79,7 @@ describe('utils', () => {
         isComquestSuccessAction({
           meta: {
             comquest: COMQUEST_MAGIC_SYMBOL,
-            type: COMQUEST_SUCCESS,
+            comquestActionType: COMQUEST_SUCCESS,
           },
         })
       ).toBe(true);
