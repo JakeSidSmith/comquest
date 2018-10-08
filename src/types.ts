@@ -140,3 +140,21 @@ export type ComquestActionCreator<S> = (
 ) => ThunkAction<ComquestPromise, S, undefined, ComquestAction>;
 
 export type ComquestPromise = Promise<AxiosResponse | AxiosError>;
+
+export interface ComquestAPIEndpoint<S> {
+  get: ComquestAPIEndpointMethod<S>;
+  post: ComquestAPIEndpointMethod<S>;
+  put: ComquestAPIEndpointMethod<S>;
+  head: ComquestAPIEndpointMethod<S>;
+  delete: ComquestAPIEndpointMethod<S>;
+  patch: ComquestAPIEndpointMethod<S>;
+  options: ComquestAPIEndpointMethod<S>;
+}
+
+export type ComquestAPIEndpointMethod<S> = (
+  configOverrides?: Pick<
+    AxiosRequestConfig,
+    Exclude<keyof AxiosRequestConfig, 'method'>
+  >,
+  optionsOverrides?: ComquestRequestOptions
+) => ThunkAction<ComquestPromise, S, undefined, ComquestAction>;
