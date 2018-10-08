@@ -21,11 +21,17 @@ export function isComquestAction<P = any>(
 export function isComquestSuccessAction<D = AxiosResponse>(
   action: any
 ): action is ComquestSuccessAction<D> {
-  return isComquestAction(action) && action.meta.type === COMQUEST_SUCCESS;
+  return (
+    isComquestAction(action) &&
+    action.meta.comquestActionType === COMQUEST_SUCCESS
+  );
 }
 
 export function isComquestFailureAction<E = AxiosError>(
   action: any
 ): action is ComquestFailureAction<E> {
-  return isComquestAction(action) && action.meta.type === COMQUEST_FAILURE;
+  return (
+    isComquestAction(action) &&
+    action.meta.comquestActionType === COMQUEST_FAILURE
+  );
 }

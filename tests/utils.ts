@@ -1,14 +1,14 @@
 import {
+  isComquestAction,
+  isComquestFailureAction,
+  isComquestSuccessAction,
+} from '../src';
+import {
   COMQUEST_FAILURE,
   COMQUEST_MAGIC_SYMBOL,
   COMQUEST_REQUEST,
   COMQUEST_SUCCESS,
 } from '../src/constants';
-import {
-  isComquestAction,
-  isComquestFailureAction,
-  isComquestSuccessAction,
-} from '../src/utils';
 
 describe('utils', () => {
   describe('isComquestAction', () => {
@@ -43,7 +43,7 @@ describe('utils', () => {
         isComquestFailureAction({
           meta: {
             comquest: COMQUEST_MAGIC_SYMBOL,
-            type: COMQUEST_REQUEST,
+            comquestActionType: COMQUEST_REQUEST,
           },
         } as any)
       ).toBe(false);
@@ -51,7 +51,7 @@ describe('utils', () => {
         isComquestFailureAction({
           meta: {
             comquest: COMQUEST_MAGIC_SYMBOL,
-            type: COMQUEST_FAILURE,
+            comquestActionType: COMQUEST_FAILURE,
           },
         })
       ).toBe(true);
@@ -71,7 +71,7 @@ describe('utils', () => {
         isComquestSuccessAction({
           meta: {
             comquest: COMQUEST_MAGIC_SYMBOL,
-            type: COMQUEST_REQUEST,
+            comquestActionType: COMQUEST_REQUEST,
           },
         } as any)
       ).toBe(false);
@@ -79,7 +79,7 @@ describe('utils', () => {
         isComquestSuccessAction({
           meta: {
             comquest: COMQUEST_MAGIC_SYMBOL,
-            type: COMQUEST_SUCCESS,
+            comquestActionType: COMQUEST_SUCCESS,
           },
         })
       ).toBe(true);

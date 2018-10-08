@@ -4,8 +4,8 @@ import * as path from 'path';
 
 describe('tests', () => {
   const MATCHES_TS_FILE = /\.tsx?/;
-  const MATCHES_SRC_IMPORT = /from\s?'\.\.\/src(.*?)'/;
-  const MATCHES_EXCLUSIONS = /src\/(utils|constants)/;
+  const MATCHES_SRC_IMPORT = /from\s?'\.\.\/src(.*?)'/g;
+  const MATCHES_EXCLUSIONS = /src\/constants/;
 
   it('should only import from src directory', () => {
     const files = fs.readdirSync(__dirname);
@@ -19,14 +19,18 @@ describe('tests', () => {
         const fileName = path.basename(filePath);
         const contents = fs.readFileSync(resolvedPath, 'utf8');
 
-        const result = MATCHES_SRC_IMPORT.exec(contents);
+        let result = MATCHES_SRC_IMPORT.exec(contents);
 
-        if (result && result[1] && !MATCHES_EXCLUSIONS.test(result[0])) {
-          throw new Error(
-            `Test "${fileName}" did not import from '../src', instead imported ${
-              result[0]
-            }`
-          );
+        while (result) {
+          if (result && result[1] && !MATCHES_EXCLUSIONS.test(result[0])) {
+            throw new Error(
+              `Test "${fileName}" did not import from '../src', instead imported ${
+                result[0]
+              }`
+            );
+          }
+
+          result = MATCHES_SRC_IMPORT.exec(contents);
         }
       }
     });

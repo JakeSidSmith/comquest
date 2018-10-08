@@ -4,7 +4,7 @@ import {
   AxiosResponse,
   CancelTokenSource,
 } from 'axios';
-import { AnyAction } from 'redux';
+import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 
 export interface StringIndexedObject<T = any> {
@@ -63,29 +63,52 @@ export type ComquestRequestOptions = Partial<{
   // readonly resetRequestStateOnFailure: boolean;
 }>;
 
-export interface ComquestActionMeta {
+export interface ComquestActionMeta<D = any, E = any> {
   readonly comquest: symbol;
-  readonly type: symbol;
+  readonly comquestActionType: symbol;
+  readonly comquestActionTypes: ComquestActionTypes;
   readonly cancelTokenSource?: CancelTokenSource;
   readonly url?: string;
   readonly options?: ComquestRequestOptions;
   readonly config?: AxiosRequestConfig;
+  readonly originalData?: D;
+  readonly originalError?: E;
 }
 
-export interface ComquestAction<P = any> extends AnyAction {
+export type ComquestSuccessActionMeta<
+  D = AxiosResponse
+> = ComquestActionMeta & {
+  readonly originalData: D;
+  readonly originalError?: never;
+};
+
+export type ComquestFailureActionMeta<E = AxiosError> = ComquestActionMeta & {
+  readonly originalData?: never;
+  readonly originalError: E;
+};
+
+export interface ComquestAction<P = any, D = any, E = any> extends Action {
   readonly type: symbol;
   readonly payload?: P;
   readonly error?: boolean;
-  readonly meta: ComquestActionMeta;
+  readonly meta: ComquestActionMeta<D, E>;
 }
 
-export type ComquestSuccessAction<D = AxiosResponse> = ComquestAction<D> & {
-  readonly payload: D;
+export type ComquestSuccessAction<
+  P = AxiosResponse,
+  D = AxiosResponse
+> = ComquestAction<P> & {
+  readonly payload: P;
+  readonly meta: ComquestSuccessActionMeta<D>;
 };
 
-export type ComquestFailureAction<E = AxiosError> = ComquestAction<E> & {
+export type ComquestFailureAction<
+  P = AxiosError,
+  E = AxiosError
+> = ComquestAction<P> & {
   readonly error: true;
-  readonly payload: E;
+  readonly payload: P;
+  readonly meta: ComquestFailureActionMeta<E>;
 };
 
 export interface ComquestRequestState {
@@ -114,6 +137,6 @@ export type ComquestActionCreatorCreator<S> = (
 export type ComquestActionCreator<S> = (
   configOverrides?: AxiosRequestConfig,
   optionsOverrides?: ComquestRequestOptions
-) => ThunkAction<ComquestPromise, S, undefined, AnyAction>;
+) => ThunkAction<ComquestPromise, S, undefined, ComquestAction>;
 
 export type ComquestPromise = Promise<AxiosResponse | AxiosError>;

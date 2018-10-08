@@ -11,7 +11,8 @@ export function createComquestClearRequestDataAction(
     type: actionTypes.CLEAR_REQUEST_DATA,
     meta: {
       comquest: COMQUEST_MAGIC_SYMBOL,
-      type: COMQUEST_CLEAR_REQUEST_DATA,
+      comquestActionType: COMQUEST_CLEAR_REQUEST_DATA,
+      comquestActionTypes: actionTypes,
     },
   });
 }
