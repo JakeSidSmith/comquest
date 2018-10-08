@@ -9,6 +9,12 @@ import {
   createComquestActionTypes,
   createComquestAPIEndpoint,
 } from '../src';
+import {
+  COMQUEST_CLEAR_REQUEST_DATA,
+  COMQUEST_CLEAR_REQUEST_ERRORS,
+  COMQUEST_MAGIC_SYMBOL,
+  COMQUEST_RESET_REQUEST_STATE,
+} from '../src/constants';
 
 describe('createComquestAPIEndpoint', () => {
   const dispatch = jest.fn();
@@ -90,6 +96,45 @@ describe('createComquestAPIEndpoint', () => {
         method: methods[index],
         url: 'domain.com',
       });
+    });
+  });
+
+  it('should create a clear data action', () => {
+    const endpoint = createComquestAPIEndpoint(actionTypes, {}, {});
+
+    expect(endpoint.clearRequestData()).toEqual({
+      type: actionTypes.CLEAR_REQUEST_DATA,
+      meta: {
+        comquest: COMQUEST_MAGIC_SYMBOL,
+        comquestActionType: COMQUEST_CLEAR_REQUEST_DATA,
+        comquestActionTypes: actionTypes,
+      },
+    });
+  });
+
+  it('should create a clear errors action', () => {
+    const endpoint = createComquestAPIEndpoint(actionTypes, {}, {});
+
+    expect(endpoint.clearRequestError()).toEqual({
+      type: actionTypes.CLEAR_REQUEST_ERRORS,
+      meta: {
+        comquest: COMQUEST_MAGIC_SYMBOL,
+        comquestActionType: COMQUEST_CLEAR_REQUEST_ERRORS,
+        comquestActionTypes: actionTypes,
+      },
+    });
+  });
+
+  it('should create a reset request state action', () => {
+    const endpoint = createComquestAPIEndpoint(actionTypes, {}, {});
+
+    expect(endpoint.resetRequestState()).toEqual({
+      type: actionTypes.RESET_REQUEST_STATE,
+      meta: {
+        comquest: COMQUEST_MAGIC_SYMBOL,
+        comquestActionType: COMQUEST_RESET_REQUEST_STATE,
+        comquestActionTypes: actionTypes,
+      },
     });
   });
 });
