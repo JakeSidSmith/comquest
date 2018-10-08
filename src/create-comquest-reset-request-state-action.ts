@@ -11,7 +11,8 @@ export function createComquestResetRequestStateAction(
     type: actionTypes.RESET_REQUEST_STATE,
     meta: {
       comquest: COMQUEST_MAGIC_SYMBOL,
-      type: COMQUEST_RESET_REQUEST_STATE,
+      comquestActionType: COMQUEST_RESET_REQUEST_STATE,
+      comquestActionTypes: actionTypes,
     },
   });
 }

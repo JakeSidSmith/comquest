@@ -11,7 +11,8 @@ export function createComquestClearRequestErrorsAction(
     type: actionTypes.CLEAR_REQUEST_ERRORS,
     meta: {
       comquest: COMQUEST_MAGIC_SYMBOL,
-      type: COMQUEST_CLEAR_REQUEST_ERRORS,
+      comquestActionType: COMQUEST_CLEAR_REQUEST_ERRORS,
+      comquestActionTypes: actionTypes,
     },
   });
 }
