@@ -137,6 +137,6 @@ export type ComquestActionCreatorCreator<S> = (
 export type ComquestActionCreator<S> = (
   configOverrides?: AxiosRequestConfig,
   optionsOverrides?: ComquestRequestOptions
-) => ThunkAction<ComquestPromise, S, undefined, AnyAction>;
+) => ThunkAction<ComquestPromise, S, undefined, ComquestAction>;
 
 export type ComquestPromise = Promise<AxiosResponse | AxiosError>;
