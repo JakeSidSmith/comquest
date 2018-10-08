@@ -4,7 +4,7 @@ import {
   AxiosResponse,
   CancelTokenSource,
 } from 'axios';
-import { AnyAction } from 'redux';
+import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 
 export interface StringIndexedObject<T = any> {
@@ -63,7 +63,7 @@ export type ComquestRequestOptions = Partial<{
   // readonly resetRequestStateOnFailure: boolean;
 }>;
 
-export interface ComquestActionMeta {
+export interface ComquestActionMeta<D = any, E = any> {
   readonly comquest: symbol;
   readonly comquestActionType: symbol;
   readonly comquestActionTypes: ComquestActionTypes;
@@ -71,13 +71,15 @@ export interface ComquestActionMeta {
   readonly url?: string;
   readonly options?: ComquestRequestOptions;
   readonly config?: AxiosRequestConfig;
+  readonly originalData?: D;
+  readonly originalError?: E;
 }
 
-export interface ComquestAction<P = any> extends AnyAction {
+export interface ComquestAction<P = any, D = any, E = any> extends Action {
   readonly type: symbol;
   readonly payload?: P;
   readonly error?: boolean;
-  readonly meta: ComquestActionMeta;
+  readonly meta: ComquestActionMeta<D, E>;
 }
 
 export type ComquestSuccessAction<D = AxiosResponse> = ComquestAction<D> & {
