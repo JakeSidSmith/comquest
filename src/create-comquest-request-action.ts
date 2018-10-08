@@ -8,9 +8,13 @@ import {
   COMQUEST_SUCCESS,
 } from './constants';
 import {
+  ComquestAction,
   ComquestActionCreator,
+  ComquestActionMeta,
   ComquestActionTypes,
+  ComquestFailureAction,
   ComquestRequestOptions,
+  ComquestSuccessAction,
 } from './types';
 
 export function createComquestRequestAction<S, D>(
@@ -36,7 +40,10 @@ export function createComquestRequestAction<S, D>(
 
       const source = axios.CancelToken.source();
 
-      const meta = {
+      const meta: Pick<
+        ComquestActionMeta,
+        'comquest' | 'cancelTokenSource' | 'url' | 'config' | 'options'
+      > = {
         comquest: COMQUEST_MAGIC_SYMBOL,
         cancelTokenSource: source,
         url: resolvedUrl,
@@ -44,10 +51,16 @@ export function createComquestRequestAction<S, D>(
         options: mergedOptions,
       };
 
-      dispatch({
+      const requestAction: ComquestAction = {
         type: actionTypes.REQUEST,
-        meta: { ...meta, type: COMQUEST_REQUEST },
-      });
+        meta: {
+          ...meta,
+          comquestActionType: COMQUEST_REQUEST,
+          comquestActionTypes: actionTypes,
+        },
+      };
+
+      dispatch(requestAction);
 
       return axios
         .request<D>({
@@ -57,14 +70,18 @@ export function createComquestRequestAction<S, D>(
         })
         .then<AxiosResponse<D>, AxiosError>(
           (response: AxiosResponse<D>) => {
-            dispatch({
+            const successAction: ComquestSuccessAction = {
               type: actionTypes.SUCCESS,
               payload: response,
               meta: {
                 ...meta,
-                type: COMQUEST_SUCCESS,
+                comquestActionType: COMQUEST_SUCCESS,
+                comquestActionTypes: actionTypes,
+                originalData: response,
               },
-            });
+            };
+
+            dispatch(successAction);
 
             return response;
           },
@@ -73,15 +90,19 @@ export function createComquestRequestAction<S, D>(
               mergedOptions.dispatchCancelledRequestErrors ||
               !axios.isCancel(error)
             ) {
-              dispatch({
+              const failureAction: ComquestFailureAction = {
                 type: actionTypes.FAILURE,
                 payload: error,
                 error: true,
                 meta: {
                   ...meta,
-                  type: COMQUEST_FAILURE,
+                  comquestActionType: COMQUEST_FAILURE,
+                  comquestActionTypes: actionTypes,
+                  originalError: error,
                 },
-              });
+              };
+
+              dispatch(failureAction);
             }
 
             if (mergedOptions.throwErrors) {
