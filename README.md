@@ -102,9 +102,9 @@ interface ComquestAPIEndpoint {
   delete: (config?: AxiosRequestConfig, options?: ComquestOptions) => Promise;
   patch: (config?: AxiosRequestConfig, options?: ComquestOptions) => Promise;
   options: (config?: AxiosRequestConfig, options?: ComquestOptions) => Promise;
-  clearRequestData: () => void;
-  clearRequestErrors: () => void;
-  resetRequestState: () => void;
+  clearRequestData: () => ComquestAction;
+  clearRequestErrors: () => ComquestAction;
+  resetRequestState: () => ComquestAction;
 }
 ```
 
