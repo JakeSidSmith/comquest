@@ -6,6 +6,7 @@ describe('index.ts', () => {
     'createComquestMiddleware',
     'createComquestActionTypes',
     'createComquestRequestAction',
+    'createComquestAPIEndpoint',
     'createComquestClearRequestDataAction',
     'createComquestClearRequestErrorsAction',
     'createComquestResetRequestStateAction',
