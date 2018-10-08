@@ -2,11 +2,11 @@ import { AnyAction } from 'redux';
 import { StringIndexedObject } from './types';
 
 export function composeComquestReducers<
-  S1 extends StringIndexedObject,
-  S2 extends StringIndexedObject,
-  S3 extends StringIndexedObject,
-  S4 extends StringIndexedObject,
-  S5 extends StringIndexedObject,
+  S1 extends StringIndexedObject & { [P in keyof (S2 & S3 & S4 & S5)]?: never },
+  S2 extends StringIndexedObject & { [P in keyof (S1 & S3 & S4 & S5)]?: never },
+  S3 extends StringIndexedObject & { [P in keyof (S1 & S2 & S4 & S5)]?: never },
+  S4 extends StringIndexedObject & { [P in keyof (S1 & S2 & S3 & S5)]?: never },
+  S5 extends StringIndexedObject & { [P in keyof (S1 & S2 & S3 & S4)]?: never },
   R extends S1 & S2 & S3 & S4 & S5
 >(
   reducer1: (state: S1 | undefined, action: AnyAction) => S1,
