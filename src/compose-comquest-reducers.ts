@@ -2,11 +2,16 @@ import { AnyAction } from 'redux';
 import { StringIndexedObject } from './types';
 
 export function composeComquestReducers<
-  S1 extends StringIndexedObject & { [P in keyof (S2 & S3 & S4 & S5)]?: never },
-  S2 extends StringIndexedObject & { [P in keyof (S1 & S3 & S4 & S5)]?: never },
-  S3 extends StringIndexedObject & { [P in keyof (S1 & S2 & S4 & S5)]?: never },
-  S4 extends StringIndexedObject & { [P in keyof (S1 & S2 & S3 & S5)]?: never },
-  S5 extends StringIndexedObject & { [P in keyof (S1 & S2 & S3 & S4)]?: never },
+  S1 extends StringIndexedObject &
+    { [P1 in keyof S1]: P1 extends keyof (S2 & S3 & S4 & S5) ? never : S1[P1] },
+  S2 extends StringIndexedObject &
+    { [P2 in keyof S2]: P2 extends keyof (S1 & S3 & S4 & S5) ? never : S2[P2] },
+  S3 extends StringIndexedObject &
+    { [P3 in keyof S3]: P3 extends keyof (S1 & S2 & S4 & S5) ? never : S3[P3] },
+  S4 extends StringIndexedObject &
+    { [P4 in keyof S4]: P4 extends keyof (S1 & S2 & S3 & S5) ? never : S4[P4] },
+  S5 extends StringIndexedObject &
+    { [P5 in keyof S5]: P5 extends keyof (S1 & S2 & S3 & S4) ? never : S5[P5] },
   R extends S1 & S2 & S3 & S4 & S5
 >(
   reducer1: (state: S1 | undefined, action: AnyAction) => S1,
