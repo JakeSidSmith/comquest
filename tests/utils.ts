@@ -1,14 +1,14 @@
 import {
+  isComquestAction,
+  isComquestFailureAction,
+  isComquestSuccessAction,
+} from '../src';
+import {
   COMQUEST_FAILURE,
   COMQUEST_MAGIC_SYMBOL,
   COMQUEST_REQUEST,
   COMQUEST_SUCCESS,
 } from '../src/constants';
-import {
-  isComquestAction,
-  isComquestFailureAction,
-  isComquestSuccessAction,
-} from '../src/utils';
 
 describe('utils', () => {
   describe('isComquestAction', () => {
