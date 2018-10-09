@@ -3,6 +3,7 @@ export { composeComquestReducers } from './compose-comquest-reducers';
 export { createComquestMiddleware } from './create-comquest-middleware';
 export { createComquestActionTypes } from './create-comquest-action-types';
 export { createComquestRequestAction } from './create-comquest-request-action';
+export { createComquestAPIEndpoint } from './create-comquest-api-endpoint';
 export {
   createComquestClearRequestDataAction,
 } from './create-comquest-clear-request-data-action';
