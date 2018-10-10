@@ -1,4 +1,4 @@
-import mockAxios, { createMockCancelledError } from './helpers/mock-axios';
+import mockAxios, { createMockCancelledError } from '../helpers/mock-axios';
 jest.mock('axios', () => mockAxios);
 
 import { AxiosRequestConfig } from 'axios';
@@ -8,7 +8,7 @@ import {
   ComquestRequestOptions,
   createComquestActionTypes,
   createComquestRequestAction,
-} from '../src';
+} from '../../src';
 
 describe('createComquestRequestAction', () => {
   const dispatch = jest.fn();

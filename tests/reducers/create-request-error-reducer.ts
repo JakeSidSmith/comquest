@@ -1,7 +1,7 @@
 import {
   createComquestActionTypes,
   createComquestRequestErrorReducer,
-} from '../src';
+} from '../../src';
 
 describe('createComquestRequestErrorReducer', () => {
   const actionTypes = createComquestActionTypes('foo');

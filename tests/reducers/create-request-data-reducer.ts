@@ -1,7 +1,7 @@
 import {
   createComquestActionTypes,
   createComquestRequestDataReducer,
-} from '../src';
+} from '../../src';
 
 describe('createComquestRequestDataReducer', () => {
   const actionTypes = createComquestActionTypes('foo');

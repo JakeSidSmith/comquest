@@ -4,7 +4,7 @@ import {
   ComquestActionTypes,
   ComquestFailureAction,
   ComquestRequestError,
-} from './types';
+} from '../types';
 
 function handleFailure<E = AxiosError>(
   _state: ComquestRequestError<E>,

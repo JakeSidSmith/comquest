@@ -4,7 +4,7 @@ import {
   ComquestActionTypes,
   ComquestRequestData,
   ComquestSuccessAction,
-} from './types';
+} from '../types';
 
 function handleSuccess<D = AxiosResponse>(
   _state: ComquestRequestData<D>,

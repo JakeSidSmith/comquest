@@ -5,8 +5,8 @@ import {
   ComquestFailureAction,
   ComquestMiddlewareOptions,
   ComquestSuccessAction,
-} from './types';
-import { isComquestFailureAction, isComquestSuccessAction } from './utils';
+} from '../types';
+import { isComquestFailureAction, isComquestSuccessAction } from '../utils';
 
 export function createComquestMiddleware<
   S,

@@ -1,11 +1,11 @@
 import {
   createComquestActionTypes,
   createComquestResetRequestStateAction,
-} from '../src';
+} from '../../src';
 import {
   COMQUEST_MAGIC_SYMBOL,
   COMQUEST_RESET_REQUEST_STATE,
-} from '../src/constants';
+} from '../../src/constants';
 
 describe('createComquestResetRequestStateAction', () => {
   const actionTypes = createComquestActionTypes('test');

@@ -6,7 +6,7 @@ import {
   COMQUEST_MAGIC_SYMBOL,
   COMQUEST_REQUEST,
   COMQUEST_SUCCESS,
-} from './constants';
+} from '../constants';
 import {
   ComquestAction,
   ComquestActionCreator,
@@ -15,7 +15,7 @@ import {
   ComquestFailureAction,
   ComquestRequestOptions,
   ComquestSuccessAction,
-} from './types';
+} from '../types';
 
 export function createComquestRequestAction<S, D>(
   actionTypes: ComquestActionTypes,

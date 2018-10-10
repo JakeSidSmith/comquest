@@ -1,4 +1,4 @@
-import mockAxios from './helpers/mock-axios';
+import mockAxios from '../helpers/mock-axios';
 jest.mock('axios', () => mockAxios);
 
 import { AxiosError, AxiosResponse } from 'axios';
@@ -9,7 +9,7 @@ import {
   createComquestRequestAction,
   createComquestRequestDataReducer,
   createComquestRequestErrorReducer,
-} from '../src';
+} from '../../src';
 
 describe('createComquestMiddleware', () => {
   const unknownAction = { type: 'unknown' };

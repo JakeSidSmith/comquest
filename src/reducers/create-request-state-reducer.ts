@@ -1,5 +1,5 @@
 import { AnyAction } from 'redux';
-import { ComquestActionTypes, ComquestRequestState } from './types';
+import { ComquestActionTypes, ComquestRequestState } from '../types';
 
 function handleRequest(state: ComquestRequestState): ComquestRequestState {
   const inFlightCount = state.inFlightCount + 1;
