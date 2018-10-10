@@ -10,7 +10,6 @@ import {
 import {
   ComquestAction,
   ComquestActionCreator,
-  ComquestActionMeta,
   ComquestActionTypes,
   ComquestFailureAction,
   ComquestRequestOptions,
@@ -40,10 +39,7 @@ export function createComquestRequestAction<S, D>(
 
       const source = axios.CancelToken.source();
 
-      const meta: Pick<
-        ComquestActionMeta,
-        'comquest' | 'cancelTokenSource' | 'url' | 'config' | 'options'
-      > = {
+      const meta = {
         comquest: COMQUEST_MAGIC_SYMBOL,
         cancelTokenSource: source,
         url: resolvedUrl,
