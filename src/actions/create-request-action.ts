@@ -16,7 +16,7 @@ import {
   ComquestSuccessAction,
 } from '../types';
 
-export function createComquestRequestAction<S, D>(
+export function createComquestRequestAction<S, R>(
   actionTypes: ComquestActionTypes,
   config: AxiosRequestConfig,
   options: ComquestRequestOptions = {}
@@ -59,13 +59,13 @@ export function createComquestRequestAction<S, D>(
       dispatch(requestAction);
 
       return axios
-        .request<D>({
+        .request<R>({
           ...mergedConfig,
           cancelToken: source.token,
           url: resolvedUrl,
         })
-        .then<AxiosResponse<D>, AxiosError>(
-          (response: AxiosResponse<D>) => {
+        .then<AxiosResponse<R>, AxiosError>(
+          (response: AxiosResponse<R>) => {
             const successAction: ComquestSuccessAction = {
               type: actionTypes.SUCCESS,
               payload: response,
