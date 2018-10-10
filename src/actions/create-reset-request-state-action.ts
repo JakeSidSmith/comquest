@@ -1,8 +1,8 @@
 import {
   COMQUEST_MAGIC_SYMBOL,
   COMQUEST_RESET_REQUEST_STATE,
-} from './constants';
-import { ComquestAction, ComquestActionTypes } from './types';
+} from '../constants';
+import { ComquestAction, ComquestActionTypes } from '../types';
 
 export function createComquestResetRequestStateAction(
   actionTypes: ComquestActionTypes

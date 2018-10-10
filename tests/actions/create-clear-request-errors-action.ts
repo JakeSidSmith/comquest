@@ -1,11 +1,11 @@
 import {
   createComquestActionTypes,
   createComquestClearRequestErrorsAction,
-} from '../src';
+} from '../../src';
 import {
   COMQUEST_CLEAR_REQUEST_ERRORS,
   COMQUEST_MAGIC_SYMBOL,
-} from '../src/constants';
+} from '../../src/constants';
 
 describe('createComquestClearRequestErrorsAction', () => {
   const actionTypes = createComquestActionTypes('test');

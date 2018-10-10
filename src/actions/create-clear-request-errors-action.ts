@@ -1,8 +1,8 @@
 import {
   COMQUEST_CLEAR_REQUEST_ERRORS,
   COMQUEST_MAGIC_SYMBOL,
-} from './constants';
-import { ComquestAction, ComquestActionTypes } from './types';
+} from '../constants';
+import { ComquestAction, ComquestActionTypes } from '../types';
 
 export function createComquestClearRequestErrorsAction(
   actionTypes: ComquestActionTypes

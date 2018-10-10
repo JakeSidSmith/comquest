@@ -2,9 +2,12 @@ import * as src from '../src';
 
 describe('index.ts', () => {
   const utils: Array<keyof typeof src> = [
+    'isComquestAction',
+    'isComquestSuccessAction',
+    'isComquestFailureAction',
     'composeComquestReducers',
-    'createComquestMiddleware',
     'createComquestActionTypes',
+    'createComquestMiddleware',
     'createComquestRequestAction',
     'createComquestAPIEndpoint',
     'createComquestClearRequestDataAction',
@@ -13,9 +16,6 @@ describe('index.ts', () => {
     'createComquestRequestDataReducer',
     'createComquestRequestErrorReducer',
     'createComquestRequestStateReducer',
-    'isComquestAction',
-    'isComquestSuccessAction',
-    'isComquestFailureAction',
   ];
 
   it('exports all utilities', () => {

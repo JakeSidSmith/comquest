@@ -1,8 +1,8 @@
 import { AxiosRequestConfig } from 'axios';
-import { createComquestClearRequestDataAction } from './create-comquest-clear-request-data-action';
-import { createComquestClearRequestErrorsAction } from './create-comquest-clear-request-errors-action';
-import { createComquestRequestAction } from './create-comquest-request-action';
-import { createComquestResetRequestStateAction } from './create-comquest-reset-request-state-action';
+import { createComquestClearRequestDataAction } from './actions/create-clear-request-data-action';
+import { createComquestClearRequestErrorsAction } from './actions/create-clear-request-errors-action';
+import { createComquestRequestAction } from './actions/create-request-action';
+import { createComquestResetRequestStateAction } from './actions/create-reset-request-state-action';
 import {
   ComquestActionTypes,
   ComquestAPIEndpoint,
