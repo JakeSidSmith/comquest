@@ -77,44 +77,13 @@ The parameters of this function are as follows:
 * `config` - An axios config object (all axios options are supported, with the addition of [dynamic URL params](#url-params))
 * `options` - A Comquest options object (see [Comquest options](#comquest-options) for more details)
 
-#### API endpoint
-
-Comquest provides a wrapper that allows you to create an API endpoint for a specific url. This returns an object that contains actions for all HTTP methods, as well as actions to clear request data and errors, and reset request states.
-
-The `createComquestAPIEndpoint` function takes the same parameters as `createComquestRequestAction` except; since the endpoint creates all of the HTTP methods for you, you cannot supply a `method` as part of your axios config.
-
-Reducers for this endpoint will store data, errors, and request state from all of the HTTP method calls.
-
-```typescript
-const USERS = createComquestActionTypes('USERS');
-
-const users = createComquestAPIEndpoint(USERS, {url: '/api/users/'}, {});
-```
-
-This will return an object with the following signature.
-
-```typescript
-interface ComquestAPIEndpoint {
-  get: (config?: AxiosRequestConfig, options?: ComquestOptions) => Promise;
-  post: (config?: AxiosRequestConfig, options?: ComquestOptions) => Promise;
-  put: (config?: AxiosRequestConfig, options?: ComquestOptions) => Promise;
-  head: (config?: AxiosRequestConfig, options?: ComquestOptions) => Promise;
-  delete: (config?: AxiosRequestConfig, options?: ComquestOptions) => Promise;
-  patch: (config?: AxiosRequestConfig, options?: ComquestOptions) => Promise;
-  options: (config?: AxiosRequestConfig, options?: ComquestOptions) => Promise;
-  clearRequestData: () => ComquestAction;
-  clearRequestErrors: () => ComquestAction;
-  resetRequestState: () => ComquestAction;
-}
-```
-
 #### Dispatching requests
 
-Once you've created a request action (or endpoint of actions) these can be dispatched (using `store.dispatch`, or by connecting the action to a React component with [react-redux](https://github.com/reduxjs/react-redux)), to send the request and trigger the relevant actions.
+Once you've created a request action this can be dispatched (using `store.dispatch`, or by connecting the action to a React component with [react-redux](https://github.com/reduxjs/react-redux)), to send the request and trigger the relevant actions.
 
-The request action (and endpoint methods) take the following parameters:
+The request action takes the following parameters:
 
-* `config` - Optional axios config. This will be merged with the config object supplied on request action creation so you can override config keys, or supply additional ones. You cannot specify a `method` for endpoint methods.
+* `config` - Optional axios config. This will be merged with the config object supplied on request action creation so you can override config keys, or supply additional ones.
 * `options` - Optional Comquest options. This will be merged with the options object supplied on request action creation so you can override options, or supply additional ones.
 
 Dispatching a request action
@@ -123,17 +92,9 @@ Dispatching a request action
 store.dispatch(getUser({ headers: { Authorization: 'token 12345' } }, { params: { id: 'abcde' }));
 ```
 
-Dispatching an endpoint method
-
-```typescript
-store.dispatch(users.get({ headers: { Authorization: 'token 12345' } }, {}));
-```
-
 ### Clearing data, errors, and resetting request states
 
 Several utilities exist to allow you to dispatch actions to clear request data, errors, and state.
-
-If you are using an API endpoint these are already available on the endpoint object.
 
 ```typescript
 const clearUser = createComquestClearRequestDataAction(GET_USER);

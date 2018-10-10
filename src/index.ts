@@ -8,7 +8,6 @@ export { composeComquestReducers } from './compose-reducers';
 export { createComquestActionTypes } from './create-action-types';
 export { createComquestMiddleware } from './middleware/create-middleware';
 export { createComquestRequestAction } from './actions/create-request-action';
-export { createComquestAPIEndpoint } from './create-api-endpoint';
 export {
   createComquestClearRequestDataAction,
 } from './actions/create-clear-request-data-action';
