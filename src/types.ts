@@ -7,6 +7,8 @@ import {
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 
+type Omit<T extends {}, E extends string> = Pick<T, Exclude<keyof T, E>>;
+
 export interface StringIndexedObject<T = any> {
   [i: string]: T;
 }
@@ -94,18 +96,18 @@ export interface ComquestAction<P = any, D = any, E = any> extends Action {
   readonly meta: ComquestActionMeta<D, E>;
 }
 
-export type ComquestSuccessAction<
-  P = AxiosResponse,
-  D = AxiosResponse
-> = ComquestAction<P> & {
+export type ComquestSuccessAction<P = AxiosResponse, D = AxiosResponse> = Omit<
+  ComquestAction<P>,
+  'payload'
+> & {
   readonly payload: P;
   readonly meta: ComquestSuccessActionMeta<D>;
 };
 
-export type ComquestFailureAction<
-  P = AxiosError,
-  E = AxiosError
-> = ComquestAction<P> & {
+export type ComquestFailureAction<P = AxiosError, E = AxiosError> = Omit<
+  ComquestAction<P>,
+  'payload'
+> & {
   readonly error: true;
   readonly payload: P;
   readonly meta: ComquestFailureActionMeta<E>;
