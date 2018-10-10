@@ -7,6 +7,7 @@ export {
 export { composeComquestReducers } from './compose-reducers';
 export { createComquestActionTypes } from './create-action-types';
 export { createComquestMiddleware } from './middleware/create-middleware';
+export { createComquestRequestActions } from './actions/create-request-actions';
 export { createComquestRequestAction } from './actions/create-request-action';
 export {
   createComquestClearRequestDataAction,
