@@ -77,6 +77,21 @@ export interface ComquestActionMeta<D = any, E = any> {
   readonly originalError?: E;
 }
 
+export type ComquestRequestActionMeta = Omit<
+  ComquestActionMeta,
+  | 'cancelTokenSource'
+  | 'url'
+  | 'options'
+  | 'config'
+  | 'originalData'
+  | 'originalError'
+> & {
+  readonly cancelTokenSource: CancelTokenSource;
+  readonly url: string;
+  readonly options: ComquestRequestOptions;
+  readonly config: AxiosRequestConfig;
+};
+
 export type ComquestSuccessActionMeta<D = AxiosResponse> = Omit<
   ComquestActionMeta,
   | 'cancelTokenSource'
@@ -115,6 +130,10 @@ export interface ComquestAction<P = any, D = any, E = any> extends Action {
   readonly error?: boolean;
   readonly meta: ComquestActionMeta<D, E>;
 }
+
+export type ComquestRequestAction = Omit<ComquestAction, 'payload' | 'meta'> & {
+  readonly meta: ComquestRequestActionMeta;
+};
 
 export type ComquestSuccessAction<P = AxiosResponse, D = AxiosResponse> = Omit<
   ComquestAction<P>,
