@@ -77,16 +77,36 @@ export interface ComquestActionMeta<D = any, E = any> {
   readonly originalError?: E;
 }
 
-export type ComquestSuccessActionMeta<
-  D = AxiosResponse
-> = ComquestActionMeta & {
+export type ComquestSuccessActionMeta<D = AxiosResponse> = Omit<
+  ComquestActionMeta,
+  | 'cancelTokenSource'
+  | 'url'
+  | 'options'
+  | 'config'
+  | 'originalData'
+  | 'originalError'
+> & {
+  readonly cancelTokenSource: CancelTokenSource;
   readonly originalData: D;
-  readonly originalError?: never;
+  readonly url: string;
+  readonly options: ComquestRequestOptions;
+  readonly config: AxiosRequestConfig;
 };
 
-export type ComquestFailureActionMeta<E = AxiosError> = ComquestActionMeta & {
-  readonly originalData?: never;
+export type ComquestFailureActionMeta<E = AxiosError> = Omit<
+  ComquestActionMeta,
+  | 'cancelTokenSource'
+  | 'url'
+  | 'options'
+  | 'config'
+  | 'originalData'
+  | 'originalError'
+> & {
+  readonly cancelTokenSource: CancelTokenSource;
   readonly originalError: E;
+  readonly url: string;
+  readonly options: ComquestRequestOptions;
+  readonly config: AxiosRequestConfig;
 };
 
 export interface ComquestAction<P = any, D = any, E = any> extends Action {
@@ -98,7 +118,7 @@ export interface ComquestAction<P = any, D = any, E = any> extends Action {
 
 export type ComquestSuccessAction<P = AxiosResponse, D = AxiosResponse> = Omit<
   ComquestAction<P>,
-  'payload'
+  'payload' | 'meta'
 > & {
   readonly payload: P;
   readonly meta: ComquestSuccessActionMeta<D>;
@@ -106,7 +126,7 @@ export type ComquestSuccessAction<P = AxiosResponse, D = AxiosResponse> = Omit<
 
 export type ComquestFailureAction<P = AxiosError, E = AxiosError> = Omit<
   ComquestAction<P>,
-  'payload'
+  'payload' | 'meta'
 > & {
   readonly error: true;
   readonly payload: P;
