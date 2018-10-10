@@ -7,8 +7,6 @@ import {
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 
-type Omit<T extends {}, E extends string> = Pick<T, Exclude<keyof T, E>>;
-
 export interface StringIndexedObject<T = any> {
   [i: string]: T;
 }
@@ -65,64 +63,41 @@ export type ComquestRequestOptions = Partial<{
   // readonly resetRequestStateOnFailure: boolean;
 }>;
 
-export interface ComquestActionMeta<D = any, E = any> {
+export interface RequiredComquestActionMeta {
   readonly comquest: symbol;
   readonly comquestActionType: symbol;
   readonly comquestActionTypes: ComquestActionTypes;
-  readonly cancelTokenSource?: CancelTokenSource;
-  readonly url?: string;
-  readonly options?: ComquestRequestOptions;
-  readonly config?: AxiosRequestConfig;
+}
+
+export interface RequiredComquestRequestActionMeta {
+  readonly url: string;
+  readonly cancelTokenSource: CancelTokenSource;
+  readonly options: ComquestRequestOptions;
+  readonly config: AxiosRequestConfig;
+}
+
+export interface ComquestActionMeta<D = any, E = any>
+  extends RequiredComquestActionMeta,
+    Partial<RequiredComquestRequestActionMeta> {
   readonly originalData?: D;
   readonly originalError?: E;
 }
 
-export type ComquestRequestActionMeta = Omit<
-  ComquestActionMeta,
-  | 'cancelTokenSource'
-  | 'url'
-  | 'options'
-  | 'config'
-  | 'originalData'
-  | 'originalError'
-> & {
-  readonly cancelTokenSource: CancelTokenSource;
-  readonly url: string;
-  readonly options: ComquestRequestOptions;
-  readonly config: AxiosRequestConfig;
-};
+export interface ComquestRequestActionMeta
+  extends RequiredComquestActionMeta,
+    RequiredComquestRequestActionMeta {}
 
-export type ComquestSuccessActionMeta<D = AxiosResponse> = Omit<
-  ComquestActionMeta,
-  | 'cancelTokenSource'
-  | 'url'
-  | 'options'
-  | 'config'
-  | 'originalData'
-  | 'originalError'
-> & {
-  readonly cancelTokenSource: CancelTokenSource;
+export interface ComquestSuccessActionMeta<D = AxiosResponse>
+  extends RequiredComquestActionMeta,
+    RequiredComquestRequestActionMeta {
   readonly originalData: D;
-  readonly url: string;
-  readonly options: ComquestRequestOptions;
-  readonly config: AxiosRequestConfig;
-};
+}
 
-export type ComquestFailureActionMeta<E = AxiosError> = Omit<
-  ComquestActionMeta,
-  | 'cancelTokenSource'
-  | 'url'
-  | 'options'
-  | 'config'
-  | 'originalData'
-  | 'originalError'
-> & {
-  readonly cancelTokenSource: CancelTokenSource;
+export interface ComquestFailureActionMeta<E = AxiosError>
+  extends RequiredComquestActionMeta,
+    RequiredComquestRequestActionMeta {
   readonly originalError: E;
-  readonly url: string;
-  readonly options: ComquestRequestOptions;
-  readonly config: AxiosRequestConfig;
-};
+}
 
 export interface ComquestAction<P = any, D = any, E = any> extends Action {
   readonly type: symbol;
@@ -131,26 +106,25 @@ export interface ComquestAction<P = any, D = any, E = any> extends Action {
   readonly meta: ComquestActionMeta<D, E>;
 }
 
-export type ComquestRequestAction = Omit<ComquestAction, 'payload' | 'meta'> & {
+export interface ComquestRequestAction extends Action {
+  readonly type: symbol;
   readonly meta: ComquestRequestActionMeta;
-};
+}
 
-export type ComquestSuccessAction<P = AxiosResponse, D = AxiosResponse> = Omit<
-  ComquestAction<P>,
-  'payload' | 'meta'
-> & {
+export interface ComquestSuccessAction<P = AxiosResponse, D = AxiosResponse>
+  extends Action {
+  readonly type: symbol;
   readonly payload: P;
   readonly meta: ComquestSuccessActionMeta<D>;
-};
+}
 
-export type ComquestFailureAction<P = AxiosError, E = AxiosError> = Omit<
-  ComquestAction<P>,
-  'payload' | 'meta'
-> & {
+export interface ComquestFailureAction<P = AxiosError, E = AxiosError>
+  extends Action {
+  readonly type: symbol;
   readonly error: true;
   readonly payload: P;
   readonly meta: ComquestFailureActionMeta<E>;
-};
+}
 
 export interface ComquestRequestState {
   readonly loading: boolean;
