@@ -61,14 +61,14 @@ export const GET_USER = createComquestActionTypes('GET_USER');
 
 It is recommended that the string passed to this function be unique, matching the constant that you assign, in constant-case (upper-case, underscore separated). This will aid debugging in the future as logging `GET_USER.REQUEST`, for example, will print a symbol with the same name e.g. `Symbol(GET_USER.REQUEST)`.
 
-#### Request action
+#### Request actions
 
-These action types can now be used to construct a basic request action with `createComquestRequestAction`.
+These action types can now be used to construct a set of request actions with `createComquestRequestActions`.
 
 ```typescript
-import { createComquestRequestAction } from 'comquest';
+import { createComquestRequestActions } from 'comquest';
 
-const getUser = createComquestRequestAction(GET_USER, {url: '/api/user/', method: 'GET'}, {});
+const user = createComquestRequestActions(GET_USER, {url: '/api/user/', method: 'GET'}, {});
 ```
 
 The parameters of this function are as follows:
@@ -76,6 +76,37 @@ The parameters of this function are as follows:
 * `actionTypes` - An action types object created with `createComquestActionTypes`
 * `config` - An axios config object (all axios options are supported, with the addition of [dynamic URL params](#url-params))
 * `options` - A Comquest options object (see [Comquest options](#comquest-options) for more details)
+
+This returns an object with the following actions:
+
+```typescript
+interface {
+  request: (config: AxiosRequestConfig: options: ComquestRequestOptions) => Promise;
+  clearRequestData: () => void;
+  clearRequestErrors: () => void;
+  resetRequestState: () => void;
+}
+```
+
+You may like to de-structure and rename these actions as appropriate e.g.
+
+```typescript
+const {
+  request: getUser,
+  clearRequestData: clearUser,
+  clearRequestErrors: clearUserErrors,
+  resetRequestState: resetUserState
+} = createComquestRequestActions(GET_USER, {url: '/api/user/', method: 'GET'}, {});
+```
+
+Each of these actions can also be created individually if desired, with the following functions:
+
+```typescript
+function createComquestRequestAction(actionTypes: ComquestActionTypes, config: AxiosRequestConfig, options: ComquestRequestOptions);
+function createComquestClearRequestDataAction(actionTypes: ComquestActionTypes);
+function createComquestClearRequestErrorsAction(actionTypes: ComquestActionTypes);
+function createComquestResetRequestStateAction(actionTypes: ComquestActionTypes);
+```
 
 #### Dispatching requests
 
@@ -93,14 +124,6 @@ store.dispatch(getUser({ headers: { Authorization: 'token 12345' } }, { params: 
 ```
 
 ### Clearing data, errors, and resetting request states
-
-Several utilities exist to allow you to dispatch actions to clear request data, errors, and state.
-
-```typescript
-const clearUser = createComquestClearRequestDataAction(GET_USER);
-const clearUserErrors = createComquestClearRequestErrorsAction(GET_USER);
-const resetUserRequestState = createComquestResetRequestStateAction(GET_USER);
-```
 
 These can then be dispatched similarly to the request actions (using `store.dispatch`, or by connecting the actions to a React component).
 
@@ -174,6 +197,8 @@ const getUser = createComquestRequestAction(GET_USER, {url: '/api/user/:id/', me
 
 store.dispatch(getUser({}, {params: {id: 'abcde'}}));
 ```
+
+In this case the url would be resolved to `/api/user/abcde/`.
 
 ## Chaining actions, and error handling
 

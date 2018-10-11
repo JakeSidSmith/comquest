@@ -8,6 +8,7 @@ describe('index.ts', () => {
     'composeComquestReducers',
     'createComquestActionTypes',
     'createComquestMiddleware',
+    'createComquestRequestActions',
     'createComquestRequestAction',
     'createComquestClearRequestDataAction',
     'createComquestClearRequestErrorsAction',
