@@ -1,7 +1,9 @@
+import { AnyAction } from 'redux';
 import {
   ComquestSuccessAction,
   createComquestActionTypes,
   createReducerFromHandlers,
+  HandlersReducer,
 } from '../../src';
 
 describe('createReducerFromHandlers', () => {
@@ -12,8 +14,10 @@ describe('createReducerFromHandlers', () => {
     foo: 'bar';
   }
 
+  let reducer: HandlersReducer<Data | null, AnyAction>;
+
   it('creates a reducer function', () => {
-    const reducer = createReducerFromHandlers(
+    reducer = createReducerFromHandlers(
       {
         [actionTypes.SUCCESS]: (
           _state: Data | null,
@@ -26,7 +30,13 @@ describe('createReducerFromHandlers', () => {
     );
 
     expect(typeof reducer).toBe('function');
+  });
+
+  it('should return the default value for unknown actions', () => {
     expect(reducer(undefined, unknownAction)).toBe(null);
+  });
+
+  it('should return the value from the relevant handler', () => {
     expect(
       reducer(undefined, { type: actionTypes.SUCCESS, payload: { foo: 'bar' } })
     ).toEqual({
