@@ -11,6 +11,10 @@ export interface StringIndexedObject<T = any> {
   [i: string]: T;
 }
 
+export interface ActionHandlers<S> {
+  [i: string]: (state: S, action: any) => S;
+}
+
 export interface ComquestActionTypes {
   readonly REQUEST: symbol;
   readonly SUCCESS: symbol;
