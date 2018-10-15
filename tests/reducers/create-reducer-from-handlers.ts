@@ -13,10 +13,10 @@ describe('createReducerFromHandlers', () => {
   }
 
   it('creates a reducer function', () => {
-    const reducer = createReducerFromHandlers<Data | null>(
+    const reducer = createReducerFromHandlers(
       {
         [actionTypes.SUCCESS]: (
-          _state,
+          _state: Data | null,
           action: ComquestSuccessAction<Data>
         ) => {
           return action.payload;
