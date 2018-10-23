@@ -1,6 +1,6 @@
 {
   "name": "comquest",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Composable requests with redux thunk and axios",
   "main": "./dist/index.js",
   "module": "./es/index.js",
