@@ -19,9 +19,6 @@ export {
   createComquestResetRequestStateAction,
 } from './actions/create-reset-request-state-action';
 export {
-  createReducerFromHandlers,
-} from './reducers/create-reducer-from-handlers';
-export {
   createComquestRequestDataReducer,
 } from './reducers/create-request-data-reducer';
 export {

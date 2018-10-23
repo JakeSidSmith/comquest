@@ -2,9 +2,9 @@ import { AnyAction } from 'redux';
 import {
   ComquestSuccessAction,
   createComquestActionTypes,
-  createReducerFromHandlers,
   HandlersReducer,
 } from '../../src';
+import { createReducerFromHandlers } from '../../src/reducers/create-reducer-from-handlers';
 
 describe('createReducerFromHandlers', () => {
   const actionTypes = createComquestActionTypes('test');

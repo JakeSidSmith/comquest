@@ -13,7 +13,6 @@ describe('index.ts', () => {
     'createComquestClearRequestDataAction',
     'createComquestClearRequestErrorsAction',
     'createComquestResetRequestStateAction',
-    'createReducerFromHandlers',
     'createComquestRequestDataReducer',
     'createComquestRequestErrorReducer',
     'createComquestRequestStateReducer',
