@@ -4,12 +4,21 @@ import {
   AxiosResponse,
   CancelTokenSource,
 } from 'axios';
-import { Action } from 'redux';
+import { Action, AnyAction } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 
 export interface StringIndexedObject<T = any> {
   [i: string]: T;
 }
+
+export interface ActionHandlers<S> {
+  [i: string]: (state: S, action: any) => S;
+}
+
+export type HandlersReducer<S, A extends AnyAction> = (
+  state: S | undefined,
+  action: A
+) => S;
 
 export interface ComquestActionTypes {
   readonly REQUEST: symbol;

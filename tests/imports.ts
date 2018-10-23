@@ -5,7 +5,7 @@ import * as path from 'path';
 describe('tests', () => {
   const MATCHES_TS_FILE = /\.tsx?/;
   const MATCHES_SRC_IMPORT = /from\s?'\.\.\/src(.*?)'/g;
-  const MATCHES_EXCLUSIONS = /src\/constants/;
+  const MATCHES_EXCLUSIONS = /src\/constants|src\/reducers\/create-reducer-from-handlers/;
 
   it('should only import from src directory', () => {
     const files = fs.readdirSync(__dirname);

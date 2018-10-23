@@ -1,34 +1,35 @@
 import { AxiosError } from 'axios';
-import { AnyAction } from 'redux';
 import {
+  ActionHandlers,
   ComquestActionTypes,
   ComquestFailureAction,
   ComquestRequestError,
 } from '../types';
+import { createReducerFromHandlers } from './create-reducer-from-handlers';
 
-function handleFailure<E = AxiosError>(
-  _state: ComquestRequestError<E>,
-  action: ComquestFailureAction<E>
-): ComquestRequestError<E> {
-  return {
-    error: action.payload,
-  };
-}
+export function createComquestRequestErrorReducer<
+  P = AxiosError,
+  E = AxiosError
+>(actionTypes: ComquestActionTypes) {
+  const initialState: ComquestRequestError<P> = {};
 
-export function createComquestRequestErrorReducer<E = AxiosError>(
-  actionTypes: ComquestActionTypes
-) {
-  return (
-    state: ComquestRequestError<E> = {},
-    action: AnyAction
-  ): ComquestRequestError<E> => {
-    switch (action.type) {
-      case actionTypes.FAILURE:
-        return handleFailure(state, action as ComquestFailureAction<E>);
-      case actionTypes.CLEAR_REQUEST_ERRORS:
-        return {};
-      default:
-        return state;
-    }
+  function handleFailure(
+    _state: ComquestRequestError<P> | undefined,
+    action: ComquestFailureAction<P, E>
+  ): ComquestRequestError<P> {
+    return {
+      error: action.payload,
+    };
+  }
+
+  function handleClear() {
+    return {};
+  }
+
+  const handlers: ActionHandlers<ComquestRequestError<P>> = {
+    [actionTypes.FAILURE]: handleFailure,
+    [actionTypes.CLEAR_REQUEST_ERRORS]: handleClear,
   };
+
+  return createReducerFromHandlers(handlers, initialState);
 }

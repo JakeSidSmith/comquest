@@ -1,34 +1,35 @@
 import { AxiosResponse } from 'axios';
-import { AnyAction } from 'redux';
 import {
+  ActionHandlers,
   ComquestActionTypes,
   ComquestRequestData,
   ComquestSuccessAction,
 } from '../types';
+import { createReducerFromHandlers } from './create-reducer-from-handlers';
 
-function handleSuccess<D = AxiosResponse>(
-  _state: ComquestRequestData<D>,
-  action: ComquestSuccessAction<D>
-): ComquestRequestData<D> {
-  return {
-    data: action.payload,
-  };
-}
+export function createComquestRequestDataReducer<
+  P = AxiosResponse,
+  D = AxiosResponse
+>(actionTypes: ComquestActionTypes) {
+  const initialState: ComquestRequestData<P> = {};
 
-export function createComquestRequestDataReducer<D = AxiosResponse>(
-  actionTypes: ComquestActionTypes
-) {
-  return (
-    state: ComquestRequestData<D> = {},
-    action: AnyAction
-  ): ComquestRequestData<D> => {
-    switch (action.type) {
-      case actionTypes.SUCCESS:
-        return handleSuccess<D>(state, action as ComquestSuccessAction<D>);
-      case actionTypes.CLEAR_REQUEST_DATA:
-        return {};
-      default:
-        return state;
-    }
+  function handleSuccess(
+    _state: ComquestRequestData<P> | undefined,
+    action: ComquestSuccessAction<P, D>
+  ): ComquestRequestData<P> {
+    return {
+      data: action.payload,
+    };
+  }
+
+  function handleClear() {
+    return {};
+  }
+
+  const handlers: ActionHandlers<ComquestRequestData<P>> = {
+    [actionTypes.SUCCESS]: handleSuccess,
+    [actionTypes.CLEAR_REQUEST_DATA]: handleClear,
   };
+
+  return createReducerFromHandlers(handlers, initialState);
 }
