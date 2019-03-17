@@ -39,7 +39,7 @@
     "path-to-regexp": "^2.2.1",
     "redux": ">= 3",
     "redux-thunk": ">= 1",
-    "typescript": ">= 2.8.1"
+    "typescript": ">=3"
   },
   "devDependencies": {
     "@babel/cli": "^7.1.0",
