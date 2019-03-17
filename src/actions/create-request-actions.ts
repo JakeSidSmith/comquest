@@ -1,19 +1,19 @@
 import { AxiosRequestConfig } from 'axios';
 import { ComquestActionTypes, ComquestRequestOptions } from '../types';
-import { createComquestClearRequestDataAction } from './create-clear-request-data-action';
-import { createComquestClearRequestErrorsAction } from './create-clear-request-errors-action';
-import { createComquestRequestAction } from './create-request-action';
-import { createComquestResetRequestStateAction } from './create-reset-request-state-action';
+import { createClearErrorAction } from './create-clear-error-action';
+import { createClearResponseAction } from './create-clear-response-action';
+import { createRequestAction } from './create-request-action';
+import { createResetStateAction } from './create-reset-state-action';
 
-export function createComquestRequestActions<S, R>(
+export function createRequestActions<S, R>(
   actionTypes: ComquestActionTypes,
   config: AxiosRequestConfig,
   options: ComquestRequestOptions = {}
 ) {
   return {
-    request: createComquestRequestAction<S, R>(actionTypes, config, options),
-    clearRequestData: createComquestClearRequestDataAction(actionTypes),
-    clearRequestErrors: createComquestClearRequestErrorsAction(actionTypes),
-    resetRequestState: createComquestResetRequestStateAction(actionTypes),
+    request: createRequestAction<S, R>(actionTypes, config, options),
+    clearResponse: createClearResponseAction(actionTypes),
+    clearError: createClearErrorAction(actionTypes),
+    resetState: createResetStateAction(actionTypes),
   };
 }

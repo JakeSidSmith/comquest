@@ -1,26 +1,21 @@
-import {
-  createComquestActionTypes,
-  createComquestRequestErrorReducer,
-} from '../../src';
+import { createActionTypes, createErrorReducer } from '../../src';
 
-describe('createComquestRequestErrorReducer', () => {
-  const actionTypes = createComquestActionTypes('foo');
+describe('createErrorReducer', () => {
+  const actionTypes = createActionTypes('foo');
   const unknownAction = { type: 'unknown' };
 
   it('should create a reducer function', () => {
-    expect(typeof createComquestRequestErrorReducer(actionTypes)).toBe(
-      'function'
-    );
+    expect(typeof createErrorReducer(actionTypes)).toBe('function');
   });
 
   describe('reducer', () => {
-    const reducer = createComquestRequestErrorReducer(actionTypes);
+    const reducer = createErrorReducer(actionTypes);
 
     it('should return a plain object by default', () => {
       expect(reducer(undefined, unknownAction)).toEqual({});
     });
 
-    it('should store whole error data if error is axios error', () => {
+    it('should store whole error if error is axios error', () => {
       const error = { response: { data: { foo: 'bar' } } };
 
       expect(
@@ -45,9 +40,7 @@ describe('createComquestRequestErrorReducer', () => {
 
       expect(state).toEqual({ error });
 
-      expect(
-        reducer(state, { type: actionTypes.CLEAR_REQUEST_ERRORS })
-      ).toEqual({});
+      expect(reducer(state, { type: actionTypes.CLEAR_ERROR })).toEqual({});
     });
 
     it('should not mutate the state, and should discard additional keys', () => {

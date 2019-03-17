@@ -35,7 +35,7 @@ All of these examples will use TypeScript, but this library also works with Java
 This library relies on having applied both [redux-thunk](https://github.com/reduxjs/redux-thunk) and Comquest middlewares. This is done when you first configure your redux store.
 
 ```typescript
-import { createComquestMiddleware } from 'comquest';
+import * as comquest from 'comquest';
 import { createStore } from 'redux';
 import { thunk } from 'redux-thunk';
 
@@ -43,7 +43,7 @@ import { rootReducer } from './store';
 
 const store = createStore(
   rootReducer,
-  applyMiddleware(thunk, createComquestMiddleware({}))
+  applyMiddleware(thunk, comquest.createMiddleware({}))
 );
 ```
 
@@ -51,29 +51,29 @@ const store = createStore(
 
 #### Request action types
 
-Requests are formed by first creating an action types object using `createComquestActionTypes`, that contains all of the action types (as symbols) required to make requests, clear data, clear errors, and reset request states.
+Requests are formed by first creating an action types object using `createActionTypes`, that contains all of the action types (as symbols) required to make requests, clear responses, clear errors, and reset request states.
 
 ```typescript
-import { createComquestActionTypes } from 'comquest';
+import * as comquest from 'comquest';
 
-export const GET_USER = createComquestActionTypes('GET_USER');
+export const GET_USER = comquest.createActionTypes('GET_USER');
 ```
 
 It is recommended that the string passed to this function be unique, matching the constant that you assign, in constant-case (upper-case, underscore separated). This will aid debugging in the future as logging `GET_USER.REQUEST`, for example, will print a symbol with the same name e.g. `Symbol(GET_USER.REQUEST)`.
 
 #### Request actions
 
-These action types can now be used to construct a set of request actions with `createComquestRequestActions`.
+These action types can now be used to construct a set of request actions with `createRequestActions`.
 
 ```typescript
-import { createComquestRequestActions } from 'comquest';
+import * as comquest from 'comquest';
 
-const user = createComquestRequestActions(GET_USER, {url: '/api/user/', method: 'GET'}, {});
+const user = comquest.createRequestActions(GET_USER, {url: '/api/user/', method: 'GET'}, {});
 ```
 
 The parameters of this function are as follows:
 
-* `actionTypes` - An action types object created with `createComquestActionTypes`
+* `actionTypes` - An action types object created with `createActionTypes`
 * `config` - An axios config object (all axios options are supported, with the addition of [dynamic URL params](#url-params))
 * `options` - A Comquest options object (see [Comquest options](#comquest-options) for more details)
 
@@ -82,9 +82,9 @@ This returns an object with the following actions:
 ```typescript
 interface {
   request: (config: AxiosRequestConfig: options: ComquestRequestOptions) => Promise;
-  clearRequestData: () => void;
-  clearRequestErrors: () => void;
-  resetRequestState: () => void;
+  clearResponse: () => void;
+  clearError: () => void;
+  resetState: () => void;
 }
 ```
 
@@ -93,19 +93,19 @@ You may like to de-structure and rename these actions as appropriate e.g.
 ```typescript
 const {
   request: getUser,
-  clearRequestData: clearUser,
-  clearRequestErrors: clearUserErrors,
-  resetRequestState: resetUserState
-} = createComquestRequestActions(GET_USER, {url: '/api/user/', method: 'GET'}, {});
+  clearResponse: clearUser,
+  clearError: clearUserErrors,
+  resetState: resetUserState
+} = comquest.createRequestActions(GET_USER, {url: '/api/user/', method: 'GET'}, {});
 ```
 
 Each of these actions can also be created individually if desired, with the following functions:
 
 ```typescript
-function createComquestRequestAction(actionTypes: ComquestActionTypes, config: AxiosRequestConfig, options: ComquestRequestOptions);
-function createComquestClearRequestDataAction(actionTypes: ComquestActionTypes);
-function createComquestClearRequestErrorsAction(actionTypes: ComquestActionTypes);
-function createComquestResetRequestStateAction(actionTypes: ComquestActionTypes);
+function createRequestAction(actionTypes: comquest.ComquestActionTypes, config: AxiosRequestConfig, options: comquest.ComquestRequestOptions);
+function createClearResponseAction(actionTypes: comquest.ComquestActionTypes);
+function createClearErrorAction(actionTypes: comquest.ComquestActionTypes);
+function createResetStateAction(actionTypes: comquest.ComquestActionTypes);
 ```
 
 #### Dispatching requests
@@ -135,30 +135,22 @@ store.dispatch(clearUser());
 
 Comquest provides several reducer creators for handling basic responses, errors, and request states.
 
-These can be combined using the `composeComquestReducers` function so that all of your request data can easily be accessed from a single object.
+These can be combined using the `composeReducers` function so that all of your request data can easily be accessed from a single object.
 
 ```typescript
-import {
-  composeComquestReducers,
-  createComquestRequestStateReducer,
-  createComquestRequestDataReducer,
-  createComquestRequestErrorReducer,
-  ComquestRequestState,
-  ComquestRequestData,
-  ComquestRequestError,
-} from 'comquest';
+import * as comquest from 'comquest';
 import { combineReducers } from 'redux';
 
 import { GET_USER } from './action-types';
 
 export interface StoreState {
-  user: ComquestRequestState & ComquestRequestData & ComquestRequestError;
+  user: comquest.ComquestState & comquest.ComquestResponse & comquest.ComquestError;
 }
 
-const user = composeComquestReducers(
-  createComquestRequestStateReducer(GET_USER),
-  createComquestRequestDataReducer(GET_USER),
-  createComquestRequestErrorReducer(GET_USER)
+const user = comquest.composeReducers(
+  comquest.createStateReducer(GET_USER),
+  comquest.createResponseReducer(GET_USER),
+  comquest.createErrorReducer(GET_USER)
 );
 
 export const rootReducer = combineReducers<StoreState>({
@@ -193,7 +185,7 @@ Comquest supports dynamic URL params by internally utilizing [path-to-regexp](ht
 For example, if we had a user endpoint, that could return different users based on their ID, this would be handled as in the below example.
 
 ```typescript
-const getUser = createComquestRequestAction(GET_USER, {url: '/api/user/:id/', method: 'GET'}, {});
+const getUser = comquest.createRequestAction(GET_USER, {url: '/api/user/:id/', method: 'GET'}, {});
 
 store.dispatch(getUser({}, {params: {id: 'abcde'}}));
 ```
@@ -225,9 +217,9 @@ A Comquest request object supports the following options:
 When you apply the Comquest middleware, you can supply global transforms to be applied to all request data, and or request error actions.
 
 ```typescript
-createComquestMiddleware({
-  transformRequestData: (response: AxiosResponse) => response.data,
-  transformRequestErrors: (error: AxiosError) => error.response.data
+createMiddleware({
+  transformResponse: (response: AxiosResponse) => response.data,
+  transformError: (error: AxiosError) => error.response.data
 });
 ```
 
@@ -240,12 +232,12 @@ interface User {
 }
 
 interface StoreState {
-  user: ComquestRequestState & ComquestRequestData<User> & ComquestRequestError<string>;
+  user: comquest.ComquestState & comquest.ComquestResponse<User> & comquest.ComquestError<string>;
 }
 
-const user = composeComquestReducers(
-  createComquestRequestStateReducer(GET_USER),
-  createComquestRequestDataReducer<User>(GET_USER),
-  createComquestRequestErrorReducer<string>(GET_USER)
+const user = comquest.composeReducers(
+  comquest.createStateReducer(GET_USER),
+  comquest.createResponseReducer<User>(GET_USER),
+  comquest.createErrorReducer<string>(GET_USER)
 );
 ```

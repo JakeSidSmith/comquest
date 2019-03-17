@@ -4,7 +4,7 @@ import {
   ComquestFailureAction,
   ComquestRequestAction,
   ComquestSuccessAction,
-  createComquestActionTypes,
+  createActionTypes,
 } from '../src';
 import {
   COMQUEST_FAILURE,
@@ -15,7 +15,7 @@ import {
 
 describe('types', () => {
   describe('ComquestAction', () => {
-    const actionTypes = createComquestActionTypes('foo');
+    const actionTypes = createActionTypes('foo');
 
     it('allows request, success, and failure actions', () => {
       function test(action: ComquestAction) {
@@ -26,8 +26,8 @@ describe('types', () => {
         type: actionTypes.REQUEST,
         meta: {
           comquest: COMQUEST_MAGIC_SYMBOL,
-          comquestActionType: COMQUEST_REQUEST,
-          comquestActionTypes: actionTypes,
+          genericType: COMQUEST_REQUEST,
+          actionTypes,
           cancelTokenSource: {} as CancelTokenSource,
           url: 'domain.com',
           options: {},
@@ -40,10 +40,10 @@ describe('types', () => {
         payload: '',
         meta: {
           comquest: COMQUEST_MAGIC_SYMBOL,
-          comquestActionType: COMQUEST_SUCCESS,
-          comquestActionTypes: actionTypes,
+          genericType: COMQUEST_SUCCESS,
+          actionTypes,
           cancelTokenSource: {} as CancelTokenSource,
-          originalData: 1,
+          originalResponse: 1,
           url: 'domain.com',
           options: {},
           config: {},
@@ -55,8 +55,8 @@ describe('types', () => {
         payload: '',
         meta: {
           comquest: COMQUEST_MAGIC_SYMBOL,
-          comquestActionType: COMQUEST_FAILURE,
-          comquestActionTypes: actionTypes,
+          genericType: COMQUEST_FAILURE,
+          actionTypes,
           cancelTokenSource: {} as CancelTokenSource,
           originalError: 1,
           url: 'domain.com',

@@ -1,22 +1,20 @@
 import {
-  ComquestRequestState,
-  createComquestActionTypes,
-  createComquestRequestStateReducer,
+  ComquestState,
+  createActionTypes,
+  createStateReducer,
 } from '../../src';
 
-describe('createComquestRequestStateReducer', () => {
-  const actionTypes = createComquestActionTypes('foo');
+describe('createStateReducer', () => {
+  const actionTypes = createActionTypes('foo');
   const unknownAction = { type: 'unknown' };
 
   it('should create a reducer function', () => {
-    expect(typeof createComquestRequestStateReducer(actionTypes)).toBe(
-      'function'
-    );
+    expect(typeof createStateReducer(actionTypes)).toBe('function');
   });
 
   describe('reducer', () => {
-    const reducer = createComquestRequestStateReducer(actionTypes);
-    let state: ComquestRequestState;
+    const reducer = createStateReducer(actionTypes);
+    let state: ComquestState;
 
     it('should return an object with default values by default', () => {
       expect(reducer(state, unknownAction)).toEqual({
@@ -89,16 +87,14 @@ describe('createComquestRequestStateReducer', () => {
         inFlightCount: 1,
       });
 
-      expect(reducer(state, { type: actionTypes.RESET_REQUEST_STATE })).toEqual(
-        {
-          loading: false,
-          requestCount: 0,
-          successCount: 0,
-          failureCount: 0,
-          completeCount: 0,
-          inFlightCount: 0,
-        }
-      );
+      expect(reducer(state, { type: actionTypes.RESET_STATE })).toEqual({
+        loading: false,
+        requestCount: 0,
+        successCount: 0,
+        failureCount: 0,
+        completeCount: 0,
+        inFlightCount: 0,
+      });
     });
   });
 });

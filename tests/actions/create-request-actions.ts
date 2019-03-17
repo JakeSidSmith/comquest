@@ -1,21 +1,18 @@
-import {
-  createComquestActionTypes,
-  createComquestRequestActions,
-} from '../../src';
+import { createActionTypes, createRequestActions } from '../../src';
 
-describe('createComquestRequestActions', () => {
-  const actionTypes = createComquestActionTypes('foo');
+describe('createRequestActions', () => {
+  const actionTypes = createActionTypes('foo');
 
   it('should create an object with all request actions', () => {
-    const result = createComquestRequestActions(actionTypes, {});
+    const result = createRequestActions(actionTypes, {});
 
     const keys = Object.keys(result) as Array<keyof typeof result>;
 
     expect(keys).toEqual([
       'request',
-      'clearRequestData',
-      'clearRequestErrors',
-      'resetRequestState',
+      'clearResponse',
+      'clearError',
+      'resetState',
     ]);
 
     keys.forEach(key => {

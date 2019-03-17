@@ -2,23 +2,22 @@ import { AxiosResponse } from 'axios';
 import {
   ActionHandlers,
   ComquestActionTypes,
-  ComquestRequestData,
+  ComquestResponse,
   ComquestSuccessAction,
 } from '../types';
 import { createReducerFromHandlers } from './create-reducer-from-handlers';
 
-export function createComquestRequestDataReducer<
-  P = AxiosResponse,
-  D = AxiosResponse
->(actionTypes: ComquestActionTypes) {
-  const initialState: ComquestRequestData<P> = {};
+export function createResponseReducer<P = AxiosResponse, D = AxiosResponse>(
+  actionTypes: ComquestActionTypes
+) {
+  const initialState: ComquestResponse<P> = {};
 
   function handleSuccess(
-    _state: ComquestRequestData<P> | undefined,
+    _state: ComquestResponse<P> | undefined,
     action: ComquestSuccessAction<P, D>
-  ): ComquestRequestData<P> {
+  ): ComquestResponse<P> {
     return {
-      data: action.payload,
+      response: action.payload,
     };
   }
 
@@ -26,9 +25,9 @@ export function createComquestRequestDataReducer<
     return {};
   }
 
-  const handlers: ActionHandlers<ComquestRequestData<P>> = {
+  const handlers: ActionHandlers<ComquestResponse<P>> = {
     [actionTypes.SUCCESS]: handleSuccess,
-    [actionTypes.CLEAR_REQUEST_DATA]: handleClear,
+    [actionTypes.CLEAR_RESPONSE]: handleClear,
   };
 
   return createReducerFromHandlers(handlers, initialState);

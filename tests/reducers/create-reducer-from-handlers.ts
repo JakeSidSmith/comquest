@@ -1,27 +1,27 @@
 import { AnyAction } from 'redux';
 import {
   ComquestSuccessAction,
-  createComquestActionTypes,
+  createActionTypes,
   HandlersReducer,
 } from '../../src';
 import { createReducerFromHandlers } from '../../src/reducers/create-reducer-from-handlers';
 
 describe('createReducerFromHandlers', () => {
-  const actionTypes = createComquestActionTypes('test');
+  const actionTypes = createActionTypes('test');
   const unknownAction = { type: 'unknown' };
 
-  interface Data {
+  interface Response {
     foo: 'bar';
   }
 
-  let reducer: HandlersReducer<Data | null, AnyAction>;
+  let reducer: HandlersReducer<Response | null, AnyAction>;
 
   it('creates a reducer function', () => {
     reducer = createReducerFromHandlers(
       {
         [actionTypes.SUCCESS]: (
-          _state: Data | null,
-          action: ComquestSuccessAction<Data>
+          _state: Response | null,
+          action: ComquestSuccessAction<Response>
         ) => {
           return action.payload;
         },

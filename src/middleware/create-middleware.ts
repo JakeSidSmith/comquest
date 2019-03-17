@@ -8,7 +8,7 @@ import {
 } from '../types';
 import { isComquestFailureAction, isComquestSuccessAction } from '../utils';
 
-export function createComquestMiddleware<
+export function createMiddleware<
   S,
   D = AxiosResponse,
   E = AxiosError,
@@ -30,22 +30,22 @@ export function createComquestMiddleware<
       }
 
       if (
-        typeof options.transformRequestData === 'function' &&
+        typeof options.transformResponse === 'function' &&
         isComquestSuccessAction<D>(action)
       ) {
         return next({
           ...action,
-          payload: options.transformRequestData(action.payload),
+          payload: options.transformResponse(action.payload),
         });
       }
 
       if (
-        typeof options.transformRequestErrors === 'function' &&
+        typeof options.transformError === 'function' &&
         isComquestFailureAction<E>(action)
       ) {
         return next({
           ...action,
-          payload: options.transformRequestErrors(action.payload),
+          payload: options.transformError(action.payload),
         });
       }
 
