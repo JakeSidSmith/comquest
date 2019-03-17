@@ -1,14 +1,8 @@
-import {
-  ActionHandlers,
-  ComquestActionTypes,
-  ComquestRequestState,
-} from '../types';
+import { ActionHandlers, ComquestActionTypes, ComquestState } from '../types';
 import { createReducerFromHandlers } from './create-reducer-from-handlers';
 
-export function createComquestRequestStateReducer(
-  actionTypes: ComquestActionTypes
-) {
-  const initialState: ComquestRequestState = {
+export function createStateReducer(actionTypes: ComquestActionTypes) {
+  const initialState: ComquestState = {
     loading: false,
     requestCount: 0,
     successCount: 0,
@@ -17,7 +11,7 @@ export function createComquestRequestStateReducer(
     inFlightCount: 0,
   };
 
-  function handleRequest(state: ComquestRequestState): ComquestRequestState {
+  function handleRequest(state: ComquestState): ComquestState {
     const inFlightCount = state.inFlightCount + 1;
     const requestCount = state.requestCount + 1;
 
@@ -33,7 +27,7 @@ export function createComquestRequestStateReducer(
     };
   }
 
-  function handleSuccess(state: ComquestRequestState): ComquestRequestState {
+  function handleSuccess(state: ComquestState): ComquestState {
     const inFlightCount = state.inFlightCount - 1;
     const successCount = state.successCount + 1;
     const completeCount = state.completeCount + 1;
@@ -50,7 +44,7 @@ export function createComquestRequestStateReducer(
     };
   }
 
-  function handleFailure(state: ComquestRequestState): ComquestRequestState {
+  function handleFailure(state: ComquestState): ComquestState {
     const inFlightCount = state.inFlightCount - 1;
     const failureCount = state.failureCount + 1;
     const completeCount = state.completeCount + 1;
@@ -71,11 +65,11 @@ export function createComquestRequestStateReducer(
     return initialState;
   }
 
-  const handlers: ActionHandlers<ComquestRequestState> = {
+  const handlers: ActionHandlers<ComquestState> = {
     [actionTypes.REQUEST]: handleRequest,
     [actionTypes.SUCCESS]: handleSuccess,
     [actionTypes.FAILURE]: handleFailure,
-    [actionTypes.RESET_REQUEST_STATE]: handleReset,
+    [actionTypes.RESET_STATE]: handleReset,
   };
 
   return createReducerFromHandlers(handlers, initialState);

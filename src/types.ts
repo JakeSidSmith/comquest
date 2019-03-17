@@ -24,19 +24,17 @@ export interface ComquestActionTypes {
   readonly REQUEST: symbol;
   readonly SUCCESS: symbol;
   readonly FAILURE: symbol;
-  readonly CLEAR_REQUEST_DATA: symbol;
-  readonly CLEAR_REQUEST_ERRORS: symbol;
-  readonly RESET_REQUEST_STATE: symbol;
+  readonly CLEAR_RESPONSE: symbol;
+  readonly CLEAR_ERROR: symbol;
+  readonly RESET_STATE: symbol;
   // readonly CANCEL_REQUESTS: symbol;
 }
 
-export type ComquestRequestDataTransform<D = AxiosResponse, TD = D> = (
+export type ComquestResponseTransform<D = AxiosResponse, TD = D> = (
   response: D
 ) => TD;
 
-export type ComquestRequestErrorTransform<E = AxiosError, TE = E> = (
-  error: E
-) => TE;
+export type ComquestErrorTransform<E = AxiosError, TE = E> = (error: E) => TE;
 
 export type ComquestMiddlewareOptions<
   D = AxiosResponse,
@@ -44,8 +42,8 @@ export type ComquestMiddlewareOptions<
   TD = D,
   TE = E
 > = Partial<{
-  readonly transformRequestData: ComquestRequestDataTransform<D, TD>;
-  readonly transformRequestErrors: ComquestRequestErrorTransform<E, TE>;
+  readonly transformResponse: ComquestResponseTransform<D, TD>;
+  readonly transformError: ComquestErrorTransform<E, TE>;
 }>;
 
 export interface Params {
@@ -61,24 +59,24 @@ export type ComquestRequestOptions = Partial<{
   // readonly cancelRequestsOnRequest: boolean;
   // readonly cancelRequestsOnSuccess: boolean;
   // readonly cancelRequestsOnFailure: boolean;
-  // readonly clearRequestDataOnRequest: boolean;
-  // readonly clearRequestDataOnSuccess: boolean;
-  // readonly clearRequestDataOnFailure: boolean;
-  // readonly clearRequestErrorsOnRequest: boolean;
-  // readonly clearRequestErrorsOnSuccess: boolean;
-  // readonly clearRequestErrorsOnFailure: boolean;
-  // readonly resetRequestStateOnRequest: boolean;
-  // readonly resetRequestStateOnSuccess: boolean;
-  // readonly resetRequestStateOnFailure: boolean;
+  // readonly clearResponseOnRequest: boolean;
+  // readonly clearResponseOnSuccess: boolean;
+  // readonly clearResponseOnFailure: boolean;
+  // readonly clearErrorOnRequest: boolean;
+  // readonly clearErrorOnSuccess: boolean;
+  // readonly clearErrorOnFailure: boolean;
+  // readonly resetStateOnRequest: boolean;
+  // readonly resetStateOnSuccess: boolean;
+  // readonly resetStateOnFailure: boolean;
 }>;
 
-export interface RequiredComquestActionMeta {
+export interface ComquestRequiredActionMeta {
   readonly comquest: symbol;
-  readonly comquestActionType: symbol;
-  readonly comquestActionTypes: ComquestActionTypes;
+  readonly genericType: symbol;
+  readonly actionTypes: ComquestActionTypes;
 }
 
-export interface RequiredComquestRequestActionMeta {
+export interface ComquestRequiredRequestActionMeta {
   readonly url: string;
   readonly cancelTokenSource: CancelTokenSource;
   readonly options: ComquestRequestOptions;
@@ -86,25 +84,25 @@ export interface RequiredComquestRequestActionMeta {
 }
 
 export interface ComquestActionMeta<D = any, E = any>
-  extends RequiredComquestActionMeta,
-    Partial<RequiredComquestRequestActionMeta> {
-  readonly originalData?: D;
+  extends ComquestRequiredActionMeta,
+    Partial<ComquestRequiredRequestActionMeta> {
+  readonly originalResponse?: D;
   readonly originalError?: E;
 }
 
 export interface ComquestRequestActionMeta
-  extends RequiredComquestActionMeta,
-    RequiredComquestRequestActionMeta {}
+  extends ComquestRequiredActionMeta,
+    ComquestRequiredRequestActionMeta {}
 
 export interface ComquestSuccessActionMeta<D = AxiosResponse>
-  extends RequiredComquestActionMeta,
-    RequiredComquestRequestActionMeta {
-  readonly originalData: D;
+  extends ComquestRequiredActionMeta,
+    ComquestRequiredRequestActionMeta {
+  readonly originalResponse: D;
 }
 
 export interface ComquestFailureActionMeta<E = AxiosError>
-  extends RequiredComquestActionMeta,
-    RequiredComquestRequestActionMeta {
+  extends ComquestRequiredActionMeta,
+    ComquestRequiredRequestActionMeta {
   readonly originalError: E;
 }
 
@@ -135,7 +133,7 @@ export interface ComquestFailureAction<P = AxiosError, E = AxiosError>
   readonly meta: ComquestFailureActionMeta<E>;
 }
 
-export interface ComquestRequestState {
+export interface ComquestState {
   readonly loading: boolean;
   readonly requestCount: number;
   readonly successCount: number;
@@ -144,11 +142,11 @@ export interface ComquestRequestState {
   readonly inFlightCount: number;
 }
 
-export interface ComquestRequestData<D = AxiosResponse> {
-  readonly data?: D;
+export interface ComquestResponse<D = AxiosResponse> {
+  readonly response?: D;
 }
 
-export interface ComquestRequestError<E = AxiosError> {
+export interface ComquestError<E = AxiosError> {
   readonly error?: E;
 }
 

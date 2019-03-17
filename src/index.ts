@@ -4,26 +4,16 @@ export {
   isComquestSuccessAction,
   isComquestFailureAction,
 } from './utils';
-export { composeComquestReducers } from './compose-reducers';
-export { createComquestActionTypes } from './create-action-types';
-export { createComquestMiddleware } from './middleware/create-middleware';
-export { createComquestRequestActions } from './actions/create-request-actions';
-export { createComquestRequestAction } from './actions/create-request-action';
+export { composeReducers } from './compose-reducers';
+export { createActionTypes } from './create-action-types';
+export { createMiddleware } from './middleware/create-middleware';
+export { createRequestActions } from './actions/create-request-actions';
+export { createRequestAction } from './actions/create-request-action';
 export {
-  createComquestClearRequestDataAction,
-} from './actions/create-clear-request-data-action';
-export {
-  createComquestClearRequestErrorsAction,
-} from './actions/create-clear-request-errors-action';
-export {
-  createComquestResetRequestStateAction,
-} from './actions/create-reset-request-state-action';
-export {
-  createComquestRequestDataReducer,
-} from './reducers/create-request-data-reducer';
-export {
-  createComquestRequestErrorReducer,
-} from './reducers/create-request-error-reducer';
-export {
-  createComquestRequestStateReducer,
-} from './reducers/create-request-state-reducer';
+  createClearResponseAction,
+} from './actions/create-clear-response-action';
+export { createClearErrorAction } from './actions/create-clear-error-action';
+export { createResetStateAction } from './actions/create-reset-state-action';
+export { createResponseReducer } from './reducers/create-response-reducer';
+export { createErrorReducer } from './reducers/create-error-reducer';
+export { createStateReducer } from './reducers/create-state-reducer';

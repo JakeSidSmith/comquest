@@ -1,41 +1,40 @@
 import { AxiosResponse } from 'axios';
 import { AnyAction } from 'redux';
 import {
-  composeComquestReducers,
-  ComquestRequestData,
-  ComquestRequestState,
-  createComquestActionTypes,
-  createComquestRequestDataReducer,
-  createComquestRequestErrorReducer,
-  createComquestRequestStateReducer,
+  composeReducers,
+  ComquestResponse,
+  ComquestState,
+  createActionTypes,
+  createErrorReducer,
+  createResponseReducer,
+  createStateReducer,
 } from '../src';
 
-describe('composeComquestReducers', () => {
-  const actionTypes = createComquestActionTypes('foo');
+describe('composeReducers', () => {
+  const actionTypes = createActionTypes('foo');
   const unknownAction = { type: 'unknown' };
 
   it('should create a reducer (function)', () => {
-    const result = composeComquestReducers(() => ({}), () => ({}));
+    const result = composeReducers(() => ({}), () => ({}));
 
     expect(typeof result).toBe('function');
   });
 
   describe('reducer', () => {
-    interface Data {
+    interface Response {
       foo: 'bar';
     }
 
-    const reducer = composeComquestReducers(
-      createComquestRequestStateReducer(actionTypes),
-      createComquestRequestDataReducer<AxiosResponse<Data>>(actionTypes),
-      createComquestRequestErrorReducer(actionTypes)
+    const reducer = composeReducers(
+      createStateReducer(actionTypes),
+      createResponseReducer<AxiosResponse<Response>>(actionTypes),
+      createErrorReducer(actionTypes)
     );
 
-    let lastState: ComquestRequestState &
-      ComquestRequestData<AxiosResponse<Data>>;
+    let lastState: ComquestState & ComquestResponse<AxiosResponse<Response>>;
 
     it('should return an object by default', () => {
-      const reducerDoesNothing = composeComquestReducers(
+      const reducerDoesNothing = composeReducers(
         () => undefined as any,
         () => undefined as any
       );
@@ -50,7 +49,7 @@ describe('composeComquestReducers', () => {
     });
 
     it('should compose up to five reducers', () => {
-      const fiveReducers = composeComquestReducers(
+      const fiveReducers = composeReducers(
         () => undefined as any,
         () => undefined as any,
         () => undefined as any,
@@ -62,7 +61,7 @@ describe('composeComquestReducers', () => {
     });
 
     it('should handle any / all reducers returning undefined', () => {
-      const fiveReducers = composeComquestReducers(
+      const fiveReducers = composeReducers(
         (state: any = { a: 'a' }, action: AnyAction) => {
           switch (action.type) {
             case 'undefined':
@@ -155,7 +154,7 @@ describe('composeComquestReducers', () => {
         failureCount: 0,
         completeCount: 1,
         inFlightCount: 0,
-        data: {
+        response: {
           data: 'foo',
         },
       });
@@ -169,7 +168,7 @@ describe('composeComquestReducers', () => {
         failureCount: 0,
         completeCount: 1,
         inFlightCount: 1,
-        data: {
+        response: {
           data: 'foo',
         },
       });
@@ -186,7 +185,7 @@ describe('composeComquestReducers', () => {
         failureCount: 1,
         completeCount: 2,
         inFlightCount: 0,
-        data: {
+        response: {
           data: 'foo',
         },
         error: {

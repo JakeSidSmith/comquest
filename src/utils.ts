@@ -22,8 +22,7 @@ export function isComquestSuccessAction<D = AxiosResponse>(
   action: any
 ): action is ComquestSuccessAction<D> {
   return (
-    isComquestAction(action) &&
-    action.meta.comquestActionType === COMQUEST_SUCCESS
+    isComquestAction(action) && action.meta.genericType === COMQUEST_SUCCESS
   );
 }
 
@@ -31,7 +30,6 @@ export function isComquestFailureAction<E = AxiosError>(
   action: any
 ): action is ComquestFailureAction<E> {
   return (
-    isComquestAction(action) &&
-    action.meta.comquestActionType === COMQUEST_FAILURE
+    isComquestAction(action) && action.meta.genericType === COMQUEST_FAILURE
   );
 }

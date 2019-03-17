@@ -1,7 +1,7 @@
 import { AnyAction } from 'redux';
 import { StringIndexedObject } from './types';
 
-export function composeComquestReducers<
+export function composeReducers<
   S1 extends StringIndexedObject &
     { [P1 in keyof S1]: P1 extends keyof (S2 & S3 & S4 & S5) ? never : S1[P1] },
   S2 extends StringIndexedObject &

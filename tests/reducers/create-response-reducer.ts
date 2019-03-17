@@ -1,45 +1,38 @@
-import {
-  createComquestActionTypes,
-  createComquestRequestDataReducer,
-} from '../../src';
+import { createActionTypes, createResponseReducer } from '../../src';
 
-describe('createComquestRequestDataReducer', () => {
-  const actionTypes = createComquestActionTypes('foo');
+describe('createResponseReducer', () => {
+  const actionTypes = createActionTypes('foo');
   const unknownAction = { type: 'unknown' };
 
   it('should create a reducer function', () => {
-    expect(typeof createComquestRequestDataReducer(actionTypes)).toBe(
-      'function'
-    );
+    expect(typeof createResponseReducer(actionTypes)).toBe('function');
   });
 
   describe('reducer', () => {
-    const reducer = createComquestRequestDataReducer(actionTypes);
+    const reducer = createResponseReducer(actionTypes);
 
     it('should return a plain object by default', () => {
       expect(reducer(undefined, unknownAction)).toEqual({});
     });
 
-    it('should store response data on success', () => {
+    it('should store response on success', () => {
       const response = { data: { foo: 'bar' } };
 
       expect(
         reducer(undefined, { type: actionTypes.SUCCESS, payload: response })
-      ).toEqual({ data: { data: { foo: 'bar' } } });
+      ).toEqual({ response: { data: { foo: 'bar' } } });
     });
 
-    it('should clear data on clear', () => {
+    it('should clear response on clear', () => {
       const response = { data: { foo: 'bar' } };
       const state = reducer(undefined, {
         type: actionTypes.SUCCESS,
         payload: response,
       });
 
-      expect(state).toEqual({ data: { data: { foo: 'bar' } } });
+      expect(state).toEqual({ response: { data: { foo: 'bar' } } });
 
-      expect(reducer(state, { type: actionTypes.CLEAR_REQUEST_DATA })).toEqual(
-        {}
-      );
+      expect(reducer(state, { type: actionTypes.CLEAR_RESPONSE })).toEqual({});
     });
 
     it('should not mutate the state, and should discard additional keys', () => {
@@ -56,7 +49,7 @@ describe('createComquestRequestDataReducer', () => {
         ignore: 'me',
       });
       expect(newState).toEqual({
-        data: { data: { foo: 'bar' } },
+        response: { data: { foo: 'bar' } },
       });
     });
   });

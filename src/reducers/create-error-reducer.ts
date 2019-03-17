@@ -2,21 +2,20 @@ import { AxiosError } from 'axios';
 import {
   ActionHandlers,
   ComquestActionTypes,
+  ComquestError,
   ComquestFailureAction,
-  ComquestRequestError,
 } from '../types';
 import { createReducerFromHandlers } from './create-reducer-from-handlers';
 
-export function createComquestRequestErrorReducer<
-  P = AxiosError,
-  E = AxiosError
->(actionTypes: ComquestActionTypes) {
-  const initialState: ComquestRequestError<P> = {};
+export function createErrorReducer<P = AxiosError, E = AxiosError>(
+  actionTypes: ComquestActionTypes
+) {
+  const initialState: ComquestError<P> = {};
 
   function handleFailure(
-    _state: ComquestRequestError<P> | undefined,
+    _state: ComquestError<P> | undefined,
     action: ComquestFailureAction<P, E>
-  ): ComquestRequestError<P> {
+  ): ComquestError<P> {
     return {
       error: action.payload,
     };
@@ -26,9 +25,9 @@ export function createComquestRequestErrorReducer<
     return {};
   }
 
-  const handlers: ActionHandlers<ComquestRequestError<P>> = {
+  const handlers: ActionHandlers<ComquestError<P>> = {
     [actionTypes.FAILURE]: handleFailure,
-    [actionTypes.CLEAR_REQUEST_ERRORS]: handleClear,
+    [actionTypes.CLEAR_ERROR]: handleClear,
   };
 
   return createReducerFromHandlers(handlers, initialState);

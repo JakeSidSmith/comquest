@@ -16,7 +16,7 @@ import {
   ComquestSuccessAction,
 } from '../types';
 
-export function createComquestRequestAction<S, R>(
+export function createRequestAction<S, R>(
   actionTypes: ComquestActionTypes,
   config: AxiosRequestConfig,
   options: ComquestRequestOptions = {}
@@ -51,8 +51,8 @@ export function createComquestRequestAction<S, R>(
         type: actionTypes.REQUEST,
         meta: {
           ...meta,
-          comquestActionType: COMQUEST_REQUEST,
-          comquestActionTypes: actionTypes,
+          genericType: COMQUEST_REQUEST,
+          actionTypes,
         },
       };
 
@@ -71,9 +71,9 @@ export function createComquestRequestAction<S, R>(
               payload: response,
               meta: {
                 ...meta,
-                comquestActionType: COMQUEST_SUCCESS,
-                comquestActionTypes: actionTypes,
-                originalData: response,
+                genericType: COMQUEST_SUCCESS,
+                actionTypes,
+                originalResponse: response,
               },
             };
 
@@ -92,8 +92,8 @@ export function createComquestRequestAction<S, R>(
                 error: true,
                 meta: {
                   ...meta,
-                  comquestActionType: COMQUEST_FAILURE,
-                  comquestActionTypes: actionTypes,
+                  genericType: COMQUEST_FAILURE,
+                  actionTypes,
                   originalError: error,
                 },
               };

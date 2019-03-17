@@ -4,14 +4,14 @@ jest.mock('axios', () => mockAxios);
 import { AxiosError, AxiosResponse } from 'axios';
 import { applyMiddleware, createStore } from 'redux';
 import {
-  createComquestActionTypes,
-  createComquestMiddleware,
-  createComquestRequestAction,
-  createComquestRequestDataReducer,
-  createComquestRequestErrorReducer,
+  createActionTypes,
+  createErrorReducer,
+  createMiddleware,
+  createRequestAction,
+  createResponseReducer,
 } from '../../src';
 
-describe('createComquestMiddleware', () => {
+describe('createMiddleware', () => {
   const unknownAction = { type: 'unknown' };
   const thunkAction = jest.fn();
 
@@ -22,7 +22,7 @@ describe('createComquestMiddleware', () => {
   it('returns a middleware', () => {
     const store = { dispatch: jest.fn(), getState: jest.fn() };
     const next = jest.fn().mockImplementation((value: any) => value);
-    const middleware = createComquestMiddleware({});
+    const middleware = createMiddleware({});
 
     expect(typeof middleware).toBe('function');
     const afterStore = middleware(store);
@@ -37,7 +37,7 @@ describe('createComquestMiddleware', () => {
   it('ignores thunk actions', () => {
     const store = { dispatch: jest.fn(), getState: jest.fn() };
     const next = jest.fn().mockImplementation((value: any) => value);
-    const middleware = createComquestMiddleware({});
+    const middleware = createMiddleware({});
 
     expect(typeof middleware).toBe('function');
     const afterStore = middleware(store);
@@ -49,40 +49,38 @@ describe('createComquestMiddleware', () => {
     expect(afterAction).toBe(thunkAction);
   });
 
-  const actionTypes = createComquestActionTypes('test');
-  const action = createComquestRequestAction(actionTypes, {});
-  const dataReducer = createComquestRequestDataReducer(actionTypes);
-  const errorReducer = createComquestRequestErrorReducer(actionTypes);
+  const actionTypes = createActionTypes('test');
+  const action = createRequestAction(actionTypes, {});
+  const responseReducer = createResponseReducer(actionTypes);
+  const errorReducer = createErrorReducer(actionTypes);
 
-  const transformRequestData = jest
+  const transformResponse = jest
     .fn()
     .mockImplementation((value: AxiosResponse) => {
       return value.data;
     });
 
-  const transformRequestErrors = jest
-    .fn()
-    .mockImplementation((value: AxiosError) => {
-      return typeof value.response !== 'undefined'
-        ? value.response.data
-        : value.message;
-    });
+  const transformError = jest.fn().mockImplementation((value: AxiosError) => {
+    return typeof value.response !== 'undefined'
+      ? value.response.data
+      : value.message;
+  });
 
-  describe('transformRequestData', () => {
-    const middleware = createComquestMiddleware({ transformRequestData });
-    const store = createStore(dataReducer, applyMiddleware(middleware));
+  describe('transformResponse', () => {
+    const middleware = createMiddleware({ transformResponse });
+    const store = createStore(responseReducer, applyMiddleware(middleware));
 
     it('should ignore unknown actions', () => {
       expect(store.getState()).toEqual({});
 
       store.dispatch(unknownAction);
 
-      expect(transformRequestData).not.toHaveBeenCalled();
+      expect(transformResponse).not.toHaveBeenCalled();
 
       expect(store.getState()).toEqual({});
     });
 
-    it('should transform all success request data', () => {
+    it('should transform all success responses', () => {
       expect(store.getState()).toEqual({});
 
       action()(store.dispatch, store.getState, undefined);
@@ -105,12 +103,12 @@ describe('createComquestMiddleware', () => {
         },
       });
 
-      expect(store.getState()).toEqual({ data: { foo: 'bar' } });
+      expect(store.getState()).toEqual({ response: { foo: 'bar' } });
     });
   });
 
-  describe('transformRequestError', () => {
-    const middleware = createComquestMiddleware({ transformRequestErrors });
+  describe('transformError', () => {
+    const middleware = createMiddleware({ transformError });
     const store = createStore(errorReducer, applyMiddleware(middleware));
 
     it('should ignore unknown actions', () => {
@@ -118,7 +116,7 @@ describe('createComquestMiddleware', () => {
 
       store.dispatch(unknownAction);
 
-      expect(transformRequestErrors).not.toHaveBeenCalled();
+      expect(transformError).not.toHaveBeenCalled();
 
       expect(store.getState()).toEqual({});
     });
